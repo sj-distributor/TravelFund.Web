@@ -1,26 +1,32 @@
-import React from "react"
-import logo from "./logo.svg"
-import "./App.module.scss"
+import React from "react";
+import { routerList, ShowRoute } from "./router";
+import { Link, useLocation } from "react-router-dom";
 
 function App() {
+  let routerUrl = useLocation().pathname;
+  routerUrl === "/" && (routerUrl = "/invoices");
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  )
+    <>
+      <div className="border border-slate-200 hread flex items-center px-[1.5rem] flex-wrap justify-center">
+        {routerList.map((item, index) => {
+          return (
+            <Link to={item.path} key={index} className="mr-[1.5rem] mb-2">
+              <div
+                className={`px-6 py-3 border rounded-2xl ${
+                  routerUrl === item.path && "border-orange-600 text-orange-600"
+                }`}
+              >
+                {item.name}
+              </div>
+            </Link>
+          );
+        })}
+      </div>
+      <div className="main border">
+        <ShowRoute />
+      </div>
+    </>
+  );
 }
 
-export default App
+export default App;
