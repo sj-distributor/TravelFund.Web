@@ -10,7 +10,7 @@ export interface SubscribeDataType {
 export interface InvoicesDataType {
   key: string;
   uploadDate?: string;
-  invoice?: string[];
+  invoice?: string[] | [];
   invoiceType?: string;
   isEffective?: boolean;
   isShowImg?: boolean;
