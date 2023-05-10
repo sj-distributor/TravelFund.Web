@@ -4,15 +4,15 @@ import { Route, Routes, Navigate } from "react-router-dom"
 import Login from "../pages/login"
 import Home from "../pages/home"
 import Invoice from "../pages/invoice"
-import Apply from "../pages/apply"
+import TravelApplication from "../pages/travelApplication"
 import Reimbursement from "../pages/reimbursement"
 import Approve from "../pages/approve"
 import Report from "../pages/report"
 
-export const RouterArray: RoutesProps[] = [
+export const routerArray: RoutesProps[] = [
   {
     path: "",
-    element: <Navigate to="/home/invoice" />,
+    element: <Navigate to="/login" />,
     name: "Home",
   },
   {
@@ -38,8 +38,8 @@ export const RouterArray: RoutesProps[] = [
         leftSideChildren: "发票列表",
       },
       {
-        path: "/home/apply",
-        element: <Apply />,
+        path: "/home/travelApplication",
+        element: <TravelApplication />,
         name: "申请管理",
         leftSideChildren: "我的申请",
       },
@@ -69,7 +69,7 @@ export const Router = () => {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
-      {RouterArray.map((item: RoutesProps, index: number) => {
+      {routerArray.map((item: RoutesProps, index: number) => {
         return (
           <Route key={index} path={item.path} element={item.element}>
             {item.children?.map((item: Children, index: number) => {

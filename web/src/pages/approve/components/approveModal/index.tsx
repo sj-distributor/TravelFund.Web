@@ -1,7 +1,5 @@
 import useAction from "./hook"
 
-import { ExclamationCircleOutlined } from "@ant-design/icons"
-
 import {
   ApplyDataProps,
   ApproveModalListProps,
@@ -11,36 +9,7 @@ import {
 const ApprovedModal = (props: { currentListData: ApplyDataProps }) => {
   let currentListData = props.currentListData
 
-  const { approveModalList, showConfirm, setShowConfirm } =
-    useAction(currentListData)
-
-  const ApproveConfirm = () => {
-    return (
-      <div className="w-52 bg-gray-50 rounded-[0.4rem] border border-gray-200 absolute bottom-14 right-0 shadow-xl ">
-        <div className="flex flex-col w-full my-2">
-          <div className="ml-4 flex items-center">
-            <ExclamationCircleOutlined />
-            <div className="text-sm font-medium ml-2">通过审核</div>
-          </div>
-          <div className="text-sm ml-10 mt-3 font-normal">
-            确定通过该审核吗？
-          </div>
-          <div className="flex ml-auto mt-2">
-            <div
-              className="w-10 h-7 flex items-center justify-center border border-gray-300 rounded-[0.2rem]"
-              onClick={() => setShowConfirm(false)}
-            >
-              <button className="text-sm ">取消</button>
-            </div>
-            <div className="w-10 h-7 flex items-center justify-center border border-gray-300 bg-gray-600 mx-3 rounded-[0.2rem]">
-              <button className="text-sm text-white font-medium">确定</button>
-            </div>
-          </div>
-        </div>
-        <div className="absolute right-12 border-8 border-t-gray-50 border-b-transparent border-l-transparent border-r-transparent"></div>
-      </div>
-    )
-  }
+  const { approveModalList } = useAction(currentListData)
 
   const approveModalTitle = (item: ApproveModalListProps) => {
     switch (item.title) {
@@ -69,7 +38,7 @@ const ApprovedModal = (props: { currentListData: ApplyDataProps }) => {
                 <div className="flex w-2/3 items-center m-5" key={index}>
                   <img
                     className="w-44 h-20"
-                    src={require("../../../../temPic/picture.png")}
+                    src={require("../../../../assets/picture.png")}
                     alt=""
                   />
                   <div className="mx-8">
@@ -120,17 +89,6 @@ const ApprovedModal = (props: { currentListData: ApplyDataProps }) => {
                 {item.opinions?.contents}
               </div>
             </div>
-            <div className="flex">
-              <div
-                className="flex items-center justify-center w-20 h-8 mb-3 border-2 border-gray-700 rounded-lg ml-auto mr-4 cursor-pointer hover:bg-gray-50"
-                onClick={() => {
-                  setShowConfirm(true)
-                }}
-              >
-                <div className="text-gray-900">通过</div>
-              </div>
-            </div>
-            {showConfirm === true && <ApproveConfirm />}
           </div>
         )
     }
@@ -145,7 +103,7 @@ const ApprovedModal = (props: { currentListData: ApplyDataProps }) => {
               <div className="mb-2 font-semibold">{item.title}</div>
               {approveModalTitle(item)}
             </div>
-            <div className="h-px bg-gray-200 "></div>
+            <div className="h-px bg-gray-200 " />
           </>
         )
       })}

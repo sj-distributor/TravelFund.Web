@@ -2,11 +2,8 @@ import {
   ApplyDataProps,
   ApproveModalListProps,
 } from "@/services/dtos/approveManagement"
-import { useState } from "react"
 
 const useAction = (currentListData: ApplyDataProps) => {
-  const [showConfirm, setShowConfirm] = useState<boolean>(false)
-
   const approveModalList: ApproveModalListProps[] = [
     {
       title: "申请信息",
@@ -48,18 +45,18 @@ const useAction = (currentListData: ApplyDataProps) => {
     {
       title: "AI审批意见",
       opinions: {
-        contents: currentListData.AIOpinions,
-        status: currentListData.AIStatus,
+        contents: currentListData.aiOpinions,
+        status: currentListData.aiStatus,
       },
     },
     {
       title: "人工审批意见",
       opinions: {
-        contents: currentListData.HumanOpinions,
+        contents: currentListData.humanOpinions,
       },
     },
   ]
 
-  return { approveModalList, showConfirm, setShowConfirm }
+  return { approveModalList }
 }
 export default useAction

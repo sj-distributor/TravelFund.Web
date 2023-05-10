@@ -1,10 +1,19 @@
 import { useNavigate } from "react-router"
-import { useEffect, useState } from "react"
+import { useState } from "react"
+
+import { Post } from "../../services/api/http-client"
+import { useLocation } from "react-router-dom"
+
+import useAuth from "../../hooks/useAuth"
 
 const useAction = () => {
-  const [userName, setUserName] = useState<string>("")
+  const { signin } = useAuth()
 
-  const [passWord, setPassWord] = useState<string>("")
+  const [userName, setUserName] = useState<string>("admin")
+
+  const [passWord, setPassWord] = useState<string>(
+    "ece18047-239b-4309-b52d-472d9d2dfc15"
+  )
 
   const [userNameInvalid, setUserInvalid] = useState<boolean>(false)
 
@@ -12,15 +21,25 @@ const useAction = () => {
 
   const navigate = useNavigate()
 
-  useEffect(() => {
-    setUserName("")
-    setPassWord("")
-  }, [])
+  const location = useLocation()
+
+  const historyCallback = () => {
+    let p = location.state as any
+    p?.from?.pathname
+      ? navigate(p.from.pathname, { replace: true })
+      : navigate("/home/invoice")
+  }
 
   const clickLogin = () => {
-    // 获取到账号密码
-    console.log(userName, passWord)
-    navigate("/home/invoice")
+    Post<string>("/auth/login", {
+      username: userName,
+      password: passWord,
+    }).then((token) => {
+      if (token) {
+        localStorage.setItem("token", token)
+        signin(token, historyCallback)
+      }
+    })
   }
 
   const blurInput = (inputValue: string, type: string) => {

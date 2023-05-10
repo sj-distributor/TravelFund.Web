@@ -93,10 +93,10 @@ const TableList = ({ reportData }: { reportData: ReportDataProps[] }) => {
 
   return (
     <Table
-      className="mt-5 mx-3"
+      className="mt-3 mx-3"
       columns={columnsTodoList}
       dataSource={reportData}
-    ></Table>
+    />
   )
 }
 export default TableList

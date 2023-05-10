@@ -1,15 +1,12 @@
 import { useState } from "react"
-import type { UploadProps } from "antd"
+import { reimburseTypeOptions } from "./props"
 
-interface Options {
-  value: string
-  label: string
-}
+import { PostInvoiceImg } from "../../../../services/api/reimbursement"
 
 const useAction = () => {
-  const [showConfirm, setShowConfirm] = useState<boolean>(false)
+  const [uploadImg, setUploadImg] = useState<string>("")
 
-  const options: Options[] = [
+  const reimburseTypeSelect: reimburseTypeOptions[] = [
     {
       value: "travelFund",
       label: "旅游基金",
@@ -24,19 +21,23 @@ const useAction = () => {
     },
   ]
 
-  const props: UploadProps = {
-    action: "https://www.mocky.io/v2/5cc8019d300000980a055e76", //图片上传地址
-    headers: {
-      authorization: "authorization-text",
-    },
-    onChange(info) {
-      if (info.file.status !== "uploading") {
-        console.log(info.file, info.fileList)
-      }
-    },
+  const uploadFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files?.length === 0) return
+    const file = e.target.files && e.target.files[0]
+    e.target.value = ""
+    const formData = new FormData()
+    formData.append("file", file!)
+    const attachmentId = await PostInvoiceImg(formData)
+    if (attachmentId) {
+      setUploadImg(attachmentId.fileUrl)
+    }
   }
 
-  return { options, props, showConfirm, setShowConfirm }
+  return {
+    reimburseTypeSelect,
+    uploadFile,
+    uploadImg,
+  }
 }
 
 export default useAction

@@ -1,12 +1,10 @@
 import Table, { ColumnsType } from "antd/es/table"
 
 import { filterArray } from "../../../../utils/table/fliter-table"
-import { ApplyDataProps } from "@/services/dtos/approveManagement"
-
-interface TableListProps {
-  handleAddOpen: (record: ApplyDataProps) => void
-  applyData: ApplyDataProps[]
-}
+import {
+  ApplyDataProps,
+  TableListProps,
+} from "@/services/dtos/approveManagement"
 
 const TableList = ({ handleAddOpen, applyData }: TableListProps) => {
   const columnsTodoList: ColumnsType<ApplyDataProps> = [
@@ -67,10 +65,11 @@ const TableList = ({ handleAddOpen, applyData }: TableListProps) => {
   ]
   return (
     <Table
-      className="mt-5 mx-3"
+      className="mt-3 mx-3"
       columns={columnsTodoList}
       dataSource={applyData}
-    ></Table>
+      pagination={{ position: ["bottomRight"], defaultPageSize: 10 }}
+    />
   )
 }
 

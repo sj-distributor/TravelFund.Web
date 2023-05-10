@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom"
 import { Children } from "@/props"
 import useAction from "./hook"
+import { Menu } from "antd"
 
 const Header = () => {
   const {
+    userName,
     homeChild,
     clickIndex,
     clickMenu,
@@ -36,11 +38,14 @@ const Header = () => {
           className={`${textColor} mr-10 hover:text-white hover:font-medium text-sm cursor-pointer`}
           onClick={clickAccount}
         >
-          你好，User.L
+          你好，{userName}
         </div>
       </div>
-      {isClickAccount === true && <AccountModal></AccountModal>}
-      <div className="flex justify-around my-7">
+      {isClickAccount === true && <AccountModal />}
+      <Menu
+        className="flex justify-around my-7"
+        style={{ backgroundColor: "#F5F5F5" }}
+      >
         {homeChild?.map((item: Children, index: number) => {
           return (
             <Link
@@ -52,17 +57,16 @@ const Header = () => {
                 className={`flex justify-center items-center w-24 h-12 border-2 rounded-[0.8rem] border-gray-600 hover:bg-gray-600 hover:text-white ${
                   clickIndex === index && "bg-gray-600 text-white"
                 } cursor-pointer`}
-                key={index}
               >
                 <div className="font-medium">{item.name}</div>
               </div>
             </Link>
           )
         })}
-      </div>
-      <div className="h-px bg-gray-300"></div>
+      </Menu>
+      <div className="h-px bg-gray-300" />
       <div className="flex">
-        <div className="w-32 bg-gray-500"></div>
+        <div className="w-32 bg-gray-500" />
       </div>
     </div>
   )

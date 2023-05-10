@@ -1,4 +1,5 @@
 import useAction from "./hook"
+
 const Login = () => {
   const {
     clickLogin,
@@ -25,7 +26,7 @@ const Login = () => {
           <div className="flex items-center justify-center">
             <div className="font-medium text-4xl tracking-wide mb-5">Login</div>
           </div>
-          <div className="h-px bg-gray-300 "></div>
+          <div className="h-px bg-gray-300 " />
           <div className="flex flex-col justify-around h-36 mt-5 mb-5">
             <div>
               <input

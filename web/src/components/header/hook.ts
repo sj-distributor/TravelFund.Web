@@ -1,9 +1,11 @@
-import { RouterArray } from "../../router"
+import { routerArray } from "../../router"
 import { useLocation } from "react-router-dom"
 import { useNavigate } from "react-router"
 import { useEffect, useState } from "react"
 
 const useAction = () => {
+  const [userName, setUserName] = useState<string>("")
+
   const [clickIndex, setClickIndex] = useState<number>(0)
 
   const [textColor, setTextColor] = useState<string>("text-gray-300")
@@ -14,13 +16,15 @@ const useAction = () => {
 
   const pathName = useLocation().pathname
 
-  const routerIndex = RouterArray.findIndex((item) => {
+  const routerIndex = routerArray.findIndex((item) => {
     return item.path === "/home"
   })
 
-  const homeChild = RouterArray[routerIndex].children?.slice(1)
+  const homeChild = routerArray[routerIndex].children?.slice(1)
 
   useEffect(() => {
+    setUserName("User.L")
+
     setTextColor("text-gray-300")
 
     let locationIndex: number = 0
@@ -45,6 +49,7 @@ const useAction = () => {
   }
 
   return {
+    userName,
     homeChild,
     clickIndex,
     clickMenu,

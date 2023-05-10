@@ -1,0 +1,71 @@
+.ant-input-disabled {
+  background-color: white !important;
+}
+
+.ant-btn-primary {
+  background-color: rgb(76, 85, 99) !important;
+}
+
+.ant-btn-primary:hover {
+  background-color: rgba(57, 64, 80, 1) !important;
+}
+
+.ant-table-column-title {
+  font-size: 0.8rem;
+}
+
+.ant-table-wrapper {
+  flex: 1;
+}
+
+.ant-spin-nested-loading {
+  height: 100%;
+}
+
+.ant-spin-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.ant-table {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.ant-table-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.ant-table-body {
+  flex: 1;
+}
+
+.ant-pagination {
+  flex: none !important;
+}
+
+.ant-checkbox-wrapper {
+  margin-inline-start: 0 !important;
+}
+
+.ant-select-disabled {
+  background: rgba(255, 255, 255, 1) !important;
+  border-radius: 6px !important;
+  background-color: #ffffff !important;
+}
+
+.ant-select-selector {
+  background: rgba(255, 255, 255, 1) !important;
+}
+
+.ant-picker-disabled {
+  background: rgba(255, 255, 255, 1) !important;
+}
+
+.ant-pagination-options {
+  display: none !important;
+}

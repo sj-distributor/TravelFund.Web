@@ -9,10 +9,10 @@ export interface ApplyDataProps {
   claimLimit: string
   invoiceLimit: string
   realityLimit: string
-  AIOpinions: string
-  AIStatus: string
-  HumanOpinions: string
-  HumanStatus: string
+  aiOpinions: string
+  aiStatus: string
+  humanOpinions: string
+  humanStatus: string
   invoice: Invoice[]
 }
 
@@ -43,4 +43,9 @@ export interface Opinions {
 export interface ApplyMessageProps {
   applicationLabel: string
   applicationContent: string
+}
+
+export interface TableListProps {
+  handleAddOpen: (record: ApplyDataProps) => void
+  applyData: ApplyDataProps[]
 }
