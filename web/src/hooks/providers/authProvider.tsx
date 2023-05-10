@@ -39,6 +39,7 @@ export default function AuthProvider(props: { children: React.ReactNode }) {
   const signout = (callback?: VoidFunction) => {
     return fakeAuthProvider.signout(() => {
       localStorage.removeItem("token")
+      localStorage.removeItem("userName")
       setToken("")
       callback && callback()
     })

@@ -37,6 +37,7 @@ const useAction = () => {
     }).then((token) => {
       if (token) {
         localStorage.setItem("token", token)
+        localStorage.setItem("userName", userName)
         signin(token, historyCallback)
       }
     })

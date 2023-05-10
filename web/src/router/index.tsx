@@ -1,6 +1,8 @@
 import { RoutesProps, Children } from "../props"
 import { Route, Routes, Navigate } from "react-router-dom"
 
+import { AuthStatus } from "../hooks/authStatus"
+
 import Login from "../pages/login"
 import Home from "../pages/home"
 import Invoice from "../pages/invoice"
@@ -71,7 +73,11 @@ export const Router = () => {
       <Route path="/login" element={<Login />} />
       {routerArray.map((item: RoutesProps, index: number) => {
         return (
-          <Route key={index} path={item.path} element={item.element}>
+          <Route
+            key={index}
+            path={item.path}
+            element={<AuthStatus>{item.element}</AuthStatus>}
+          >
             {item.children?.map((item: Children, index: number) => {
               return (
                 <Route key={index} path={item.path} element={item.element} />

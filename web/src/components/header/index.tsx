@@ -12,7 +12,7 @@ const Header = () => {
     textColor,
     clickAccount,
     isClickAccount,
-    loginOut,
+    auth,
   } = useAction()
 
   const AccountModal = () => {
@@ -23,7 +23,7 @@ const Header = () => {
         </div>
         <div
           className="h-8 flex items-center cursor-pointer hover:bg-blue-500 hover:text-white hover:font-semibold"
-          onClick={loginOut}
+          onClick={() => auth.signout()}
         >
           <div className="text-sm ml-5">注销</div>
         </div>

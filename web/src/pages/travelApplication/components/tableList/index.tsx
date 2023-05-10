@@ -1,9 +1,15 @@
 import Table, { ColumnsType } from "antd/es/table"
 
-import { ApplicateList } from "../../props"
+import { TravelApplicationResponses } from "../../../../services/dtos/travelApplication"
 
-const TableList = ({ applicateList }: { applicateList?: ApplicateList[] }) => {
-  const columnsTodoList: ColumnsType<ApplicateList> = [
+import moment from "moment"
+
+const TableList = ({
+  applicateList,
+}: {
+  applicateList?: TravelApplicationResponses[]
+}) => {
+  const columnsTodoList: ColumnsType<TravelApplicationResponses> = [
     {
       title: "申请费用",
       dataIndex: "customPrice",
@@ -13,16 +19,25 @@ const TableList = ({ applicateList }: { applicateList?: ApplicateList[] }) => {
       title: "出行日期",
       dataIndex: "travelDate",
       align: "center",
+      render: (text) => {
+        return <div>{moment(text).format("YYYY-MM-DD")}</div>
+      },
     },
     {
       title: "是否组团",
       dataIndex: "isGroup",
       align: "center",
+      render: (text) => {
+        return <div>{text ? "是" : "否"}</div>
+      },
     },
     {
       title: "回程日期",
       dataIndex: "returnDate",
       align: "center",
+      render: (text) => {
+        return <div>{moment(text).format("YYYY-MM-DD")}</div>
+      },
     },
   ]
   return (

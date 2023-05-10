@@ -2,6 +2,7 @@ import { routerArray } from "../../router"
 import { useLocation } from "react-router-dom"
 import { useNavigate } from "react-router"
 import { useEffect, useState } from "react"
+import useAuth from "../../hooks/useAuth"
 
 const useAction = () => {
   const [userName, setUserName] = useState<string>("")
@@ -22,8 +23,14 @@ const useAction = () => {
 
   const homeChild = routerArray[routerIndex].children?.slice(1)
 
+  const auth = useAuth()
+
   useEffect(() => {
-    setUserName("User.L")
+    const storageUserName = localStorage.getItem("userName")
+      ? (localStorage.getItem("userName") as string)
+      : ""
+
+    setUserName(storageUserName)
 
     setTextColor("text-gray-300")
 
@@ -57,7 +64,7 @@ const useAction = () => {
     clickAccount,
     isClickAccount,
     setIsClickAccount,
-    loginOut,
+    auth,
   }
 }
 export default useAction

@@ -14,7 +14,8 @@ const TravelApplication = () => {
     travelApplicationRef,
     submitTravelApplication,
     totalNum,
-    setPageIndex,
+    dto,
+    setDto,
   } = useAction()
 
   return (
@@ -32,7 +33,7 @@ const TravelApplication = () => {
         <div className="ml-auto mr-3">
           <Pagination
             total={totalNum}
-            onChange={(page) => setPageIndex(page)}
+            onChange={(page) => setDto({ ...dto, pageIndex: page })}
           />
         </div>
       </div>

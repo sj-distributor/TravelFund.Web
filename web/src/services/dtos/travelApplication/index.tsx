@@ -34,8 +34,3 @@ export interface TravelApplicationList {
   count: number
   travelRequestForms: TravelApplicationResponses[]
 }
-
-export enum MediaPage {
-  PageIndex = 1,
-  PageSize = 10,
-}

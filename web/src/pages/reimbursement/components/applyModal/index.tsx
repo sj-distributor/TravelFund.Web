@@ -10,7 +10,7 @@ const ApplyModal = () => {
       <div className="mx-10 relative">
         <div className="flex items-center w-full my-7">
           <div className="w-28 text-gray-900">申请人：</div>
-          <Input></Input>
+          <Input />
         </div>
         <div className="flex items-center w-full my-7">
           <div className="w-28 text-gray-900">报销类型：</div>

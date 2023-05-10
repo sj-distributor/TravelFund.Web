@@ -1,21 +1,24 @@
 import { useEffect, useRef, useState } from "react"
-import { MediaPage } from "../../services/dtos/travelApplication"
-import { ApplicateList } from "./props"
 import {
   GetTravelApplicationList,
   PostAddTravelApplication,
 } from "../../services/api/travelApplication"
-import moment from "moment"
+import { TravelApplicationResponses } from "../../services/dtos/travelApplication"
+
 import { message } from "antd"
 
 const useAction = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
-  const [pageIndex, setPageIndex] = useState<number>(1)
+  const [dto, setDto] = useState<{ pageIndex: number; pageSize: number }>({
+    pageIndex: 1,
+    pageSize: 10,
+  })
 
   const [totalNum, setTotalNum] = useState<number>(1)
 
-  const [applicateList, setApplicateList] = useState<ApplicateList[]>()
+  const [applicateList, setApplicateList] =
+    useState<TravelApplicationResponses[]>()
 
   const travelApplicationRef = useRef({
     customPrice: 0,
@@ -26,18 +29,12 @@ const useAction = () => {
 
   const getTravelApplicationList = () => {
     GetTravelApplicationList({
-      PageIndex: pageIndex,
-      PageSize: MediaPage.PageSize,
+      PageIndex: dto.pageIndex,
+      PageSize: dto.pageSize,
     }).then((res) => {
       if ((res ?? "") !== "") {
         setTotalNum(res?.count!)
-
-        const travelRequestForms: any = res?.travelRequestForms
-        travelRequestForms?.forEach((item: any) => {
-          item.isGroup = item.isGroup === true ? "是" : "否"
-          item.travelDate = moment(item.travelDate).format("YYYY-MM-DD")
-          item.returnDate = moment(item.returnDate).format("YYYY-MM-DD")
-        })
+        const travelRequestForms = res?.travelRequestForms
         setApplicateList(travelRequestForms)
       }
     })
@@ -59,7 +56,7 @@ const useAction = () => {
 
   useEffect(() => {
     getTravelApplicationList()
-  }, [pageIndex])
+  }, [dto.pageIndex])
 
   return {
     isModalOpen,
@@ -68,7 +65,8 @@ const useAction = () => {
     travelApplicationRef,
     submitTravelApplication,
     totalNum,
-    setPageIndex,
+    dto,
+    setDto,
   }
 }
 export default useAction
