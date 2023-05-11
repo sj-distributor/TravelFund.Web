@@ -34,15 +34,7 @@ const ApplyModal = () => {
             }
           />
         </div>
-        <div>
-          {(uploadImg ?? "") !== "" ? (
-            <div>
-              <img src={uploadImg} alt="" />
-            </div>
-          ) : (
-            <div />
-          )}
-        </div>
+        <div>{!!uploadImg && <img src={uploadImg} alt="" />}</div>
       </div>
     </div>
   )
