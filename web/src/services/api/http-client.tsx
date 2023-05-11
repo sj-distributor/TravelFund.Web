@@ -11,14 +11,9 @@ export interface SmartFaqResponse<T> {
   msg: string
   data: T
 }
-export enum ResponseCode {
-  Ok = 200,
-  Unauthorized = 401,
-  InternalServerError = 500,
-}
 
 export interface IResponse<T> {
-  code: ResponseCode
+  code: 200
   msg: string
   data: T
 }
@@ -47,18 +42,10 @@ export async function base<T>(
   })
     .then((res) => res.json())
     .then((res: IResponse<T>) => {
-      if (res.code === ResponseCode.Ok) {
+      if (res.code === 200) {
         return res.data
-      } else if (res.code === ResponseCode.Unauthorized) {
-        return null
-      } else if (res.code === ResponseCode.InternalServerError) {
-        return null
       } else {
-        console.log("todo")
+        throw new Error("request error")
       }
-    })
-    .catch((err) => {
-      console.log("request error:", err)
-      throw new Error(err)
     })
 }

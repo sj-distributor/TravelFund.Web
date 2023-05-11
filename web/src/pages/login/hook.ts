@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import { Post } from "../../services/api/http-client"
 import { useLocation } from "react-router-dom"
@@ -42,6 +42,13 @@ const useAction = () => {
       }
     })
   }
+
+  useEffect(() => {
+    let token = localStorage.getItem("token")
+    if (token) {
+      signin(token, historyCallback)
+    }
+  }, [])
 
   const blurInput = (inputValue: string, type: string) => {
     type === "UserName" &&

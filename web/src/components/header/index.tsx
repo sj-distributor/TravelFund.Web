@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom"
-import { Children } from "@/props"
+import { RoutesProps } from "@/props"
 import useAction from "./hook"
 import { Menu } from "antd"
 
 const Header = () => {
   const {
     userName,
-    homeChild,
+    routerArray,
     clickIndex,
     clickMenu,
     textColor,
@@ -46,7 +46,7 @@ const Header = () => {
         className="flex justify-around my-7"
         style={{ backgroundColor: "#F5F5F5" }}
       >
-        {homeChild?.map((item: Children, index: number) => {
+        {routerArray.map((item: RoutesProps, index: number) => {
           return (
             <Link
               to={item.path}

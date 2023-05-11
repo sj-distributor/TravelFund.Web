@@ -32,11 +32,9 @@ const useAction = () => {
       PageIndex: dto.pageIndex,
       PageSize: dto.pageSize,
     }).then((res) => {
-      if ((res ?? "") !== "") {
-        setTotalNum(res?.count!)
-        const travelRequestForms = res?.travelRequestForms
-        setApplicateList(travelRequestForms)
-      }
+      setTotalNum(res?.count!)
+      const travelRequestForms = res?.travelRequestForms
+      setApplicateList(travelRequestForms)
     })
   }
 
