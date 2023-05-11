@@ -12,12 +12,6 @@ const Login = () => {
     blurInput,
   } = useAction()
 
-  const userNameType = "UserName"
-  const passWordType = "PassWord"
-
-  const inputUserNameValue = userName
-  const inputPassWordValue = passWord
-
   return (
     <div className=" bg-white w-full h-full absolute top-0 flex flex-col items-center">
       <div className="flex flex-row-reverse items-center w-full h-12 bg-gray-600"></div>
@@ -33,9 +27,9 @@ const Login = () => {
                 placeholder="Username"
                 type="text"
                 className="w-full h-10 border-gray-400 border rounded-[0.2rem] pl-3 "
-                value={inputUserNameValue}
+                value={userName}
                 onChange={(e) => setUserName(e.target.value)}
-                onBlur={() => blurInput(inputUserNameValue, userNameType)}
+                onBlur={() => blurInput(userName, "UserName")}
               />
               {userNameInvalid === true && (
                 <div className="text-red-600 italic text-sm ">
@@ -48,9 +42,9 @@ const Login = () => {
                 placeholder="Password"
                 type="password"
                 className="w-full h-10 border-gray-400 border rounded-[0.2rem] pl-3"
-                value={inputPassWordValue}
+                value={passWord}
                 onChange={(e) => setPassWord(e.target.value)}
-                onBlur={() => blurInput(inputPassWordValue, passWordType)}
+                onBlur={() => blurInput(passWord, "PassWord")}
               />
               {passWordInvalid === true && (
                 <div className="text-red-600 italic text-sm ">
