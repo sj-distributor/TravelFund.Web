@@ -4,6 +4,7 @@
 
 .ant-btn-primary {
   background-color: rgb(76, 85, 99) !important;
+  color: white !important;
 }
 
 .ant-btn-primary:hover {
