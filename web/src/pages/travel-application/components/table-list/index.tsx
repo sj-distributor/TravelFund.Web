@@ -1,6 +1,6 @@
 import Table, { ColumnsType } from "antd/es/table"
 
-import { TravelApplicationResponses } from "../../../../services/dtos/travelApplication"
+import { TravelApplicationResponses } from "../../../../services/dtos/travel-application"
 
 import moment from "moment"
 

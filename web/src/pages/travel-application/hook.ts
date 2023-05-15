@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react"
 import {
   GetTravelApplicationList,
   PostAddTravelApplication,
-} from "../../services/api/travelApplication"
-import { TravelApplicationResponses } from "../../services/dtos/travelApplication"
+} from "../../services/api/travel-application"
+import { TravelApplicationResponses } from "../../services/dtos/travel-application"
 
 import { message } from "antd"
 

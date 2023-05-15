@@ -3,7 +3,7 @@ import {
   TravelApplicationResponses,
   GetMediaType,
   TravelApplicationList,
-} from "../../dtos/travelApplication"
+} from "../../dtos/travel-application"
 
 import { Post, Get } from "../http-client"
 

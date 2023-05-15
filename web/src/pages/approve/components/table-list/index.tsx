@@ -4,7 +4,7 @@ import { filterArray } from "../../../../utils/table/fliter-table"
 import {
   ApplyDataProps,
   TableListProps,
-} from "@/services/dtos/approveManagement"
+} from "@/services/dtos/approve-management"
 
 const TableList = ({ handleAddOpen, applyData }: TableListProps) => {
   const columnsTodoList: ColumnsType<ApplyDataProps> = [

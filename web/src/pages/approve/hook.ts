@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { ApplyDataProps } from "@/services/dtos/approveManagement"
+import { ApplyDataProps } from "@/services/dtos/approve-management"
 
 const useAction = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)

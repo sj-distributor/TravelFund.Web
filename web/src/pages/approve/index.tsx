@@ -2,7 +2,7 @@ import { Modal } from "antd"
 import ApprovedModal from "./components/approve-modal"
 import TableList from "./components/table-list"
 import useAction from "./hook"
-import { ApplyDataProps } from "@/services/dtos/approveManagement"
+import { ApplyDataProps } from "@/services/dtos/approve-management"
 
 const ApproveManagement = () => {
   const {

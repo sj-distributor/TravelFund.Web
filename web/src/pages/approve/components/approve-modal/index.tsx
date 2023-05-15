@@ -4,7 +4,7 @@ import {
   ApplyDataProps,
   ApproveModalListProps,
   Invoice,
-} from "@/services/dtos/approveManagement"
+} from "@/services/dtos/approve-management"
 
 const ApprovedModal = (props: { currentListData: ApplyDataProps }) => {
   let currentListData = props.currentListData

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { ApplyReimbursementProps } from "@/services/dtos/applyReimbursement"
+import { ApplyReimbursementProps } from "@/services/dtos/apply-reimbursement"
 
 const useAction = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)

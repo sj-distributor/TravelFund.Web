@@ -1,7 +1,7 @@
 import {
   ApplyDataProps,
   ApproveModalListProps,
-} from "@/services/dtos/approveManagement"
+} from "@/services/dtos/approve-management"
 
 const useAction = (currentListData: ApplyDataProps) => {
   const approveModalList: ApproveModalListProps[] = [

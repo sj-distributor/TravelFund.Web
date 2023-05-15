@@ -1,7 +1,7 @@
 import Table, { ColumnsType } from "antd/es/table"
 
 import { filterArray } from "../../../../utils/table/fliter-table"
-import { ApplyReimbursementProps } from "@/services/dtos/applyReimbursement"
+import { ApplyReimbursementProps } from "@/services/dtos/apply-reimbursement"
 
 const TableList = ({
   applyReimbursement,
