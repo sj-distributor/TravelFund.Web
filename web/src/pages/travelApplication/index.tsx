@@ -1,5 +1,5 @@
-import TableList from "./components/tableList"
-import ApplyModal from "./components/applyModal"
+import TableList from "./components/table-list"
+import ApplyModal from "./components/apply-modal"
 
 import { Modal, Pagination } from "antd"
 import "../../antd.css"

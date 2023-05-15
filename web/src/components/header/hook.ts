@@ -1,7 +1,7 @@
 import { routerArray } from "../../router"
 import { useLocation } from "react-router-dom"
 import { useEffect, useState } from "react"
-import useAuth from "../../hooks/useAuth"
+import useAuth from "../../hooks/use-auth"
 
 const useAction = () => {
   const [userName, setUserName] = useState<string>("")

@@ -1,6 +1,6 @@
 import useAction from "./hook"
-import TableList from "./components/tableList"
-import UploadInvoice from "./components/upLoadInvoice"
+import TableList from "./components/table-list"
+import UploadInvoice from "./components/upload-invoice"
 import { Modal, Pagination } from "antd"
 
 import { TravelInvoices } from "@/services/dtos/invoice"

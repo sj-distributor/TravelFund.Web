@@ -1,6 +1,6 @@
 import { Modal } from "antd"
-import ApplyModal from "./components/applyModal"
-import TableList from "./components/tableList"
+import ApplyModal from "./components/apply-modal"
+import TableList from "./components/table-list"
 import useAction from "./hook"
 
 const ApproveManagement = () => {

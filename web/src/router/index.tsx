@@ -1,7 +1,7 @@
 import { RoutesProps } from "../props"
 import { Route, Routes, Navigate } from "react-router-dom"
 
-import { AuthStatus } from "../hooks/authStatus"
+import { AuthStatus } from "../hooks/auth-status"
 
 import Login from "../pages/login"
 import Home from "../pages/home"

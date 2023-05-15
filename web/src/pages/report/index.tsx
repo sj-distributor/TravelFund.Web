@@ -1,5 +1,5 @@
-import TableList from "./components/tableList"
-import ExportFile from "../../components/exportFile"
+import TableList from "./components/table-list"
+import ExportFile from "../../components/export-file"
 import useAction from "./hook"
 
 import { DatePicker } from "antd"
