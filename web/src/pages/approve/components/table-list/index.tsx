@@ -19,6 +19,8 @@ const TableList = ({ handleAddOpen, applyData }: TableListProps) => {
             .filter((x: { applyHuman: string }) => !!x.applyHuman)
             .map((item: { applyHuman: string }) => item.applyHuman)
         ),
+      onFilter: (value: any, record) => record.applyHuman.indexOf(value) === 0,
+      filterMultiple: false,
     },
     {
       title: "申请类型",
@@ -31,6 +33,8 @@ const TableList = ({ handleAddOpen, applyData }: TableListProps) => {
             .filter((x: { applyType: string }) => !!x.applyType)
             .map((item: { applyType: string }) => item.applyType)
         ),
+      onFilter: (value: any, record) => record.applyType.indexOf(value) === 0,
+      filterMultiple: false,
     },
     {
       title: "申请日期",
@@ -43,6 +47,8 @@ const TableList = ({ handleAddOpen, applyData }: TableListProps) => {
             .filter((x: { applyDate: string }) => !!x.applyDate)
             .map((item: { applyDate: string }) => item.applyDate)
         ),
+      onFilter: (value: any, record) => record.applyDate.indexOf(value) === 0,
+      filterMultiple: false,
     },
     {
       title: "操作",
@@ -69,6 +75,7 @@ const TableList = ({ handleAddOpen, applyData }: TableListProps) => {
       columns={columnsTodoList}
       dataSource={applyData}
       pagination={{ position: ["bottomRight"], defaultPageSize: 10 }}
+      rowKey={(record) => record.id}
     />
   )
 }

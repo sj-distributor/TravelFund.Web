@@ -10,6 +10,8 @@ import { message } from "antd"
 const useAction = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
+  const [tableLoading, setTableLoading] = useState<boolean>(true)
+
   const [dto, setDto] = useState<{ pageIndex: number; pageSize: number }>({
     pageIndex: 1,
     pageSize: 10,
@@ -35,6 +37,7 @@ const useAction = () => {
       setTotalNum(res?.count!)
       const travelRequestForms = res?.travelRequestForms
       setApplicateList(travelRequestForms)
+      setTableLoading(false)
     })
   }
 
@@ -65,6 +68,7 @@ const useAction = () => {
     totalNum,
     dto,
     setDto,
+    tableLoading,
   }
 }
 export default useAction

@@ -1,4 +1,5 @@
 import Table, { ColumnsType } from "antd/es/table"
+import { Image } from "antd"
 import moment from "moment"
 import {
   InvoiceType,
@@ -16,7 +17,17 @@ const TableList = ({ handleDeleteInvoice, invoiceList }: TableListProps) => {
       render: (record) => {
         return (
           <div className="flex justify-center items-center">
-            <img className="w-36 h-16" src={record} alt="" />
+            {record === "" ? (
+              <Image
+                height={60}
+                width={120}
+                src="error"
+                fallback="error"
+                alt="图片加载错误..."
+              />
+            ) : (
+              <Image height={60} width={120} src={record} alt="" />
+            )}
           </div>
         )
       },
@@ -50,9 +61,6 @@ const TableList = ({ handleDeleteInvoice, invoiceList }: TableListProps) => {
       dataIndex: "invoicePrice",
       align: "center",
       width: 200,
-      render: (text) => {
-        return text ? <div>{text}</div> : <div>null</div>
-      },
     },
     {
       title: "操作",
@@ -82,6 +90,7 @@ const TableList = ({ handleDeleteInvoice, invoiceList }: TableListProps) => {
       columns={columnsTodoList}
       dataSource={invoiceList}
       pagination={false}
+      rowKey={(record) => record.id}
     />
   )
 }

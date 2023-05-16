@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom"
 import { RoutesProps } from "@/props"
 import useAction from "./hook"
-import { Menu } from "antd"
 
 const Header = () => {
   const {
@@ -42,13 +41,14 @@ const Header = () => {
         </div>
       </div>
       {isClickAccount === true && <AccountModal />}
-      <Menu
+      <div
         className="flex justify-around my-7"
         style={{ backgroundColor: "#F5F5F5" }}
       >
         {routerArray.map((item: RoutesProps, index: number) => {
           return (
             <Link
+              key={index}
               to={item.path}
               style={{ textDecoration: "none" }}
               onClick={() => clickMenu(index)}
@@ -63,7 +63,7 @@ const Header = () => {
             </Link>
           )
         })}
-      </Menu>
+      </div>
       <div className="h-px bg-gray-300" />
       <div className="flex">
         <div className="w-32 bg-gray-500" />

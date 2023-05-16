@@ -11,14 +11,6 @@
   background-color: rgba(57, 64, 80, 1) !important;
 }
 
-.ant-table-column-title {
-  font-size: 0.8rem;
-}
-
-.ant-table-wrapper {
-  flex: 1;
-}
-
 .ant-spin-nested-loading {
   height: 100%;
 }
@@ -27,26 +19,6 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-}
-
-.ant-table {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.ant-table-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.ant-table-body {
-  flex: 1;
-}
-
-.ant-pagination {
-  flex: none !important;
 }
 
 .ant-checkbox-wrapper {

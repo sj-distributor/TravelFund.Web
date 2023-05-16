@@ -46,6 +46,7 @@ const TableList = ({
       columns={columnsTodoList}
       dataSource={applicateList}
       pagination={false}
+      rowKey={(record) => record.id}
     />
   )
 }

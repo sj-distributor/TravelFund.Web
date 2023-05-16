@@ -15,7 +15,6 @@ const UploadInvoice = forwardRef((props, ref) => {
         <Select
           className="w-52"
           showSearch
-          placeholder=""
           optionFilterProp="children"
           options={selectType}
           filterOption={(input, option) =>
@@ -24,6 +23,7 @@ const UploadInvoice = forwardRef((props, ref) => {
           onChange={(value) => {
             setInvoiceType(value)
           }}
+          allowClear
         />
       </div>
       <Upload

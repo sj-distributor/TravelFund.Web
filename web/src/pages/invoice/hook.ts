@@ -8,13 +8,15 @@ import {
 import { TravelInvoices } from "../../services/dtos/invoice"
 
 const useAction = () => {
-  const [dto, setDto] = useState({ pageIndex: 1, pageSize: 5 })
+  const [dto, setDto] = useState({ pageIndex: 1, pageSize: 6 })
 
   const [invoiceList, setInvoiceList] = useState<TravelInvoices[]>([])
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
   const [totalNum, setTotalNum] = useState<number>(1)
+
+  const [tableLoading, setTableLoading] = useState<boolean>(true)
 
   const uploadIdRef = useRef({
     invoiceType: 0,
@@ -52,9 +54,10 @@ const useAction = () => {
               ...item,
               fileUrl:
                 res[res.findIndex((el) => el.id === item.attachmentIds[0])]
-                  .fileUrl,
+                  ?.fileUrl ?? "",
             }))
           )
+          setTableLoading(false)
         }
       })
     })
@@ -67,10 +70,9 @@ const useAction = () => {
         invoiceType: uploadIdRef.current.invoiceType,
       },
     }).then((res) => {
-      if (res) {
-        setIsModalOpen(false)
-        getInvoiceList()
-      }
+      setTableLoading(true)
+      setIsModalOpen(false)
+      getInvoiceList()
     })
   }
 
@@ -87,6 +89,7 @@ const useAction = () => {
     totalNum,
     dto,
     setDto,
+    tableLoading,
   }
 }
 export default useAction
