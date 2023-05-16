@@ -47,6 +47,7 @@ const TableList = ({
       dataSource={applicateList}
       pagination={false}
       rowKey={(record) => record.id}
+      scroll={{ x: 800 }}
     />
   )
 }

@@ -19,7 +19,7 @@ const Invoice = () => {
   } = useAction()
 
   return (
-    <div className="w-full h-[740px] flex flex-1 flex-col bg-gray-200 overflow-y">
+    <div className="w-full  h-[735px] flex flex-1 flex-col bg-gray-200 overflow-y">
       <div className="flex items-center mx-3 mt-3">
         <div
           className="flex justify-center items-center rounded-[0.5rem] w-24 h-10 bg-gray-600 cursor-pointer hover:bg-gray-700 ml-auto mr-5"
@@ -53,12 +53,11 @@ const Invoice = () => {
         className="mt-20"
         title="上传发票"
         open={isModalOpen}
-        okText="上传"
         cancelText="取消"
-        onOk={submitBtn}
         onCancel={() => setIsModalOpen(false)}
+        destroyOnClose
       >
-        <UploadInvoice ref={uploadIdRef} />
+        <UploadInvoice ref={uploadIdRef} submitBtn={submitBtn} />
       </Modal>
     </div>
   )

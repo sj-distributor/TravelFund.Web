@@ -20,7 +20,7 @@ const TravelApplication = () => {
   } = useAction()
 
   return (
-    <div className="w-full  h-[740px] flex flex-1 flex-col bg-gray-200 overflow-y">
+    <div className="w-full  flex flex-1 flex-col bg-gray-200 overflow-y">
       <div className="flex items-center mx-3 mt-3">
         <div
           className="flex justify-center items-center rounded-[0.5rem] w-24 h-10 bg-gray-600 cursor-pointer hover:bg-gray-700 ml-auto mr-5"
@@ -49,12 +49,13 @@ const TravelApplication = () => {
         className="mt-20"
         title="出行申请"
         open={isModalOpen}
-        okText="提交申请"
-        cancelText="取消"
-        onOk={submitTravelApplication}
         onCancel={() => setIsModalOpen(false)}
+        destroyOnClose
       >
-        <ApplyModal ref={travelApplicationRef} />
+        <ApplyModal
+          ref={travelApplicationRef}
+          submitTravelApplication={submitTravelApplication}
+        />
       </Modal>
     </div>
   )

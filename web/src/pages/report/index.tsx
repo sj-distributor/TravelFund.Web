@@ -10,7 +10,7 @@ const Report = () => {
   const { RangePicker } = DatePicker
 
   return (
-    <div className="w-full h-[740px] flex flex-1 flex-col bg-gray-200 overflow-hidden">
+    <div className="w-full  h-[735px] flex flex-1 flex-col bg-gray-200 overflow-hidden">
       <div className="flex items-center mx-3 mt-3">
         <div className="flex items-center ml-5">
           <div>日期筛选：</div>

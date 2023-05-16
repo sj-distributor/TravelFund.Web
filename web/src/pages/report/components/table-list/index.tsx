@@ -113,6 +113,7 @@ const TableList = ({ reportData }: { reportData: ReportDataProps[] }) => {
       columns={columnsTodoList}
       dataSource={reportData}
       rowKey={(record) => record.id}
+      scroll={{ x: 800 }}
     />
   )
 }

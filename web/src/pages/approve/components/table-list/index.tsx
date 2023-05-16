@@ -76,6 +76,7 @@ const TableList = ({ handleAddOpen, applyData }: TableListProps) => {
       dataSource={applyData}
       pagination={{ position: ["bottomRight"], defaultPageSize: 10 }}
       rowKey={(record) => record.id}
+      scroll={{ x: 800 }}
     />
   )
 }

@@ -13,20 +13,19 @@ const TableList = ({ handleDeleteInvoice, invoiceList }: TableListProps) => {
       title: "发票",
       dataIndex: "fileUrl",
       align: "center",
-      width: 200,
       render: (record) => {
         return (
           <div className="flex justify-center items-center">
             {record === "" ? (
               <Image
-                height={60}
+                height={58}
                 width={120}
                 src="error"
                 fallback="error"
                 alt="图片加载错误..."
               />
             ) : (
-              <Image height={60} width={120} src={record} alt="" />
+              <Image height={58} width={120} src={record} alt="" />
             )}
           </div>
         )
@@ -36,7 +35,6 @@ const TableList = ({ handleDeleteInvoice, invoiceList }: TableListProps) => {
       title: "上传日期",
       dataIndex: "createdDate",
       align: "center",
-      width: 200,
       render: (text) => {
         return <div>{moment(text).format("YYYY-MM-DD")}</div>
       },
@@ -45,7 +43,6 @@ const TableList = ({ handleDeleteInvoice, invoiceList }: TableListProps) => {
       title: "所属类型",
       dataIndex: "type",
       align: "center",
-      width: 200,
       render: (text) => {
         return (
           <div>
@@ -66,7 +63,6 @@ const TableList = ({ handleDeleteInvoice, invoiceList }: TableListProps) => {
       title: "操作",
       dataIndex: "",
       align: "center",
-      width: 200,
       render: (action, record) => {
         return (
           <div className="flex justify-center items-center">
@@ -91,6 +87,7 @@ const TableList = ({ handleDeleteInvoice, invoiceList }: TableListProps) => {
       dataSource={invoiceList}
       pagination={false}
       rowKey={(record) => record.id}
+      scroll={{ x: 800 }}
     />
   )
 }

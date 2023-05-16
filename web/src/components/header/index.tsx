@@ -8,15 +8,14 @@ const Header = () => {
     routerArray,
     clickIndex,
     clickMenu,
-    textColor,
-    clickAccount,
+    setIsClickAccount,
     isClickAccount,
     auth,
   } = useAction()
 
   const AccountModal = () => {
     return (
-      <div className="bg-white w-36 absolute right-5 rounded-b-md border border-gray-300 shadow-xl">
+      <div className="bg-white w-36 absolute top-12 right-12 rounded-b-md border border-gray-300 shadow-xl">
         <div className="h-8 flex items-center cursor-pointer hover:bg-blue-500 hover:text-white hover:font-semibold">
           <div className="text-sm ml-5">账号设置</div>
         </div>
@@ -32,15 +31,19 @@ const Header = () => {
 
   return (
     <div>
-      <div className="flex flex-row-reverse items-center w-full h-12 bg-gray-600">
+      <div className="flex flex-row-reverse items-center w-full h-12 bg-gray-600 ">
         <div
-          className={`${textColor} mr-10 hover:text-white hover:font-medium text-sm cursor-pointer`}
-          onClick={clickAccount}
+          className="cursor-pointer h-12 w-32 mr-14 flex items-center justify-center hover:bg-gray-700"
+          onMouseEnter={() => setIsClickAccount(true)}
+          onMouseLeave={() => setIsClickAccount(false)}
         >
-          你好，{userName}
+          <div className="text-gray-300  text-sm flex items-center">
+            你好，{userName}
+          </div>
+          {isClickAccount === true && <AccountModal />}
         </div>
       </div>
-      {isClickAccount === true && <AccountModal />}
+
       <div
         className="flex justify-around my-7"
         style={{ backgroundColor: "#F5F5F5" }}

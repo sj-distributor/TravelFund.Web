@@ -11,6 +11,10 @@
   background-color: rgba(57, 64, 80, 1) !important;
 }
 
+.ant-modal-footer {
+  display: none;
+}
+
 .ant-spin-nested-loading {
   height: 100%;
 }

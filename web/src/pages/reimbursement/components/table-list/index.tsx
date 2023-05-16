@@ -73,6 +73,7 @@ const TableList = ({
       columns={columnsTodoList}
       dataSource={applyReimbursement}
       rowKey={(record) => record.id}
+      scroll={{ x: 800 }}
     />
   )
 }
