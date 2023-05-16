@@ -37,7 +37,7 @@ const Header = () => {
           onMouseEnter={() => setIsClickAccount(true)}
           onMouseLeave={() => setIsClickAccount(false)}
         >
-          <div className="text-gray-300  text-sm flex items-center">
+          <div className="text-gray-300 text-sm flex items-center">
             你好，{userName}
           </div>
           {isClickAccount === true && <AccountModal />}

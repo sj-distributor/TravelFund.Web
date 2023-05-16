@@ -43,20 +43,22 @@ const UploadInvoice = forwardRef((props: { submitBtn: () => void }, ref) => {
           rules={[{ required: true, message: "请上传发票！" }]}
           className="my-10"
         >
-          <Upload
-            beforeUpload={() => {
-              return false
-            }}
-            onChange={(file) => upLoadFile(file)}
-            maxCount={1}
-            accept="image/*"
-          >
-            <Button className="flex items-center" icon={<UploadOutlined />}>
-              选择图片
-            </Button>
-          </Upload>
-          <div className="text-[#9a9f9f] italic text-xs mt-2">
-            (仅支持上传图片)
+          <div>
+            <Upload
+              beforeUpload={() => {
+                return false
+              }}
+              onChange={(file) => upLoadFile(file)}
+              maxCount={1}
+              accept="image/*"
+            >
+              <Button className="flex items-center" icon={<UploadOutlined />}>
+                选择图片
+              </Button>
+            </Upload>
+            <div className="text-[#9a9f9f] italic text-xs mt-2">
+              (仅支持上传图片)
+            </div>
           </div>
         </Form.Item>
         <Form.Item className="mt-10" wrapperCol={{ offset: 20, span: 16 }}>
