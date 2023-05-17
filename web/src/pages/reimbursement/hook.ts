@@ -27,7 +27,6 @@ const useAction = () => {
       })
       .catch((err) => {
         setTableLoading(false);
-        console.log(err);
       });
   };
 

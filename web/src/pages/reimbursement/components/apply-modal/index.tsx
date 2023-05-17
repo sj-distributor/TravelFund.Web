@@ -1,14 +1,10 @@
 import { Button, Input, Select } from "antd";
-import { Dispatch, SetStateAction } from "react";
 import DebounceSelect from "../debounce-select";
-
 import useAction from "./hook";
 import { UserValue } from "@/services/dtos/apply-reimbursement";
+import { ApplyModalProps } from "./props";
 
-const ApplyModal = (props: {
-  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
-  getExpenseList: () => void;
-}) => {
+const ApplyModal = (props: ApplyModalProps) => {
   const { setIsModalOpen, getExpenseList } = props;
   const {
     reimburseTypeSelect,
@@ -18,8 +14,6 @@ const ApplyModal = (props: {
     handleAddExpense,
     setDto,
     fetchUserList,
-    value,
-    setValue,
   } = useAction({ setIsModalOpen, getExpenseList });
 
   return (

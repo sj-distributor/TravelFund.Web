@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { reimburseTypeOptions } from "./props";
+import { useState } from "react";
+import { ApplyModalProps, reimburseTypeOptions } from "./props";
 import {
   PostAddExpense,
   PostInvoiceImg,
@@ -15,10 +15,7 @@ import {
   UserValue,
 } from "@/services/dtos/apply-reimbursement";
 
-const useAction = (props: {
-  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
-  getExpenseList: () => void;
-}) => {
+const useAction = (props: ApplyModalProps) => {
   const [messageApi, contextHolder] = message.useMessage();
   const { setIsModalOpen, getExpenseList } = props;
   const [uploadImg, setUploadImg] = useState<string>("");
@@ -28,7 +25,6 @@ const useAction = (props: {
     travelRequestFormId: [],
     travelInvoiceIds: [],
   });
-  const [value, setValue] = useState<UserValue[]>([]);
   const reimburseTypeSelect: reimburseTypeOptions[] = [
     {
       value: "10",
@@ -52,6 +48,7 @@ const useAction = (props: {
     });
     return data ? data : [];
   }
+
   async function fetchTravelRequestList(id: string): Promise<UserValue[]> {
     const data = await GetTravelApplicationList({
       PageIndex: 1,
@@ -112,7 +109,9 @@ const useAction = (props: {
     let travelRequestFormId: number;
     travelRequestFormId = +(dto.travelRequestFormId as unknown as UserValue)
       .value;
+
     dto.travelInvoiceIds.map((item) => travelInvoiceIds.push(+item.value));
+
     const data: PostAddExpenseDto = {
       travelExpenseFormData: {
         title: dto.title,
@@ -160,8 +159,6 @@ const useAction = (props: {
     handleAddExpense,
     setDto,
     fetchUserList,
-    value,
-    setValue,
     fetchTravelRequestList,
   };
 };
