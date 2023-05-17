@@ -38,10 +38,10 @@ const ApplyModal = (props: {
             />
           </div>
           <div className="flex items-center w-full my-7">
-            <div className="w-28 text-gray-900">申请表格：</div>
+            <div className="w-28 text-gray-900">申请表单：</div>
             <DebounceSelect
               value={dto.travelRequestFormId}
-              placeholder="选择申请发票"
+              placeholder="选择申请表单"
               showSearch
               fetchOptions={fetchTravelRequestList}
               style={{ width: "100%" }}
