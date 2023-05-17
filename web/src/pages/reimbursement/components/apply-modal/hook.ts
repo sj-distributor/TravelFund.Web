@@ -84,7 +84,6 @@ const useAction = (props: {
   };
 
   const handleAddExpense = () => {
-    console.log(dto);
     if (!dto.title) {
       messageApi.open({
         type: "warning",
@@ -110,12 +109,15 @@ const useAction = (props: {
     }
 
     let travelInvoiceIds: number[] = [];
+    let travelRequestFormId: number;
+    travelRequestFormId = +(dto.travelRequestFormId as unknown as UserValue)
+      .value;
     dto.travelInvoiceIds.map((item) => travelInvoiceIds.push(+item.value));
     const data: PostAddExpenseDto = {
       travelExpenseFormData: {
         title: dto.title,
         type: +dto.type,
-        travelRequestFormId: +dto.travelRequestFormId[0].value,
+        travelRequestFormId,
         travelInvoiceIds,
       },
     };
