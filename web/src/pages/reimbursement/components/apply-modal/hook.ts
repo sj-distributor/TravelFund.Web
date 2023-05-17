@@ -62,7 +62,7 @@ const useAction = (props: {
         const data = travelRequestForms.map(
           (item: TravelApplicationResponses) => ({
             value: item.id,
-            label: `用户ID:${item.userId} 申请表格ID:${item.customPrice}`,
+            label: `用户ID:${item.userId} 申请表单ID:${item.id}`,
           })
         );
         return data as unknown as UserValue[];
