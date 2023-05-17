@@ -66,7 +66,7 @@ const ApplyModal = (props: {
                   travelInvoiceIds: newValue as UserValue[],
                 }));
               }}
-              style={{ width: "100%" }}
+              className="w-full max-h-12 overflow-y-auto"
             />
           </div>
           <div className="flex items-center w-full my-7">
