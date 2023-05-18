@@ -67,26 +67,17 @@ const useAction = (props: ApplyModalProps) => {
 
   const handleAddExpense = () => {
     if (!addExpenseData.title) {
-      message.open({
-        type: "warning",
-        content: "The title field needs to be filled in",
-      });
+      message.warning("The title field needs to be filled in");
       return;
     }
 
     if (addExpenseData.travelRequestFormId.length < 1) {
-      message.open({
-        type: "warning",
-        content: "TravelRequestFormId needs to be selected",
-      });
+      message.warning("TravelRequestFormId needs to be selected");
       return;
     }
 
     if (addExpenseData.travelRequestFormId.length < 1) {
-      message.open({
-        type: "warning",
-        content: "TravelInvoiceIds needs to be selected",
-      });
+      message.warning("TravelInvoiceIds needs to be selected");
       return;
     }
 
@@ -112,10 +103,7 @@ const useAction = (props: ApplyModalProps) => {
     PostAddExpense(data)
       .then((res) => {
         setIsModalOpen(false);
-        message.open({
-          type: "success",
-          content: "Successfully applied",
-        });
+        message.success("Successfully applied");
         getExpenseList();
         setAddExpenseData({
           title: "",
@@ -126,10 +114,7 @@ const useAction = (props: ApplyModalProps) => {
         setLoading(false);
       })
       .catch((err) => {
-        message.open({
-          type: "error",
-          content: "Unsuccessful",
-        });
+        message.error("Unsuccessful");
         setAddExpenseData({
           title: "",
           type: TravelExpenseFormType.TourismFund,
