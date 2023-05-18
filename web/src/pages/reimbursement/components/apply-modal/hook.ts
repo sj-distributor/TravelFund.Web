@@ -19,6 +19,7 @@ const useAction = (props: ApplyModalProps) => {
   const [messageApi, contextHolder] = message.useMessage();
   const { setIsModalOpen, getExpenseList } = props;
   const [uploadImg, setUploadImg] = useState<string>("");
+  const [loading, setLoading] = useState(false);
   const [dto, setDto] = useState<DtoType>({
     title: "",
     type: 10,
@@ -120,7 +121,7 @@ const useAction = (props: ApplyModalProps) => {
         travelInvoiceIds,
       },
     };
-
+    setLoading(true);
     PostAddExpense(data)
       .then((res) => {
         setIsModalOpen(false);
@@ -135,6 +136,7 @@ const useAction = (props: ApplyModalProps) => {
           travelRequestFormId: [],
           travelInvoiceIds: [],
         });
+        setLoading(false);
       })
       .catch((err) => {
         messageApi.open({
@@ -147,6 +149,7 @@ const useAction = (props: ApplyModalProps) => {
           travelRequestFormId: [],
           travelInvoiceIds: [],
         });
+        setLoading(false);
       });
   };
 
@@ -156,6 +159,7 @@ const useAction = (props: ApplyModalProps) => {
     uploadFile,
     uploadImg,
     dto,
+    loading,
     handleAddExpense,
     setDto,
     fetchUserList,

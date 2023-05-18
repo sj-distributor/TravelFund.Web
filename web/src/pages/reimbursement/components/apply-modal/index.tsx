@@ -14,6 +14,7 @@ const ApplyModal = (props: ApplyModalProps) => {
     handleAddExpense,
     setDto,
     fetchUserList,
+    loading,
   } = useAction({ setIsModalOpen, getExpenseList });
 
   return (
@@ -85,6 +86,7 @@ const ApplyModal = (props: ApplyModalProps) => {
             type="primary"
             className="bg-gray-700 text-white"
             htmlType="submit"
+            loading={loading}
             onClick={handleAddExpense}
           >
             申请
