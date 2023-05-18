@@ -1,83 +1,49 @@
-import { useState } from "react"
-import { ApplyReimbursementProps } from "@/services/dtos/apply-reimbursement"
+import { useEffect, useState } from "react";
+import { TravelExpenseFormDto } from "../../services/dtos/apply-reimbursement";
+import { GetExpenseList } from "../../services/api/reimbursement";
 
 const useAction = () => {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [tableLoading, setTableLoading] = useState<boolean>(false);
+  const applyReimbursementList: TravelExpenseFormDto[] = [];
+  const [applyReimbursement, setApplyReimbursement] = useState<
+    TravelExpenseFormDto[]
+  >(applyReimbursementList);
+  const [pageDto, setPageDto] = useState({
+    PageIndex: 1,
+    PageSize: 10,
+    Count: 1,
+  });
 
-  const applyReimbursement: ApplyReimbursementProps[] = [
-    {
-      id: 1,
-      applyName: "SARAH1的报销申请",
-      applyType: "旅游基金",
-      applyDate: "2023/05/30",
-      applyProgress: "审批中",
-    },
-    {
-      id: 2,
-      applyName: "SARAH2的报销申请",
-      applyType: "旅游基金",
-      applyDate: "2023/06/30",
-      applyProgress: "审批中",
-    },
-    {
-      id: 3,
-      applyName: "SARAH3的报销申请",
-      applyType: "旅游基金",
-      applyDate: "2022/04/30",
-      applyProgress: "审批中",
-    },
-    {
-      id: 4,
-      applyName: "SARAH4的报销申请",
-      applyType: "旅游基金",
-      applyDate: "2023/04/23",
-      applyProgress: "审批中",
-    },
-    {
-      id: 5,
-      applyName: "SARAH5的报销申请",
-      applyType: "旅游基金",
-      applyDate: "2023/02/29",
-      applyProgress: "审批中",
-    },
-    {
-      id: 6,
-      applyName: "SARAH6的报销申请",
-      applyType: "旅游基金",
-      applyDate: "2023/02/29",
-      applyProgress: "审批中",
-    },
-    // {
-    //   id: 7,
-    //   applyName: "SARAH7的报销申请",
-    //   applyType: "旅游基金",
-    //   applyDate: "2023/02/29",
-    //   applyProgress: "审批中",
-    // },
-    // {
-    //   id: 8,
-    //   applyName: "SARAH7的报销申请",
-    //   applyType: "旅游基金",
-    //   applyDate: "2023/02/29",
-    //   applyProgress: "审批中",
-    // },
-    // {
-    //   id: 9,
-    //   applyName: "SARAH7的报销申请",
-    //   applyType: "旅游基金",
-    //   applyDate: "2023/02/29",
-    //   applyProgress: "审批中",
-    // },
-    // {
-    //   id: 10,
-    //   applyName: "SARAH7的报销申请",
-    //   applyType: "旅游基金",
-    //   applyDate: "2023/02/29",
-    //   applyProgress: "审批中",
-    // },
-  ]
+  const getExpenseList = () => {
+    setTableLoading(true);
 
-  return { applyReimbursement, isModalOpen, setIsModalOpen }
-}
+    GetExpenseList({ PageIndex: pageDto.PageIndex, PageSize: pageDto.PageSize })
+      .then((res) => {
+        if (res) {
+          setPageDto((prev) => ({ ...prev, Count: res.count }));
+          setApplyReimbursement(res.travelExpenseForms);
+        }
+        setTableLoading(false);
+      })
+      .catch((err) => {
+        setTableLoading(false);
+      });
+  };
 
-export default useAction
+  useEffect(() => {
+    getExpenseList();
+  }, [pageDto.PageIndex, pageDto.PageSize]);
+
+  return {
+    applyReimbursement,
+    isModalOpen,
+    tableLoading,
+    pageDto,
+    setIsModalOpen,
+    getExpenseList,
+    setPageDto,
+  };
+};
+
+export default useAction;

@@ -1,81 +1,118 @@
-import Table, { ColumnsType } from "antd/es/table"
-
-import { filterArray } from "../../../../utils/table/fliter-table"
-import { ApplyReimbursementProps } from "@/services/dtos/apply-reimbursement"
+import Table, { ColumnsType } from "antd/es/table";
+import dayjs from "dayjs";
+import {
+  AuditStatusType,
+  TravelExpenseFormDto,
+  TravelExpenseFormType,
+} from "../../../../services/dtos/apply-reimbursement";
 
 const TableList = ({
   applyReimbursement,
+  tableLoading,
 }: {
-  applyReimbursement: ApplyReimbursementProps[]
+  applyReimbursement: TravelExpenseFormDto[];
+  tableLoading: boolean;
 }) => {
-  const columnsTodoList: ColumnsType<ApplyReimbursementProps> = [
+  const columnsTodoList: ColumnsType<TravelExpenseFormDto> = [
     {
-      title: "申请名称",
-      dataIndex: "applyName",
+      title: "标题",
+      dataIndex: "title",
       align: "center",
-      filters:
-        applyReimbursement &&
-        filterArray(
-          applyReimbursement
-            .filter((x: { applyName: string }) => !!x.applyName)
-            .map((item: { applyName: string }) => item.applyName)
-        ),
-      onFilter: (value: any, record) => record.applyName.indexOf(value) === 0,
       filterMultiple: false,
     },
     {
-      title: "申请类型",
-      dataIndex: "applyType",
+      title: "用户ID",
+      dataIndex: "userId",
       align: "center",
-      filters:
-        applyReimbursement &&
-        filterArray(
-          applyReimbursement
-            .filter((x: { applyType: string }) => !!x.applyType)
-            .map((item: { applyType: string }) => item.applyType)
-        ),
-      onFilter: (value: any, record) => record.applyType.indexOf(value) === 0,
+      key: "userId",
       filterMultiple: false,
+    },
+    {
+      title: "AI审核状态",
+      dataIndex: "aiStatus",
+      key: "aiStatus",
+      align: "center",
+      filterMultiple: false,
+      render: (text) => {
+        return (
+          <div>
+            {text === AuditStatusType.Pending
+              ? "待审核中"
+              : text === AuditStatusType.Approved
+              ? "审核通过"
+              : text === AuditStatusType.Rejected
+              ? "审核不通过"
+              : text === AuditStatusType.Inprogress && "审核中"}
+          </div>
+        );
+      },
+    },
+    {
+      title: "人工审核状态",
+      dataIndex: "manualStatus",
+      key: "manualStatus",
+      align: "center",
+      filterMultiple: false,
+      render: (text) => {
+        return (
+          <div>
+            {text === AuditStatusType.Pending
+              ? "待审核中"
+              : text === AuditStatusType.Approved
+              ? "审核通过"
+              : text === AuditStatusType.Rejected
+              ? "审核不通过"
+              : text === AuditStatusType.Inprogress && "审核中"}
+          </div>
+        );
+      },
+    },
+    {
+      title: "报销类型",
+      dataIndex: "type",
+      key: "type",
+      align: "center",
+      filterMultiple: false,
+      render: (text) => {
+        return (
+          <div>
+            {text === TravelExpenseFormType.TourismFund ? "旅游基金" : text}
+          </div>
+        );
+      },
     },
     {
       title: "申请日期",
-      dataIndex: "applyDate",
+      dataIndex: "createdDate",
+      key: "createdDate",
       align: "center",
-      filters:
-        applyReimbursement &&
-        filterArray(
-          applyReimbursement
-            .filter((x: { applyDate: string }) => !!x.applyDate)
-            .map((item: { applyDate: string }) => item.applyDate)
-        ),
-      onFilter: (value: any, record) => record.applyDate.indexOf(value) === 0,
       filterMultiple: false,
+      render: (text) => {
+        return <div>{dayjs(text).format("YYYY-MM-DD")}</div>;
+      },
     },
     {
-      title: "进度",
-      dataIndex: "applyProgress",
+      title: "审批日期",
+      dataIndex: "approvedDate",
+      key: "approvedDate",
       align: "center",
-      filters:
-        applyReimbursement &&
-        filterArray(
-          applyReimbursement
-            .filter((x: { applyProgress: string }) => !!x.applyProgress)
-            .map((item: { applyProgress: string }) => item.applyProgress)
-        ),
-      onFilter: (value: any, record) =>
-        record.applyProgress.indexOf(value) === 0,
       filterMultiple: false,
+      render: (text) => {
+        return <div>{text ? dayjs(text).format("YYYY-MM-DD") : "审核中"}</div>;
+      },
     },
-  ]
+  ];
   return (
     <Table
       className="mt-3 mx-3"
       columns={columnsTodoList}
       dataSource={applyReimbursement}
       rowKey={(record) => record.id}
+      loading={tableLoading}
       scroll={{ x: 800 }}
+      pagination={false}
     />
-  )
-}
+  );
+};
 
-export default TableList
+export default TableList;

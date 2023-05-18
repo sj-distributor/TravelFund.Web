@@ -1,13 +1,13 @@
-import Table, { ColumnsType } from "antd/es/table"
+import Table, { ColumnsType } from "antd/es/table";
 
-import { TravelApplicationResponses } from "../../../../services/dtos/travel-application"
+import { TravelApplicationResponses } from "../../../../services/dtos/travel-application";
 
-import moment from "moment"
+import moment from "moment";
 
 const TableList = ({
   applicateList,
 }: {
-  applicateList?: TravelApplicationResponses[]
+  applicateList?: TravelApplicationResponses[];
 }) => {
   const columnsTodoList: ColumnsType<TravelApplicationResponses> = [
     {
@@ -20,7 +20,7 @@ const TableList = ({
       dataIndex: "travelDate",
       align: "center",
       render: (text) => {
-        return <div>{moment(text).format("YYYY-MM-DD")}</div>
+        return <div>{moment(text).format("YYYY-MM-DD")}</div>;
       },
     },
     {
@@ -28,7 +28,7 @@ const TableList = ({
       dataIndex: "isGroup",
       align: "center",
       render: (text) => {
-        return <div>{text ? "是" : "否"}</div>
+        return <div>{text ? "是" : "否"}</div>;
       },
     },
     {
@@ -36,10 +36,10 @@ const TableList = ({
       dataIndex: "returnDate",
       align: "center",
       render: (text) => {
-        return <div>{moment(text).format("YYYY-MM-DD")}</div>
+        return <div>{moment(text).format("YYYY-MM-DD")}</div>;
       },
     },
-  ]
+  ];
   return (
     <Table
       className="mt-3 mx-3"
@@ -49,7 +49,7 @@ const TableList = ({
       rowKey={(record) => record.id}
       scroll={{ x: 800 }}
     />
-  )
-}
+  );
+};
 
-export default TableList
+export default TableList;

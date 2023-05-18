@@ -1,10 +1,18 @@
-import { Modal } from "antd"
-import ApplyModal from "./components/apply-modal"
-import TableList from "./components/table-list"
-import useAction from "./hook"
+import { Modal, Pagination } from "antd";
+import ApplyModal from "./components/apply-modal";
+import TableList from "./components/table-list";
+import useAction from "./hook";
 
 const ApproveManagement = () => {
-  const { applyReimbursement, isModalOpen, setIsModalOpen } = useAction()
+  const {
+    applyReimbursement,
+    isModalOpen,
+    tableLoading,
+    setIsModalOpen,
+    getExpenseList,
+    pageDto,
+    setPageDto,
+  } = useAction();
 
   return (
     <div className="w-full  h-[735px] flex flex-1 flex-col bg-gray-200">
@@ -16,7 +24,21 @@ const ApproveManagement = () => {
           <div className="text-white font-medium">新建申请</div>
         </div>
       </div>
-      <TableList applyReimbursement={applyReimbursement} />
+      <TableList
+        applyReimbursement={applyReimbursement}
+        tableLoading={tableLoading}
+      />
+      <div className="my-4 w-full flex">
+        <div className="ml-auto mr-3">
+          <Pagination
+            total={pageDto.Count}
+            pageSize={pageDto.PageSize}
+            onChange={(page) =>
+              setPageDto((prve) => ({ ...prve, PageIndex: page }))
+            }
+          />
+        </div>
+      </div>
       <Modal
         className="mt-20"
         title="新建申请"
@@ -26,9 +48,12 @@ const ApproveManagement = () => {
         onOk={() => setIsModalOpen(false)}
         onCancel={() => setIsModalOpen(false)}
       >
-        <ApplyModal />
+        <ApplyModal
+          setIsModalOpen={setIsModalOpen}
+          getExpenseList={getExpenseList}
+        />
       </Modal>
     </div>
-  )
-}
-export default ApproveManagement
+  );
+};
+export default ApproveManagement;
