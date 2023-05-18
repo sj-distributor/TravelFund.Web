@@ -9,18 +9,18 @@ const useAction = () => {
   const [applyReimbursement, setApplyReimbursement] = useState<
     TravelExpenseFormDto[]
   >(applyReimbursementList);
-  const [dto, setDto] = useState({
+  const [pageDto, setPageDto] = useState({
     PageIndex: 1,
     PageSize: 10,
-    count: 1,
+    Count: 1,
   });
 
   const getExpenseList = () => {
     setTableLoading(true);
-    GetExpenseList({ PageIndex: dto.PageIndex, PageSize: dto.PageSize })
+    GetExpenseList({ PageIndex: pageDto.PageIndex, PageSize: pageDto.PageSize })
       .then((res) => {
         if (res) {
-          setDto((prev) => ({ ...prev, count: res.count }));
+          setPageDto((prev) => ({ ...prev, Count: res.count }));
           setApplyReimbursement(res.travelExpenseForms);
         }
         setTableLoading(false);
@@ -32,7 +32,7 @@ const useAction = () => {
 
   useEffect(() => {
     getExpenseList();
-  }, [dto.PageIndex, dto.PageSize]);
+  }, [pageDto.PageIndex, pageDto.PageSize]);
 
   return {
     applyReimbursement,
@@ -40,8 +40,8 @@ const useAction = () => {
     tableLoading,
     setIsModalOpen,
     getExpenseList,
-    dto,
-    setDto,
+    pageDto,
+    setPageDto,
   };
 };
 

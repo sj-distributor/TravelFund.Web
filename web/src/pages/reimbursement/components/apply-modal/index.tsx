@@ -8,40 +8,41 @@ const ApplyModal = (props: ApplyModalProps) => {
   const { setIsModalOpen, getExpenseList } = props;
   const {
     reimburseTypeSelect,
-    contextHolder,
-    dto,
+    addExpenseData,
     fetchTravelRequestList,
     handleAddExpense,
-    setDto,
-    fetchUserList,
+    setAddExpenseData,
+    fetchInvoiceList,
     loading,
   } = useAction({ setIsModalOpen, getExpenseList });
 
   return (
     <>
-      {contextHolder}
       <div className="flex flex-col w-[30rem]">
         <div className="mx-10 relative">
           <div className="flex items-center w-full my-7">
             <div className="w-28 text-gray-900">申请标题：</div>
             <Input
-              value={dto.title}
-              placeholder="标题"
+              value={addExpenseData.title}
+              placeholder="输入报销申请标题"
               onChange={(e) =>
-                setDto((prve) => ({ ...prve, title: e.target.value }))
+                setAddExpenseData((prve) => ({
+                  ...prve,
+                  title: e.target.value,
+                }))
               }
             />
           </div>
           <div className="flex items-center w-full my-7">
             <div className="w-28 text-gray-900">申请表单：</div>
             <DebounceSelect
-              value={dto.travelRequestFormId}
+              value={addExpenseData.travelRequestFormId}
               placeholder="选择申请表单"
               showSearch
               fetchOptions={fetchTravelRequestList}
               style={{ width: "100%" }}
               onChange={(newValue) => {
-                setDto((prve) => ({
+                setAddExpenseData((prve) => ({
                   ...prve,
                   travelRequestFormId: newValue as UserValue[],
                 }));
@@ -52,11 +53,11 @@ const ApplyModal = (props: ApplyModalProps) => {
             <div className="w-28 text-gray-900">申请发票：</div>
             <DebounceSelect
               mode="multiple"
-              value={dto.travelInvoiceIds}
+              value={addExpenseData.travelInvoiceIds}
               placeholder="选择申请发票"
-              fetchOptions={fetchUserList}
+              fetchOptions={fetchInvoiceList}
               onChange={(newValue) => {
-                setDto((prve) => ({
+                setAddExpenseData((prve) => ({
                   ...prve,
                   travelInvoiceIds: newValue as UserValue[],
                 }));

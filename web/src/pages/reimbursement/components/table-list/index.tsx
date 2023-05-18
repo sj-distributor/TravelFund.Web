@@ -1,6 +1,10 @@
 import Table, { ColumnsType } from "antd/es/table";
-import moment from "moment";
-import { TravelExpenseFormDto } from "../../../../services/dtos/apply-reimbursement";
+import dayjs from "dayjs";
+import {
+  AuditStatusType,
+  TravelExpenseFormDto,
+  TravelExpenseFormType,
+} from "../../../../services/dtos/apply-reimbursement";
 
 const TableList = ({
   applyReimbursement,
@@ -29,6 +33,19 @@ const TableList = ({
       key: "aiStatus",
       align: "center",
       filterMultiple: false,
+      render: (text) => {
+        return (
+          <div>
+            {text === AuditStatusType.Pending
+              ? "待审核中"
+              : text === AuditStatusType.Approved
+              ? "审核通过"
+              : text === AuditStatusType.Rejected
+              ? "审核不通过"
+              : text === AuditStatusType.Inprogress && "审核中"}
+          </div>
+        );
+      },
     },
     {
       title: "人工审核状态",
@@ -36,6 +53,19 @@ const TableList = ({
       key: "manualStatus",
       align: "center",
       filterMultiple: false,
+      render: (text) => {
+        return (
+          <div>
+            {text === AuditStatusType.Pending
+              ? "待审核中"
+              : text === AuditStatusType.Approved
+              ? "审核通过"
+              : text === AuditStatusType.Rejected
+              ? "审核不通过"
+              : text === AuditStatusType.Inprogress && "审核中"}
+          </div>
+        );
+      },
     },
     {
       title: "报销类型",
@@ -43,6 +73,13 @@ const TableList = ({
       key: "type",
       align: "center",
       filterMultiple: false,
+      render: (text) => {
+        return (
+          <div>
+            {text === TravelExpenseFormType.TourismFund ? "旅游基金" : text}
+          </div>
+        );
+      },
     },
     {
       title: "申请日期",
@@ -51,17 +88,17 @@ const TableList = ({
       align: "center",
       filterMultiple: false,
       render: (text) => {
-        return <div>{moment(text).format("YYYY-MM-DD")}</div>;
+        return <div>{dayjs(text).format("YYYY-MM-DD")}</div>;
       },
     },
     {
-      title: "申请通过日期",
+      title: "审批日期",
       dataIndex: "approvedDate",
       key: "approvedDate",
       align: "center",
       filterMultiple: false,
       render: (text) => {
-        return <div>{text ? moment(text).format("YYYY-MM-DD") : "审核中"}</div>;
+        return <div>{text ? dayjs(text).format("YYYY-MM-DD") : "审核中"}</div>;
       },
     },
   ];

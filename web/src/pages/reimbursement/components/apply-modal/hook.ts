@@ -1,39 +1,35 @@
 import { useState } from "react";
 import { ApplyModalProps, reimburseTypeOptions } from "./props";
-import {
-  PostAddExpense,
-  PostInvoiceImg,
-} from "../../../../services/api/reimbursement";
-import { message } from "antd";
+import { PostAddExpense } from "../../../../services/api/reimbursement";
 import { GetTravelApplicationList } from "../../../../services/api/travel-application";
 import { GetInvoiceList } from "../../../../services/api/invoice";
 import { TravelInvoices } from "../../../../services/dtos/invoice";
 import { TravelApplicationResponses } from "../../../../services/dtos/travel-application";
 import {
-  DtoType,
+  addExpenseDataType,
   PostAddExpenseDto,
+  TravelExpenseFormType,
   UserValue,
-} from "@/services/dtos/apply-reimbursement";
+} from "../../../../services/dtos/apply-reimbursement";
+import { message } from "antd";
 
 const useAction = (props: ApplyModalProps) => {
-  const [messageApi, contextHolder] = message.useMessage();
   const { setIsModalOpen, getExpenseList } = props;
-  const [uploadImg, setUploadImg] = useState<string>("");
   const [loading, setLoading] = useState(false);
-  const [dto, setDto] = useState<DtoType>({
+  const [addExpenseData, setAddExpenseData] = useState<addExpenseDataType>({
     title: "",
-    type: 10,
+    type: TravelExpenseFormType.TourismFund,
     travelRequestFormId: [],
     travelInvoiceIds: [],
   });
   const reimburseTypeSelect: reimburseTypeOptions[] = [
     {
-      value: "10",
+      value: TravelExpenseFormType.TourismFund + "",
       label: "旅游基金",
     },
   ];
 
-  async function fetchUserList(id: string): Promise<UserValue[]> {
+  async function fetchInvoiceList(id: string): Promise<UserValue[]> {
     const data = await GetInvoiceList({
       PageIndex: 1,
       PageSize: 999,
@@ -69,37 +65,25 @@ const useAction = (props: ApplyModalProps) => {
     return data ? data : [];
   }
 
-  const uploadFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files?.length === 0) return;
-    const file = e.target.files && e.target.files[0];
-    e.target.value = "";
-    const formData = new FormData();
-    formData.append("file", file!);
-    const attachmentId = await PostInvoiceImg(formData);
-    if (attachmentId) {
-      setUploadImg(attachmentId.fileUrl);
-    }
-  };
-
   const handleAddExpense = () => {
-    if (!dto.title) {
-      messageApi.open({
+    if (!addExpenseData.title) {
+      message.open({
         type: "warning",
         content: "The title field needs to be filled in",
       });
       return;
     }
 
-    if (dto.travelRequestFormId.length < 1) {
-      messageApi.open({
+    if (addExpenseData.travelRequestFormId.length < 1) {
+      message.open({
         type: "warning",
         content: "TravelRequestFormId needs to be selected",
       });
       return;
     }
 
-    if (dto.travelRequestFormId.length < 1) {
-      messageApi.open({
+    if (addExpenseData.travelRequestFormId.length < 1) {
+      message.open({
         type: "warning",
         content: "TravelInvoiceIds needs to be selected",
       });
@@ -108,15 +92,18 @@ const useAction = (props: ApplyModalProps) => {
 
     let travelInvoiceIds: number[] = [];
     let travelRequestFormId: number;
-    travelRequestFormId = +(dto.travelRequestFormId as unknown as UserValue)
-      .value;
+    travelRequestFormId = +(
+      addExpenseData.travelRequestFormId as unknown as UserValue
+    ).value;
 
-    dto.travelInvoiceIds.map((item) => travelInvoiceIds.push(+item.value));
+    addExpenseData.travelInvoiceIds.map((item) =>
+      travelInvoiceIds.push(+item.value)
+    );
 
     const data: PostAddExpenseDto = {
       travelExpenseFormData: {
-        title: dto.title,
-        type: +dto.type,
+        title: addExpenseData.title,
+        type: +addExpenseData.type,
         travelRequestFormId,
         travelInvoiceIds,
       },
@@ -125,27 +112,27 @@ const useAction = (props: ApplyModalProps) => {
     PostAddExpense(data)
       .then((res) => {
         setIsModalOpen(false);
-        messageApi.open({
+        message.open({
           type: "success",
           content: "Successfully applied",
         });
         getExpenseList();
-        setDto({
+        setAddExpenseData({
           title: "",
-          type: 10,
+          type: TravelExpenseFormType.TourismFund,
           travelRequestFormId: [],
           travelInvoiceIds: [],
         });
         setLoading(false);
       })
       .catch((err) => {
-        messageApi.open({
+        message.open({
           type: "error",
           content: "Unsuccessful",
         });
-        setDto({
+        setAddExpenseData({
           title: "",
-          type: 10,
+          type: TravelExpenseFormType.TourismFund,
           travelRequestFormId: [],
           travelInvoiceIds: [],
         });
@@ -155,14 +142,11 @@ const useAction = (props: ApplyModalProps) => {
 
   return {
     reimburseTypeSelect,
-    contextHolder,
-    uploadFile,
-    uploadImg,
-    dto,
+    addExpenseData,
     loading,
     handleAddExpense,
-    setDto,
-    fetchUserList,
+    setAddExpenseData,
+    fetchInvoiceList,
     fetchTravelRequestList,
   };
 };

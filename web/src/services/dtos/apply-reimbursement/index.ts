@@ -51,9 +51,20 @@ export interface UserValue {
   value: string;
 }
 
-export interface DtoType {
+export interface addExpenseDataType {
   title: string;
   type: number;
   travelRequestFormId: UserValue[];
   travelInvoiceIds: UserValue[];
+}
+
+export enum TravelExpenseFormType {
+  TourismFund = 10,
+}
+
+export enum AuditStatusType {
+  Pending = 10,
+  Inprogress = 20,
+  Rejected = 40,
+  Approved = 80,
 }

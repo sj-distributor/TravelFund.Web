@@ -10,8 +10,8 @@ const ApproveManagement = () => {
     tableLoading,
     setIsModalOpen,
     getExpenseList,
-    dto,
-    setDto,
+    pageDto,
+    setPageDto,
   } = useAction();
 
   return (
@@ -31,10 +31,10 @@ const ApproveManagement = () => {
       <div className="my-4 w-full flex">
         <div className="ml-auto mr-3">
           <Pagination
-            total={dto.count}
-            pageSize={dto.PageSize}
+            total={pageDto.Count}
+            pageSize={pageDto.PageSize}
             onChange={(page) =>
-              setDto((prve) => ({ ...prve, PageIndex: page }))
+              setPageDto((prve) => ({ ...prve, PageIndex: page }))
             }
           />
         </div>
