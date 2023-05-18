@@ -45,36 +45,44 @@ const useAction = (props: ApplyModalProps) => {
     GetInvoiceList({
       PageIndex: invoiceListDto.PageIndex,
       PageSize: invoiceListDto.PageSize,
-    }).then((res) => {
-      if (res && res.travelInvoices) {
-        const travelInvoices = res.travelInvoices;
-        const data = travelInvoices.map((item: TravelInvoices) => ({
-          value: item.id,
-          label: `发票ID:${item.id} `,
-        }));
-        setInvoiceList((prve) => [...prve, ...data]);
-        setInvoiceListDto((prve) => ({ ...prve, Count: res.count }));
-      }
-    });
+    })
+      .then((res) => {
+        if (res && res.travelInvoices) {
+          const travelInvoices = res.travelInvoices;
+          const data = travelInvoices.map((item: TravelInvoices) => ({
+            value: item.id,
+            label: `发票ID:${item.id} `,
+          }));
+          setInvoiceList((prve) => [...prve, ...data]);
+          setInvoiceListDto((prve) => ({ ...prve, Count: res.count }));
+        }
+      })
+      .catch((err) => {
+        message.error("Failed to obtain data");
+      });
   };
 
   const getTravelRequestList = () => {
     GetTravelApplicationList({
       PageIndex: travelRequestListDto.PageIndex,
       PageSize: travelRequestListDto.PageSize,
-    }).then((res) => {
-      if (res) {
-        const travelRequestForms = res?.travelRequestForms;
-        const data = travelRequestForms.map(
-          (item: TravelApplicationResponses) => ({
-            value: item.id,
-            label: `用户ID:${item.userId} 申请表单ID:${item.id}`,
-          })
-        );
-        setTravelRequestList((prve) => [...prve, ...data]);
-        setTravelRequestListDto((prve) => ({ ...prve, Count: res.count }));
-      }
-    });
+    })
+      .then((res) => {
+        if (res) {
+          const travelRequestForms = res?.travelRequestForms;
+          const data = travelRequestForms.map(
+            (item: TravelApplicationResponses) => ({
+              value: item.id,
+              label: `用户ID:${item.userId} 申请表单ID:${item.id}`,
+            })
+          );
+          setTravelRequestList((prve) => [...prve, ...data]);
+          setTravelRequestListDto((prve) => ({ ...prve, Count: res.count }));
+        }
+      })
+      .catch((err) => {
+        message.error("Failed to obtain data");
+      });
   };
 
   const handleAddExpense = () => {
@@ -133,7 +141,7 @@ const useAction = (props: ApplyModalProps) => {
 
     if (parentClientHeight) {
       if (
-        clientHeight + 1 > parentClientHeight &&
+        clientHeight + 3 > parentClientHeight &&
         (type === "travelInvoice"
           ? invoiceListDto.Count
           : travelRequestListDto.Count) >
