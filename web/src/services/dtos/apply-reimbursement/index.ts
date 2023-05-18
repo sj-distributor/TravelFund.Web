@@ -23,9 +23,9 @@ export interface PostAddExpenseDto {
 export interface TravelExpenseFormDto {
   id: number;
   userId: number;
-  aiStatus: number; //Enum:[ 10, 20, 40, 80 ]
-  manualStatus: number; //Enum:[ 10, 20, 40, 80 ]
-  type: number; //Enum:[10]
+  aiStatus: AuditStatusType;
+  manualStatus: AuditStatusType;
+  type: TravelExpenseFormType; //Enum:[10]
   title: string;
   createdDate: string;
   approvedDate: string;
