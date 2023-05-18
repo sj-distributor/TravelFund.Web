@@ -1,7 +1,7 @@
 import { Button, Input, Select } from "antd";
 import DebounceSelect from "../debounce-select";
 import useAction from "./hook";
-import { UserValue } from "@/services/dtos/apply-reimbursement";
+import { SelectValue } from "@/services/dtos/apply-reimbursement";
 import { ApplyModalProps } from "./props";
 
 const ApplyModal = (props: ApplyModalProps) => {
@@ -9,10 +9,11 @@ const ApplyModal = (props: ApplyModalProps) => {
   const {
     reimburseTypeSelect,
     addExpenseData,
-    fetchTravelRequestList,
+    travelRequestList,
     handleAddExpense,
     setAddExpenseData,
-    fetchInvoiceList,
+    invoiceList,
+    handleSelectScroll,
     loading,
   } = useAction({ setIsModalOpen, getExpenseList });
 
@@ -35,33 +36,42 @@ const ApplyModal = (props: ApplyModalProps) => {
           </div>
           <div className="flex items-center w-full my-7">
             <div className="w-28 text-gray-900">申请表单：</div>
-            <DebounceSelect
-              value={addExpenseData.travelRequestFormId}
+            <Select
+              value={
+                addExpenseData.travelRequestFormId
+                  ? addExpenseData.travelRequestFormId
+                  : undefined
+              }
               placeholder="选择申请表单"
               showSearch
-              fetchOptions={fetchTravelRequestList}
+              options={travelRequestList}
+              filterOption
               style={{ width: "100%" }}
               onChange={(newValue) => {
                 setAddExpenseData((prve) => ({
                   ...prve,
-                  travelRequestFormId: newValue as UserValue[],
+                  travelRequestFormId: newValue,
                 }));
               }}
+              onPopupScroll={(e) => handleSelectScroll(e, "requestFrom")}
             />
           </div>
           <div className="flex items-center w-full my-7">
             <div className="w-28 text-gray-900">申请发票：</div>
-            <DebounceSelect
+            <Select
               mode="multiple"
               value={addExpenseData.travelInvoiceIds}
               placeholder="选择申请发票"
-              fetchOptions={fetchInvoiceList}
+              options={invoiceList}
+              filterOption
+              allowClear
               onChange={(newValue) => {
                 setAddExpenseData((prve) => ({
                   ...prve,
-                  travelInvoiceIds: newValue as UserValue[],
+                  travelInvoiceIds: newValue as number[],
                 }));
               }}
+              onPopupScroll={(e) => handleSelectScroll(e, "travelInvoice")}
               className="w-full max-h-12 overflow-y-auto"
             />
           </div>
@@ -71,14 +81,10 @@ const ApplyModal = (props: ApplyModalProps) => {
               className="w-full"
               showSearch
               placeholder=""
+              value={addExpenseData.type + ""}
               defaultValue={"旅游基金"}
               optionFilterProp="children"
               options={reimburseTypeSelect}
-              filterOption={(input, option) =>
-                (option?.label ?? "")
-                  .toLowerCase()
-                  .includes(input.toLowerCase())
-              }
             />
           </div>
         </div>

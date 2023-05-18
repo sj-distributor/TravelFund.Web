@@ -46,16 +46,16 @@ export interface AddExpenseResponse {
   code: number;
 }
 
-export interface UserValue {
+export interface SelectValue {
   label: string;
-  value: string;
+  value: number;
 }
 
 export interface addExpenseDataType {
   title: string;
   type: number;
-  travelRequestFormId: UserValue[];
-  travelInvoiceIds: UserValue[];
+  travelRequestFormId: number;
+  travelInvoiceIds: number[];
 }
 
 export enum TravelExpenseFormType {

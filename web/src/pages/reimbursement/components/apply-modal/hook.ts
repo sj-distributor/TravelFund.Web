@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ApplyModalProps, reimburseTypeOptions } from "./props";
 import { PostAddExpense } from "../../../../services/api/reimbursement";
 import { GetTravelApplicationList } from "../../../../services/api/travel-application";
@@ -9,7 +9,7 @@ import {
   addExpenseDataType,
   PostAddExpenseDto,
   TravelExpenseFormType,
-  UserValue,
+  SelectValue,
 } from "../../../../services/dtos/apply-reimbursement";
 import { message } from "antd";
 
@@ -19,7 +19,7 @@ const useAction = (props: ApplyModalProps) => {
   const [addExpenseData, setAddExpenseData] = useState<addExpenseDataType>({
     title: "",
     type: TravelExpenseFormType.TourismFund,
-    travelRequestFormId: [],
+    travelRequestFormId: 0,
     travelInvoiceIds: [],
   });
   const reimburseTypeSelect: reimburseTypeOptions[] = [
@@ -28,11 +28,23 @@ const useAction = (props: ApplyModalProps) => {
       label: "旅游基金",
     },
   ];
+  const [invoiceListDto, setInvoiceListDto] = useState({
+    PageIndex: 1,
+    PageSize: 10,
+    Count: 1,
+  });
+  const [travelRequestListDto, setTravelRequestListDto] = useState({
+    PageIndex: 1,
+    PageSize: 10,
+    Count: 1,
+  });
+  const [invoiceList, setInvoiceList] = useState<SelectValue[]>([]);
+  const [travelRequestList, setTravelRequestList] = useState<SelectValue[]>([]);
 
-  async function fetchInvoiceList(id: string): Promise<UserValue[]> {
-    const data = await GetInvoiceList({
-      PageIndex: 1,
-      PageSize: 999,
+  const getInvoiceList = () => {
+    GetInvoiceList({
+      PageIndex: invoiceListDto.PageIndex,
+      PageSize: invoiceListDto.PageSize,
     }).then((res) => {
       if (res && res.travelInvoices) {
         const travelInvoices = res.travelInvoices;
@@ -40,16 +52,16 @@ const useAction = (props: ApplyModalProps) => {
           value: item.id,
           label: `发票ID:${item.id} `,
         }));
-        return data as unknown as UserValue[];
+        setInvoiceList((prve) => [...prve, ...data]);
+        setInvoiceListDto((prve) => ({ ...prve, Count: res.count }));
       }
     });
-    return data ? data : [];
-  }
+  };
 
-  async function fetchTravelRequestList(id: string): Promise<UserValue[]> {
-    const data = await GetTravelApplicationList({
-      PageIndex: 1,
-      PageSize: 999,
+  const getTravelRequestList = () => {
+    GetTravelApplicationList({
+      PageIndex: travelRequestListDto.PageIndex,
+      PageSize: travelRequestListDto.PageSize,
     }).then((res) => {
       if (res) {
         const travelRequestForms = res?.travelRequestForms;
@@ -59,11 +71,11 @@ const useAction = (props: ApplyModalProps) => {
             label: `用户ID:${item.userId} 申请表单ID:${item.id}`,
           })
         );
-        return data as unknown as UserValue[];
+        setTravelRequestList((prve) => [...prve, ...data]);
+        setTravelRequestListDto((prve) => ({ ...prve, Count: res.count }));
       }
     });
-    return data ? data : [];
-  }
+  };
 
   const handleAddExpense = () => {
     if (!addExpenseData.title) {
@@ -71,35 +83,21 @@ const useAction = (props: ApplyModalProps) => {
       return;
     }
 
-    if (addExpenseData.travelRequestFormId.length < 1) {
+    if (!addExpenseData.travelRequestFormId) {
       message.warning("TravelRequestFormId needs to be selected");
       return;
     }
 
-    if (addExpenseData.travelRequestFormId.length < 1) {
+    if (addExpenseData.travelInvoiceIds.length < 1) {
       message.warning("TravelInvoiceIds needs to be selected");
       return;
     }
 
-    let travelInvoiceIds: number[] = [];
-    let travelRequestFormId: number;
-    travelRequestFormId = +(
-      addExpenseData.travelRequestFormId as unknown as UserValue
-    ).value;
-
-    addExpenseData.travelInvoiceIds.map((item) =>
-      travelInvoiceIds.push(+item.value)
-    );
-
     const data: PostAddExpenseDto = {
-      travelExpenseFormData: {
-        title: addExpenseData.title,
-        type: +addExpenseData.type,
-        travelRequestFormId,
-        travelInvoiceIds,
-      },
+      travelExpenseFormData: addExpenseData,
     };
     setLoading(true);
+
     PostAddExpense(data)
       .then((res) => {
         setIsModalOpen(false);
@@ -108,7 +106,7 @@ const useAction = (props: ApplyModalProps) => {
         setAddExpenseData({
           title: "",
           type: TravelExpenseFormType.TourismFund,
-          travelRequestFormId: [],
+          travelRequestFormId: 0,
           travelInvoiceIds: [],
         });
         setLoading(false);
@@ -118,12 +116,52 @@ const useAction = (props: ApplyModalProps) => {
         setAddExpenseData({
           title: "",
           type: TravelExpenseFormType.TourismFund,
-          travelRequestFormId: [],
+          travelRequestFormId: 0,
           travelInvoiceIds: [],
         });
         setLoading(false);
       });
   };
+
+  const handleSelectScroll = async (
+    e: React.UIEvent<HTMLDivElement, UIEvent>,
+    type: string
+  ) => {
+    const { currentTarget } = e;
+    const parentClientHeight = currentTarget.firstElementChild?.clientHeight;
+    const clientHeight = currentTarget.clientHeight + currentTarget.scrollTop;
+
+    if (parentClientHeight) {
+      if (
+        clientHeight + 1 > parentClientHeight &&
+        (type === "travelInvoice"
+          ? invoiceListDto.Count
+          : travelRequestListDto.Count) >
+          (type === "travelInvoice"
+            ? invoiceList.length
+            : travelRequestList.length)
+      ) {
+        type === "travelInvoice" &&
+          setInvoiceListDto((prve) => ({
+            ...prve,
+            PageIndex: prve.PageIndex + 1,
+          }));
+        type === "requestFrom" &&
+          setTravelRequestListDto((prve) => ({
+            ...prve,
+            PageIndex: prve.PageIndex + 1,
+          }));
+      }
+    }
+  };
+
+  useEffect(() => {
+    getInvoiceList();
+  }, [invoiceListDto.PageIndex, invoiceListDto.PageSize]);
+
+  useEffect(() => {
+    getTravelRequestList();
+  }, [travelRequestListDto.PageIndex, travelRequestListDto.PageSize]);
 
   return {
     reimburseTypeSelect,
@@ -131,8 +169,9 @@ const useAction = (props: ApplyModalProps) => {
     loading,
     handleAddExpense,
     setAddExpenseData,
-    fetchInvoiceList,
-    fetchTravelRequestList,
+    invoiceList,
+    travelRequestList,
+    handleSelectScroll,
   };
 };
 

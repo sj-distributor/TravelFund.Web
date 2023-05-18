@@ -17,6 +17,7 @@ const useAction = () => {
 
   const getExpenseList = () => {
     setTableLoading(true);
+
     GetExpenseList({ PageIndex: pageDto.PageIndex, PageSize: pageDto.PageSize })
       .then((res) => {
         if (res) {
@@ -38,9 +39,9 @@ const useAction = () => {
     applyReimbursement,
     isModalOpen,
     tableLoading,
+    pageDto,
     setIsModalOpen,
     getExpenseList,
-    pageDto,
     setPageDto,
   };
 };
