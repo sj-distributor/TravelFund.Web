@@ -1,15 +1,15 @@
-import useAction from "./hook"
+import useAction from "./hook";
 
 import {
   ApplyDataProps,
   ApproveModalListProps,
   Invoice,
-} from "@/services/dtos/approve-management"
+} from "@/services/dtos/approve-management";
 
 const ApprovedModal = (props: { currentListData: ApplyDataProps }) => {
-  let currentListData = props.currentListData
+  let currentListData = props.currentListData;
 
-  const { approveModalList } = useAction(currentListData)
+  const { approveModalList } = useAction(currentListData);
 
   const approveModalTitle = (item: ApproveModalListProps) => {
     switch (item.title) {
@@ -26,10 +26,10 @@ const ApprovedModal = (props: { currentListData: ApplyDataProps }) => {
                     {applyItem.applicationContent}
                   </div>
                 </div>
-              )
+              );
             })}
           </div>
-        )
+        );
       case "附件":
         return (
           <div className="max-h-60 overflow-y-scroll">
@@ -62,10 +62,10 @@ const ApprovedModal = (props: { currentListData: ApplyDataProps }) => {
                     </div>
                   </div>
                 </div>
-              )
+              );
             })}
           </div>
-        )
+        );
       case "AI审批意见":
         return (
           <div>
@@ -80,7 +80,7 @@ const ApprovedModal = (props: { currentListData: ApplyDataProps }) => {
               </div>
             </div>
           </div>
-        )
+        );
       case "人工审批意见":
         return (
           <div className="relative">
@@ -90,9 +90,9 @@ const ApprovedModal = (props: { currentListData: ApplyDataProps }) => {
               </div>
             </div>
           </div>
-        )
+        );
     }
-  }
+  };
 
   return (
     <>
@@ -105,10 +105,10 @@ const ApprovedModal = (props: { currentListData: ApplyDataProps }) => {
             </div>
             <div className="h-px bg-gray-200 " />
           </>
-        )
+        );
       })}
     </>
-  )
-}
+  );
+};
 
-export default ApprovedModal
+export default ApprovedModal;

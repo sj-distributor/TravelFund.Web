@@ -1,7 +1,7 @@
-import Table, { ColumnsType } from "antd/es/table"
-import { filterArray } from "../../../../utils/table/fliter-table"
+import Table, { ColumnsType } from "antd/es/table";
+import { filterArray } from "../../../../utils/table/fliter-table";
 
-import { ReportDataProps } from "@/services/dtos/report"
+import { ReportDataProps } from "@/services/dtos/report";
 
 const TableList = ({ reportData }: { reportData: ReportDataProps[] }) => {
   const columnsTodoList: ColumnsType<ReportDataProps> = [
@@ -105,7 +105,7 @@ const TableList = ({ reportData }: { reportData: ReportDataProps[] }) => {
       onFilter: (value: any, record) => record.approver.indexOf(value) === 0,
       filterMultiple: false,
     },
-  ]
+  ];
 
   return (
     <Table
@@ -115,6 +115,6 @@ const TableList = ({ reportData }: { reportData: ReportDataProps[] }) => {
       rowKey={(record) => record.id}
       scroll={{ x: 800 }}
     />
-  )
-}
-export default TableList
+  );
+};
+export default TableList;

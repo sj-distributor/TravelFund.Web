@@ -1,13 +1,13 @@
-import TableList from "./components/table-list"
-import ExportFile from "../../components/export-file"
-import useAction from "./hook"
+import TableList from "./components/table-list";
+import ExportFile from "../../components/export-file";
+import useAction from "./hook";
 
-import { DatePicker } from "antd"
+import { DatePicker } from "antd";
 
 const Report = () => {
-  const { reportData, onChangeRangeDate } = useAction()
+  const { reportData, onChangeRangeDate } = useAction();
 
-  const { RangePicker } = DatePicker
+  const { RangePicker } = DatePicker;
 
   return (
     <div className="w-full  h-[735px] flex flex-1 flex-col bg-gray-200 overflow-hidden">
@@ -29,6 +29,6 @@ const Report = () => {
       </div>
       <TableList reportData={reportData} />
     </div>
-  )
-}
-export default Report
+  );
+};
+export default Report;

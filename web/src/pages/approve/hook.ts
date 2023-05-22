@@ -1,8 +1,8 @@
-import { useState } from "react"
-import { ApplyDataProps } from "@/services/dtos/approve-management"
+import { useState } from "react";
+import { ApplyDataProps } from "@/services/dtos/approve-management";
 
 const useAction = () => {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const applyData: ApplyDataProps[] = [
     {
@@ -133,11 +133,11 @@ const useAction = () => {
         },
       ],
     },
-  ]
+  ];
 
   const [currentListData, setCurrentListData] = useState<ApplyDataProps>(
     applyData[0]
-  )
+  );
 
   return {
     isModalOpen,
@@ -145,6 +145,6 @@ const useAction = () => {
     applyData,
     currentListData,
     setCurrentListData,
-  }
-}
-export default useAction
+  };
+};
+export default useAction;

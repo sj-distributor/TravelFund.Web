@@ -1,10 +1,10 @@
-import TableList from "./components/table-list"
-import ApplyModal from "./components/apply-modal"
+import TableList from "./components/table-list";
+import ApplyModal from "./components/apply-modal";
 
-import { Modal, Pagination, Spin } from "antd"
-import "../../antd.css"
+import { Modal, Pagination, Spin } from "antd";
+import "../../antd.css";
 
-import useAction from "./hook"
+import useAction from "./hook";
 
 const TravelApplication = () => {
   const {
@@ -17,10 +17,10 @@ const TravelApplication = () => {
     dto,
     setDto,
     tableLoading,
-  } = useAction()
+  } = useAction();
 
   return (
-    <div className="w-full  flex flex-1 flex-col bg-gray-200 overflow-y">
+    <div className="w-full h-[735px] flex flex-1 flex-col bg-gray-200 overflow-y">
       <div className="flex items-center mx-3 mt-3">
         <div
           className="flex justify-center items-center rounded-[0.5rem] w-24 h-10 bg-gray-600 cursor-pointer hover:bg-gray-700 ml-auto mr-5"
@@ -29,21 +29,15 @@ const TravelApplication = () => {
           <div className="text-white font-medium">新建申请</div>
         </div>
       </div>
-      {tableLoading === true ? (
-        <Spin size="large" />
-      ) : (
-        <>
-          <TableList applicateList={applicateList} />
-          <div className="my-4 w-full flex">
-            <div className="ml-auto mr-3">
-              <Pagination
-                total={totalNum}
-                onChange={(page) => setDto({ ...dto, pageIndex: page })}
-              />
-            </div>
-          </div>
-        </>
-      )}
+      <TableList applicateList={applicateList} tableLoading={tableLoading} />
+      <div className="my-4 w-full flex">
+        <div className="ml-auto mr-3">
+          <Pagination
+            total={totalNum}
+            onChange={(page) => setDto({ ...dto, pageIndex: page })}
+          />
+        </div>
+      </div>
 
       <Modal
         className="mt-20"
@@ -58,6 +52,6 @@ const TravelApplication = () => {
         />
       </Modal>
     </div>
-  )
-}
-export default TravelApplication
+  );
+};
+export default TravelApplication;

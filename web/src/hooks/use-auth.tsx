@@ -1,6 +1,6 @@
-import { useContext } from "react"
-import { AuthContext } from "./providers/auth-provider"
+import { useContext } from "react";
+import { AuthContext } from "./providers/auth-provider";
 
 export default function useAuth() {
-  return useContext(AuthContext)
+  return useContext(AuthContext);
 }

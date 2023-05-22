@@ -86,21 +86,6 @@ const useAction = (props: ApplyModalProps) => {
   };
 
   const handleAddExpense = () => {
-    if (!addExpenseData.title) {
-      message.warning("The title field needs to be filled in");
-      return;
-    }
-
-    if (!addExpenseData.travelRequestFormId) {
-      message.warning("TravelRequestFormId needs to be selected");
-      return;
-    }
-
-    if (addExpenseData.travelInvoiceIds.length < 1) {
-      message.warning("TravelInvoiceIds needs to be selected");
-      return;
-    }
-
     const data: PostAddExpenseDto = {
       travelExpenseFormData: addExpenseData,
     };

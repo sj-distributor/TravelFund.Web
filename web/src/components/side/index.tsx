@@ -1,17 +1,17 @@
-import { routerArray } from "../../router"
-import { useEffect, useState } from "react"
-import { useLocation } from "react-router-dom"
+import { routerArray } from "../../router";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const Side = () => {
-  const pathName = useLocation().pathname
+  const pathName = useLocation().pathname;
 
-  const [leftSideChildren, setLeftSideChildren] = useState<string>("")
+  const [leftSideChildren, setLeftSideChildren] = useState<string>("");
 
   useEffect(() => {
-    let locationIndex: number = 0
-    locationIndex = routerArray.findIndex((e) => pathName.search(e.path) > -1)
-    setLeftSideChildren(routerArray[locationIndex]?.leftSideChildren)
-  }, [pathName])
+    let locationIndex: number = 0;
+    locationIndex = routerArray.findIndex((e) => pathName.search(e.path) > -1);
+    setLeftSideChildren(routerArray[locationIndex]?.leftSideChildren);
+  }, [pathName]);
 
   return (
     <>
@@ -19,6 +19,6 @@ const Side = () => {
         <div className="cursor-pointer">{leftSideChildren}</div>
       </div>
     </>
-  )
-}
-export default Side
+  );
+};
+export default Side;

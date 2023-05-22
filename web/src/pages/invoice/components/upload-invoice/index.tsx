@@ -1,15 +1,15 @@
-import React, { useImperativeHandle, forwardRef } from "react"
-import useAction from "./hook"
-import { UploadOutlined } from "@ant-design/icons"
-import { Button, Select, Upload, Form } from "antd"
+import React, { useImperativeHandle, forwardRef } from "react";
+import useAction from "./hook";
+import { UploadOutlined } from "@ant-design/icons";
+import { Button, Select, Upload, Form } from "antd";
 
 const UploadInvoice = forwardRef((props: { submitBtn: () => void }, ref) => {
-  const submitBtn = props.submitBtn
+  const submitBtn = props.submitBtn;
 
   const { selectType, invoiceType, setInvoiceType, upLoadFile, uploadId } =
-    useAction()
+    useAction();
 
-  useImperativeHandle(ref, () => ({ invoiceType, uploadId }))
+  useImperativeHandle(ref, () => ({ invoiceType, uploadId }));
   return (
     <div className="mt-7 w-[30rem]">
       <Form
@@ -32,7 +32,7 @@ const UploadInvoice = forwardRef((props: { submitBtn: () => void }, ref) => {
               (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
             }
             onChange={(value) => {
-              setInvoiceType(value)
+              setInvoiceType(value);
             }}
             allowClear
           />
@@ -46,7 +46,7 @@ const UploadInvoice = forwardRef((props: { submitBtn: () => void }, ref) => {
           <div>
             <Upload
               beforeUpload={() => {
-                return false
+                return false;
               }}
               onChange={(file) => upLoadFile(file)}
               maxCount={1}
@@ -72,7 +72,7 @@ const UploadInvoice = forwardRef((props: { submitBtn: () => void }, ref) => {
         </Form.Item>
       </Form>
     </div>
-  )
-})
+  );
+});
 
-export default UploadInvoice
+export default UploadInvoice;

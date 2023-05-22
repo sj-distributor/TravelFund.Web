@@ -43,10 +43,9 @@ const ApproveManagement = () => {
         className="mt-20"
         title="新建申请"
         open={isModalOpen}
-        okText="提交申请"
         cancelText="取消"
-        onOk={() => setIsModalOpen(false)}
         onCancel={() => setIsModalOpen(false)}
+        destroyOnClose
       >
         <ApplyModal
           setIsModalOpen={setIsModalOpen}

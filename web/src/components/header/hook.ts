@@ -1,34 +1,34 @@
-import { routerArray } from "../../router"
-import { useLocation } from "react-router-dom"
-import { useEffect, useState } from "react"
-import useAuth from "../../hooks/use-auth"
+import { routerArray } from "../../router";
+import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import useAuth from "../../hooks/use-auth";
 
 const useAction = () => {
-  const [userName, setUserName] = useState<string>("")
+  const [userName, setUserName] = useState<string>("");
 
-  const [clickIndex, setClickIndex] = useState<number>(0)
+  const [clickIndex, setClickIndex] = useState<number>(0);
 
-  const [isClickAccount, setIsClickAccount] = useState<boolean>(false)
+  const [isClickAccount, setIsClickAccount] = useState<boolean>(false);
 
-  const pathName = useLocation().pathname
+  const pathName = useLocation().pathname;
 
-  const auth = useAuth()
+  const auth = useAuth();
 
   useEffect(() => {
     const storageUserName = localStorage.getItem("userName")
       ? (localStorage.getItem("userName") as string)
-      : ""
+      : "";
 
-    setUserName(storageUserName)
+    setUserName(storageUserName);
 
-    let locationIndex: number = 0
-    locationIndex = routerArray.findIndex((e) => pathName.search(e.path) > -1)
-    setClickIndex(locationIndex)
-  }, [pathName])
+    let locationIndex: number = 0;
+    locationIndex = routerArray.findIndex((e) => pathName.search(e.path) > -1);
+    setClickIndex(locationIndex);
+  }, [pathName]);
 
   const clickMenu = (index: number) => {
-    setClickIndex(index)
-  }
+    setClickIndex(index);
+  };
 
   return {
     userName,
@@ -38,6 +38,6 @@ const useAction = () => {
     isClickAccount,
     setIsClickAccount,
     auth,
-  }
-}
-export default useAction
+  };
+};
+export default useAction;

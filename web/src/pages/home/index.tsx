@@ -1,11 +1,11 @@
-import Header from "../../components/header"
-import Side from "../../components/side"
+import Header from "../../components/header";
+import Side from "../../components/side";
 
-import { Layout } from "antd"
-import Sider from "antd/es/layout/Sider"
-import { Content } from "antd/es/layout/layout"
+import { Layout } from "antd";
+import Sider from "antd/es/layout/Sider";
+import { Content } from "antd/es/layout/layout";
 
-import { Outlet } from "react-router-dom"
+import { Outlet } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -26,6 +26,6 @@ const Home = () => {
         </Layout>
       </Content>
     </Layout>
-  )
-}
-export default Home
+  );
+};
+export default Home;

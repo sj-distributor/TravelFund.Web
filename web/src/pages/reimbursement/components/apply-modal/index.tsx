@@ -1,4 +1,4 @@
-import { Button, Input, Select } from "antd";
+import { Button, Input, Select, Form } from "antd";
 import DebounceSelect from "../debounce-select";
 import useAction from "./hook";
 import { SelectValue } from "@/services/dtos/apply-reimbursement";
@@ -20,9 +20,17 @@ const ApplyModal = (props: ApplyModalProps) => {
   return (
     <>
       <div className="flex flex-col w-[30rem]">
-        <div className="mx-10 relative">
-          <div className="flex items-center w-full my-7">
-            <div className="w-28 text-gray-900">申请标题：</div>
+        <Form
+          className="mx-10 relative"
+          onFinish={() => handleAddExpense()}
+          preserve={false}
+        >
+          <Form.Item
+            label="申请标题"
+            name="申请标题"
+            rules={[{ required: true, message: "请填写申请标题！" }]}
+            className="my-7"
+          >
             <Input
               value={addExpenseData.title}
               placeholder="输入报销申请标题"
@@ -33,9 +41,13 @@ const ApplyModal = (props: ApplyModalProps) => {
                 }))
               }
             />
-          </div>
-          <div className="flex items-center w-full my-7">
-            <div className="w-28 text-gray-900">申请表单：</div>
+          </Form.Item>
+          <Form.Item
+            label="申请表单"
+            name="申请表单"
+            rules={[{ required: true, message: "请填写申请表单！" }]}
+            className="my-7"
+          >
             <Select
               value={
                 addExpenseData.travelRequestFormId
@@ -55,9 +67,13 @@ const ApplyModal = (props: ApplyModalProps) => {
               }}
               onPopupScroll={(e) => handleSelectScroll(e, "requestFrom")}
             />
-          </div>
-          <div className="flex items-center w-full my-7">
-            <div className="w-28 text-gray-900">申请发票：</div>
+          </Form.Item>
+          <Form.Item
+            label="申请发票"
+            name="申请发票"
+            rules={[{ required: true, message: "请填写申请发票！" }]}
+            className="my-7"
+          >
             <Select
               mode="multiple"
               value={addExpenseData.travelInvoiceIds}
@@ -74,31 +90,33 @@ const ApplyModal = (props: ApplyModalProps) => {
               onPopupScroll={(e) => handleSelectScroll(e, "travelInvoice")}
               className="w-full max-h-12 overflow-y-auto"
             />
-          </div>
-          <div className="flex items-center w-full my-7">
-            <div className="w-28 text-gray-900">申请类型：</div>
+          </Form.Item>
+          <Form.Item
+            label="申请类型"
+            name="申请类型"
+            rules={[{ required: true, message: "请填写申请类型！" }]}
+            className="my-7"
+          >
             <Select
               className="w-full"
               showSearch
-              placeholder=""
+              placeholder="选择申请类型"
               value={addExpenseData.type + ""}
-              defaultValue={"旅游基金"}
               optionFilterProp="children"
               options={reimburseTypeSelect}
             />
-          </div>
-        </div>
-        <div className="flex justify-end">
-          <Button
-            type="primary"
-            className="bg-gray-700 text-white"
-            htmlType="submit"
-            loading={loading}
-            onClick={handleAddExpense}
-          >
-            申请
-          </Button>
-        </div>
+          </Form.Item>
+          <Form.Item wrapperCol={{ offset: 19, span: 16 }}>
+            <Button
+              type="primary"
+              className="bg-gray-700 text-white h-9"
+              htmlType="submit"
+              loading={loading}
+            >
+              提交申请
+            </Button>
+          </Form.Item>
+        </Form>
       </div>
     </>
   );

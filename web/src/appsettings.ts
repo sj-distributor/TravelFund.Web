@@ -1,19 +1,19 @@
 export interface AppSettings {
-  serverUrl: string
+  serverUrl: string;
 }
 
-const settings = (window as any).appSettings
+const settings = (window as any).appSettings;
 
 export async function InitialAppSetting() {
-  if ((window as any).appSettings) return (window as any).appSettings
+  if ((window as any).appSettings) return (window as any).appSettings;
 
   await fetch("../appsetting.json", {
     headers: { "Content-Type": "application/json", Accept: "application/json" },
   })
     .then((res) => res.json())
     .then((res: AppSettings) => {
-      return ((window as any).appSettings = res)
-    })
+      return ((window as any).appSettings = res);
+    });
 }
 
-export default settings as AppSettings
+export default settings as AppSettings;

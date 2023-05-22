@@ -1,10 +1,10 @@
-import { ReportDataProps } from "@/services/dtos/report"
-import { useState } from "react"
+import { ReportDataProps } from "@/services/dtos/report";
+import { useState } from "react";
 
 const useAction = () => {
-  const [startDate, setStartDate] = useState<string>("")
+  const [startDate, setStartDate] = useState<string>("");
 
-  const [endDate, setEndData] = useState<string>("")
+  const [endDate, setEndData] = useState<string>("");
 
   const reportData: ReportDataProps[] = [
     {
@@ -67,13 +67,13 @@ const useAction = () => {
       realityMoney: "¥3000",
       approver: "CARRY.Y",
     },
-  ]
+  ];
 
   const onChangeRangeDate = (date: string[]) => {
-    setStartDate(date[0])
-    setEndData(date[1])
-  }
+    setStartDate(date[0]);
+    setEndData(date[1]);
+  };
 
-  return { reportData, onChangeRangeDate }
-}
-export default useAction
+  return { reportData, onChangeRangeDate };
+};
+export default useAction;
