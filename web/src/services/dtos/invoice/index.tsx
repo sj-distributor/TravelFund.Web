@@ -41,7 +41,7 @@ export interface GetAttachUrl {
   title?: string;
 }
 
-export enum Type {
+export enum TravelInvoiceType {
   TourismFund = 10,
   TravelExpenses = 20,
   PhysicalExamination = 30,

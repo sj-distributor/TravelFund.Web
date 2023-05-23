@@ -43,17 +43,18 @@ export async function base<T>(
     .then((res) => {
       if (res.status === 401) {
         localStorage.setItem("token", "");
-
         return;
       }
-
       return res.json();
     })
     .then((res: IResponse<T>) => {
       if (res.code === 200) {
         return res.data;
       } else {
-        throw new Error("request error");
+        console.log("request error");
       }
+    })
+    .catch((err) => {
+      throw new Error(err);
     });
 }

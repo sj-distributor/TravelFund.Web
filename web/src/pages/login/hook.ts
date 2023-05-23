@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Post } from "../../services/api/http-client";
 import { useLocation } from "react-router-dom";
 
-import useAuth from "../../hooks/use-auth";
+import { useAuth } from "../../hooks/use-auth";
 
 const useAction = () => {
   const { signin } = useAuth();

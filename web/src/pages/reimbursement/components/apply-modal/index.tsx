@@ -33,7 +33,7 @@ const ApplyModal = (props: ApplyModalProps) => {
           >
             <Input
               value={addExpenseData.title}
-              placeholder="输入报销申请标题"
+              placeholder="输入申请标题"
               onChange={(e) =>
                 setAddExpenseData((prve) => ({
                   ...prve,

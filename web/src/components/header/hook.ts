@@ -1,7 +1,7 @@
 import { routerArray } from "../../router";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import useAuth from "../../hooks/use-auth";
+import { useAuth } from "../../hooks/use-auth";
 
 const useAction = () => {
   const [userName, setUserName] = useState<string>("");
@@ -12,7 +12,7 @@ const useAction = () => {
 
   const pathName = useLocation().pathname;
 
-  const auth = useAuth();
+  const { signout } = useAuth();
 
   useEffect(() => {
     const storageUserName = localStorage.getItem("userName")
@@ -37,7 +37,7 @@ const useAction = () => {
     clickMenu,
     isClickAccount,
     setIsClickAccount,
-    auth,
+    signout,
   };
 };
 export default useAction;

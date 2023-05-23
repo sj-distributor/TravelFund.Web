@@ -10,7 +10,7 @@ import {
 import { TravelInvoices } from "../../services/dtos/invoice";
 
 const useAction = () => {
-  const [pageDto, setPageDto] = useState({ pageIndex: 1, pageSize: 6 });
+  const [pageDto, setPageDto] = useState({ pageIndex: 1, pageSize: 10 });
 
   const [invoiceList, setInvoiceList] = useState<TravelInvoices[]>([]);
 
@@ -32,38 +32,40 @@ const useAction = () => {
       PageIndex: pageDto.pageIndex,
       PageSize: pageDto.pageSize,
     }).then(async (res) => {
-      setTotalNum(res?.count);
+      if (res) {
+        setTotalNum(res.count);
 
-      const travelInvoicesList = res.travelInvoices.filter(
-        (o) => o.isDeleted === false
-      );
+        const travelInvoicesList = res.travelInvoices.filter(
+          (o) => o.isDeleted === false
+        );
 
-      const list =
-        travelInvoicesList.map((item) => ({
-          id: item.id,
-          attachmentId: item.attachmentIds[0],
-        })) ?? [];
+        const list =
+          travelInvoicesList.map((item) => ({
+            id: item.id,
+            attachmentId: item.attachmentIds[0],
+          })) ?? [];
 
-      const attachmentIdsArr = list.filter(
-        (obj, index, self) =>
-          index === self.findIndex((o) => o.attachmentId === obj.attachmentId)
-      );
+        const attachmentIdsArr = list.filter(
+          (obj, index, self) =>
+            index === self.findIndex((o) => o.attachmentId === obj.attachmentId)
+        );
 
-      await PostAttachment({
-        attachmentIds: attachmentIdsArr.map((item) => item.attachmentId),
-      }).then((res) => {
-        if (res) {
-          setInvoiceList(
-            travelInvoicesList.map((item) => ({
-              ...item,
-              fileUrl:
-                res[res.findIndex((el) => el.id === item.attachmentIds[0])]
-                  ?.fileUrl ?? "",
-            }))
-          );
-          setTableLoading(false);
-        }
-      });
+        await PostAttachment({
+          attachmentIds: attachmentIdsArr.map((item) => item.attachmentId),
+        }).then((res) => {
+          if (res) {
+            setInvoiceList(
+              travelInvoicesList.map((item) => ({
+                ...item,
+                fileUrl:
+                  res[res.findIndex((el) => el.id === item.attachmentIds[0])]
+                    ?.fileUrl ?? "",
+              }))
+            );
+            setTableLoading(false);
+          }
+        });
+      }
     });
   };
 

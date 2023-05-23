@@ -46,3 +46,15 @@
 .ant-pagination-options {
   display: none !important;
 }
+
+.ant-tag {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1.7rem;
+  width: 5.5rem;
+}
+
+.anticon-clock-circle {
+  height: 0.75rem;
+}

@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { PostUrlImg } from "../../../../services/api/invoice";
-import { Type } from "../../../../services/dtos/invoice";
+import { TravelInvoiceType } from "../../../../services/dtos/invoice";
 
 const useAction = () => {
   const [invoiceType, setInvoiceType] = useState<number>(0);
@@ -10,15 +10,15 @@ const useAction = () => {
 
   const selectType: { value: number; label: string }[] = [
     {
-      value: Type.TourismFund,
+      value: TravelInvoiceType.TourismFund,
       label: "旅游基金",
     },
     {
-      value: Type.TravelExpenses,
+      value: TravelInvoiceType.TravelExpenses,
       label: "差旅费用",
     },
     {
-      value: Type.PhysicalExamination,
+      value: TravelInvoiceType.PhysicalExamination,
       label: "体检费用",
     },
   ];

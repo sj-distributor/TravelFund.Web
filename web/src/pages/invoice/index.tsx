@@ -20,7 +20,7 @@ const Invoice = () => {
   } = useAction();
 
   return (
-    <div className="w-full  h-[735px] flex flex-1 flex-col bg-gray-200 overflow-y">
+    <div className="w-full  h-[46.563rem] flex flex-1 flex-col bg-gray-200 overflow-y">
       <div className="flex items-center mx-3 mt-3">
         <div
           className="flex justify-center items-center rounded-[0.5rem] w-24 h-10 bg-gray-600 cursor-pointer hover:bg-gray-700 ml-auto mr-5"
@@ -40,7 +40,6 @@ const Invoice = () => {
         <div className="ml-auto mr-3">
           <Pagination
             total={totalNum}
-            pageSize={pageDto.pageSize}
             onChange={(page) => setPageDto({ ...pageDto, pageIndex: page })}
           />
         </div>

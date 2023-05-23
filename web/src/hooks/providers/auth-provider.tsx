@@ -45,9 +45,9 @@ export default function AuthProvider(props: { children: React.ReactNode }) {
     });
   };
 
-  let value = { token, username, signin, signout };
-
   return (
-    <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ token, username, signin, signout }}>
+      {props.children}
+    </AuthContext.Provider>
   );
 }

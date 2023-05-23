@@ -1,4 +1,11 @@
 import Table, { ColumnsType } from "antd/es/table";
+import { Tag } from "antd";
+import {
+  CheckCircleOutlined,
+  ClockCircleOutlined,
+  CloseCircleOutlined,
+  SyncOutlined,
+} from "@ant-design/icons";
 
 import { TravelApplicationResponses } from "../../../../services/dtos/travel-application";
 import { AuditStatusType } from "../../../../services/dtos/apply-reimbursement";
@@ -79,14 +86,37 @@ const TableList = ({
       width: 200,
       render: (text) => {
         return (
-          <div>
-            {text === AuditStatusType.Pending
-              ? "待审核中"
-              : text === AuditStatusType.Approved
-              ? "审核通过"
-              : text === AuditStatusType.Rejected
-              ? "审核不通过"
-              : text === AuditStatusType.Inprogress && "审核中"}
+          <div className="flex justify-center items-center">
+            {(() => {
+              switch (text) {
+                case AuditStatusType.Pending:
+                  return (
+                    <Tag icon={<ClockCircleOutlined />} color="default">
+                      待审核中
+                    </Tag>
+                  );
+                case AuditStatusType.Approved:
+                  return (
+                    <Tag icon={<CheckCircleOutlined />} color="success">
+                      审核通过
+                    </Tag>
+                  );
+                case AuditStatusType.Rejected:
+                  return (
+                    <Tag icon={<CloseCircleOutlined />} color="error">
+                      审核不通过
+                    </Tag>
+                  );
+                case AuditStatusType.Inprogress:
+                  return (
+                    <Tag icon={<SyncOutlined spin />} color="processing">
+                      审核中
+                    </Tag>
+                  );
+                default:
+                  return null;
+              }
+            })()}
           </div>
         );
       },
@@ -100,7 +130,7 @@ const TableList = ({
       pagination={false}
       rowKey={(record) => record.id}
       loading={tableLoading}
-      scroll={{ x: 1000 }}
+      scroll={{ x: 1000, y: 560 }}
     />
   );
 };
