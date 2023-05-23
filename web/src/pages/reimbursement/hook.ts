@@ -4,11 +4,15 @@ import { GetExpenseList } from "../../services/api/reimbursement";
 
 const useAction = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
   const [tableLoading, setTableLoading] = useState<boolean>(false);
+
   const applyReimbursementList: TravelExpenseFormDto[] = [];
+
   const [applyReimbursement, setApplyReimbursement] = useState<
     TravelExpenseFormDto[]
   >(applyReimbursementList);
+
   const [pageDto, setPageDto] = useState({
     PageIndex: 1,
     PageSize: 10,

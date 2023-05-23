@@ -1,15 +1,8 @@
 import Table, { ColumnsType } from "antd/es/table";
 
-import { Image, Popconfirm, Tag } from "antd";
-import {
-  CheckCircleOutlined,
-  ClockCircleOutlined,
-  CloseCircleOutlined,
-  SyncOutlined,
-} from "@ant-design/icons";
-import moment from "moment";
+import { Image, Popconfirm } from "antd";
 
-import { AuditStatusType } from "../../../../services/dtos/apply-reimbursement";
+import moment from "moment";
 
 import {
   TravelInvoiceType,
@@ -17,6 +10,8 @@ import {
   TableListProps,
   TravelInvoices,
 } from "../../../../services/dtos/invoice";
+
+import StatusTags from "../../../../components/status-tags";
 
 const TableList = ({
   handleDeleteInvoice,
@@ -75,15 +70,14 @@ const TableList = ({
       align: "center",
       width: 200,
       render: (text) => {
-        return (
-          <div>
-            {text === TravelInvoiceType.TourismFund
-              ? "旅游基金"
-              : text === TravelInvoiceType.TravelExpenses
-              ? "差旅费用"
-              : text === TravelInvoiceType.PhysicalExamination && "体检费用"}
-          </div>
-        );
+        switch (text) {
+          case TravelInvoiceType.TourismFund:
+            return "旅游基金";
+          case TravelInvoiceType.TravelExpenses:
+            return "差旅费用";
+          case TravelInvoiceType.PhysicalExamination:
+            return "体检费用";
+        }
       },
     },
     {
@@ -92,17 +86,16 @@ const TableList = ({
       align: "center",
       width: 150,
       render: (text) => {
-        return (
-          <div>
-            {text === PurchasingType.General
-              ? "通用"
-              : text === PurchasingType.Traffic
-              ? "交通出行"
-              : text === PurchasingType.Dining
-              ? "餐饮"
-              : text === PurchasingType.Ticket && "门票"}
-          </div>
-        );
+        switch (text) {
+          case PurchasingType.General:
+            return "通用";
+          case PurchasingType.Traffic:
+            return "交通出行";
+          case PurchasingType.Dining:
+            return "餐饮";
+          case PurchasingType.Ticket:
+            return "门票";
+        }
       },
     },
     {
@@ -117,40 +110,7 @@ const TableList = ({
       align: "center",
       width: 150,
       render: (text) => {
-        return (
-          <div className="flex justify-center items-center">
-            {(() => {
-              switch (text) {
-                case AuditStatusType.Pending:
-                  return (
-                    <Tag icon={<ClockCircleOutlined />} color="default">
-                      待审核中
-                    </Tag>
-                  );
-                case AuditStatusType.Approved:
-                  return (
-                    <Tag icon={<CheckCircleOutlined />} color="success">
-                      审核通过
-                    </Tag>
-                  );
-                case AuditStatusType.Rejected:
-                  return (
-                    <Tag icon={<CloseCircleOutlined />} color="error">
-                      审核不通过
-                    </Tag>
-                  );
-                case AuditStatusType.Inprogress:
-                  return (
-                    <Tag icon={<SyncOutlined spin />} color="processing">
-                      审核中
-                    </Tag>
-                  );
-                default:
-                  return null;
-              }
-            })()}
-          </div>
-        );
+        return StatusTags(text);
       },
     },
     {
@@ -160,40 +120,7 @@ const TableList = ({
       align: "center",
       width: 150,
       render: (text) => {
-        return (
-          <div className="flex justify-center items-center">
-            {(() => {
-              switch (text) {
-                case AuditStatusType.Pending:
-                  return (
-                    <Tag icon={<ClockCircleOutlined />} color="default">
-                      待审核中
-                    </Tag>
-                  );
-                case AuditStatusType.Approved:
-                  return (
-                    <Tag icon={<CheckCircleOutlined />} color="success">
-                      审核通过
-                    </Tag>
-                  );
-                case AuditStatusType.Rejected:
-                  return (
-                    <Tag icon={<CloseCircleOutlined />} color="error">
-                      审核不通过
-                    </Tag>
-                  );
-                case AuditStatusType.Inprogress:
-                  return (
-                    <Tag icon={<SyncOutlined spin />} color="processing">
-                      审核中
-                    </Tag>
-                  );
-                default:
-                  return null;
-              }
-            })()}
-          </div>
-        );
+        return StatusTags(text);
       },
     },
     {

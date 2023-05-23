@@ -1,14 +1,8 @@
 import Table, { ColumnsType } from "antd/es/table";
-import { Tag } from "antd";
-import {
-  CheckCircleOutlined,
-  ClockCircleOutlined,
-  CloseCircleOutlined,
-  SyncOutlined,
-} from "@ant-design/icons";
 
 import { TravelApplicationResponses } from "../../../../services/dtos/travel-application";
-import { AuditStatusType } from "../../../../services/dtos/apply-reimbursement";
+
+import StatusTags from "../../../../components/status-tags";
 
 import moment from "moment";
 
@@ -85,40 +79,7 @@ const TableList = ({
       align: "center",
       width: 200,
       render: (text) => {
-        return (
-          <div className="flex justify-center items-center">
-            {(() => {
-              switch (text) {
-                case AuditStatusType.Pending:
-                  return (
-                    <Tag icon={<ClockCircleOutlined />} color="default">
-                      待审核中
-                    </Tag>
-                  );
-                case AuditStatusType.Approved:
-                  return (
-                    <Tag icon={<CheckCircleOutlined />} color="success">
-                      审核通过
-                    </Tag>
-                  );
-                case AuditStatusType.Rejected:
-                  return (
-                    <Tag icon={<CloseCircleOutlined />} color="error">
-                      审核不通过
-                    </Tag>
-                  );
-                case AuditStatusType.Inprogress:
-                  return (
-                    <Tag icon={<SyncOutlined spin />} color="processing">
-                      审核中
-                    </Tag>
-                  );
-                default:
-                  return null;
-              }
-            })()}
-          </div>
-        );
+        return StatusTags(text);
       },
     },
   ];

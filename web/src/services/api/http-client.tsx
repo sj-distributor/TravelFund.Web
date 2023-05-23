@@ -1,3 +1,4 @@
+import { message } from "antd";
 import { AppSettings } from "../../appsettings";
 
 export async function Post<T>(url: string, data?: object) {
@@ -51,7 +52,7 @@ export async function base<T>(
       if (res.code === 200) {
         return res.data;
       } else {
-        console.log("request error");
+        message.error("request error");
       }
     })
     .catch((err) => {
