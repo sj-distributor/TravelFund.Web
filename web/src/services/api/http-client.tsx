@@ -52,7 +52,7 @@ export async function base<T>(
       if (res.code === 200) {
         return res.data;
       } else {
-        message.error("request error");
+        message.error(res.msg);
       }
     })
     .catch((err) => {

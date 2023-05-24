@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import jwt_decode from "jwt-decode";
 import { createContext } from "react";
 
@@ -24,8 +24,8 @@ interface AuthContextType {
 export const AuthContext = createContext<AuthContextType>(null!);
 
 export default function AuthProvider(props: { children: React.ReactNode }) {
-  let [token, setToken] = React.useState("");
-  const [username, setUserName] = React.useState("");
+  let [token, setToken] = useState<string>("");
+  const [username, setUserName] = useState<string>("");
 
   const signin = (token: string, callback?: VoidFunction) => {
     return fakeAuthProvider.signin(() => {

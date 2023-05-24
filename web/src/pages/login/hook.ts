@@ -9,11 +9,9 @@ import { useAuth } from "../../hooks/use-auth";
 const useAction = () => {
   const { signin } = useAuth();
 
-  const [userName, setUserName] = useState<string>("admin");
+  const [userName, setUserName] = useState<string>("");
 
-  const [passWord, setPassWord] = useState<string>(
-    "ece18047-239b-4309-b52d-472d9d2dfc15"
-  );
+  const [passWord, setPassWord] = useState<string>("");
 
   const [userNameInvalid, setUserInvalid] = useState<boolean>(false);
 

@@ -49,7 +49,7 @@ export const Router = () => {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route element={<Home />}>
-        <Route path="/home" element={<Navigate to={"/home/invoice"} />} />
+        <Route path="" element={<Navigate to={"/home/invoice"} />} />
         {routerArray.map((item: RoutesProps, index: number) => {
           return (
             <Route
@@ -60,7 +60,6 @@ export const Router = () => {
           );
         })}
       </Route>
-      <Route path="*" element={<Login />} />
     </Routes>
   );
 };
