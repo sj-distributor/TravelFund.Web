@@ -8,35 +8,43 @@ import {
   SyncOutlined,
 } from "@ant-design/icons";
 
+const propsData = { icon: <></>, color: "", content: "" };
+
+const setPropsData = (icon: JSX.Element, color: string, content: string) => {
+  propsData.icon = icon;
+  propsData.color = color;
+  propsData.content = content;
+};
+
 const StatusTags = (text: number) => {
   switch (text) {
     case AuditStatusType.Pending:
-      return (
-        <Tag icon={<ClockCircleOutlined />} color={"default"}>
-          {"待审核中"}
-        </Tag>
-      );
+      setPropsData(<ClockCircleOutlined />, "default", "待审核中");
+      break;
+
     case AuditStatusType.Approved:
-      return (
-        <Tag icon={<CheckCircleOutlined />} color={"success"}>
-          {"审核通过"}
-        </Tag>
-      );
+      setPropsData(<CheckCircleOutlined />, "success", "审核通过");
+      break;
+
     case AuditStatusType.Rejected:
-      return (
-        <Tag icon={<CloseCircleOutlined />} color={"error"}>
-          {"审核不通过"}
-        </Tag>
-      );
+      setPropsData(<CloseCircleOutlined />, "error", "审核不通过");
+      break;
+
     case AuditStatusType.Inprogress:
-      return (
-        <Tag icon={<SyncOutlined spin />} color={"processing"}>
-          {"审核中"}
-        </Tag>
-      );
+      setPropsData(<SyncOutlined spin />, "processing", "审核中");
+      break;
+
     default:
       return null;
   }
+
+  return (
+    <div className="flex justify-center items-center">
+      <Tag icon={propsData.icon} color={propsData.color}>
+        {propsData.content}
+      </Tag>
+    </div>
+  );
 };
 
 export default StatusTags;

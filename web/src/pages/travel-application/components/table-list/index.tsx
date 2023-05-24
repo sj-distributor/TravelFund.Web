@@ -79,11 +79,7 @@ const TableList = ({
       align: "center",
       width: 200,
       render: (text) => {
-        return (
-          <div className="flex justify-center items-center">
-            {StatusTags(text)}
-          </div>
-        );
+        return StatusTags(text);
       },
     },
   ];

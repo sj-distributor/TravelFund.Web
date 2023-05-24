@@ -38,11 +38,7 @@ const TableList = ({
       align: "center",
       filterMultiple: false,
       render: (text) => {
-        return (
-          <div className="flex justify-center items-center">
-            {StatusTags(text)}
-          </div>
-        );
+        return StatusTags(text);
       },
     },
     {
@@ -52,11 +48,7 @@ const TableList = ({
       align: "center",
       filterMultiple: false,
       render: (text) => {
-        return (
-          <div className="flex justify-center items-center">
-            {StatusTags(text)}
-          </div>
-        );
+        return StatusTags(text);
       },
     },
     {
