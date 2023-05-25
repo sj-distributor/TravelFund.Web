@@ -1,12 +1,12 @@
-import useAction from "./hook"
-import { DatePicker, InputNumber, Select, Form, Button } from "antd"
-import moment from "moment"
+import useAction from "./hook";
+import { DatePicker, InputNumber, Select, Form, Button } from "antd";
+import moment from "moment";
 
-import React, { useImperativeHandle, forwardRef } from "react"
+import React, { useImperativeHandle, forwardRef } from "react";
 
 const ApplyModal = forwardRef(
   (props: { submitTravelApplication: () => void }, ref) => {
-    const submitTravelApplication = props.submitTravelApplication
+    const submitTravelApplication = props.submitTravelApplication;
 
     const {
       customPrice,
@@ -17,14 +17,14 @@ const ApplyModal = forwardRef(
       setIsGroup,
       setTravelDate,
       setReturnDate,
-    } = useAction()
+    } = useAction();
 
     useImperativeHandle(ref, () => ({
       customPrice,
       isGroup,
       travelDate,
       returnDate,
-    }))
+    }));
 
     return (
       <div className="flex flex-col w-[30rem]">
@@ -44,7 +44,7 @@ const ApplyModal = forwardRef(
               placeholder="单位（元）"
               min={0}
               onChange={(value) => {
-                setCustomPrice(value ? value : 0)
+                setCustomPrice(value ? value : 0);
               }}
             />
           </Form.Item>
@@ -103,7 +103,7 @@ const ApplyModal = forwardRef(
           <Form.Item className="mt-10" wrapperCol={{ offset: 19, span: 16 }}>
             <Button
               type="primary"
-              className="bg-gray-700 text-white h-10"
+              className="bg-gray-700 text-white h-8"
               htmlType="submit"
             >
               提交申请
@@ -111,7 +111,7 @@ const ApplyModal = forwardRef(
           </Form.Item>
         </Form>
       </div>
-    )
+    );
   }
-)
-export default ApplyModal
+);
+export default ApplyModal;

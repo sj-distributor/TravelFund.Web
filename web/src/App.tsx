@@ -1,12 +1,12 @@
-import React from "react"
-import useAction from "./AppHook"
+import React from "react";
+import useAction from "./AppHook";
 
-import { Router } from "./router"
+import { Router } from "./router";
 
 function App() {
-  const { isLoaded } = useAction()
+  const { isLoaded } = useAction();
 
-  return isLoaded ? <Router /> : <></>
+  return isLoaded ? <Router /> : <></>;
 }
 
-export default App
+export default App;

@@ -1,10 +1,10 @@
-import Table, { ColumnsType } from "antd/es/table"
+import Table, { ColumnsType } from "antd/es/table";
 
-import { filterArray } from "../../../../utils/table/fliter-table"
+import { filterArray } from "../../../../utils/table/fliter-table";
 import {
   ApplyDataProps,
   TableListProps,
-} from "@/services/dtos/approve-management"
+} from "@/services/dtos/approve-management";
 
 const TableList = ({ handleAddOpen, applyData }: TableListProps) => {
   const columnsTodoList: ColumnsType<ApplyDataProps> = [
@@ -19,7 +19,8 @@ const TableList = ({ handleAddOpen, applyData }: TableListProps) => {
             .filter((x: { applyHuman: string }) => !!x.applyHuman)
             .map((item: { applyHuman: string }) => item.applyHuman)
         ),
-      onFilter: (value: any, record) => record.applyHuman.indexOf(value) === 0,
+      onFilter: (value: string | number | boolean, record: ApplyDataProps) =>
+        record.applyHuman === value,
       filterMultiple: false,
     },
     {
@@ -33,7 +34,8 @@ const TableList = ({ handleAddOpen, applyData }: TableListProps) => {
             .filter((x: { applyType: string }) => !!x.applyType)
             .map((item: { applyType: string }) => item.applyType)
         ),
-      onFilter: (value: any, record) => record.applyType.indexOf(value) === 0,
+      onFilter: (value: string | number | boolean, record: ApplyDataProps) =>
+        record.applyType === value,
       filterMultiple: false,
     },
     {
@@ -47,7 +49,8 @@ const TableList = ({ handleAddOpen, applyData }: TableListProps) => {
             .filter((x: { applyDate: string }) => !!x.applyDate)
             .map((item: { applyDate: string }) => item.applyDate)
         ),
-      onFilter: (value: any, record) => record.applyDate.indexOf(value) === 0,
+      onFilter: (value: string | number | boolean, record: ApplyDataProps) =>
+        record.applyDate === value,
       filterMultiple: false,
     },
     {
@@ -60,15 +63,15 @@ const TableList = ({ handleAddOpen, applyData }: TableListProps) => {
           <div
             className="flex justify-center items-center cursor-pointer border border-gray-200 w-24 h-8 ml-12 bg-gray-100 hover:bg-gray-200 hover:border-gray-300 rounded-[0.5rem]"
             onClick={() => {
-              handleAddOpen(record)
+              handleAddOpen(record);
             }}
           >
             <div>{action}</div>
           </div>
-        )
+        );
       },
     },
-  ]
+  ];
   return (
     <Table
       className="mt-3 mx-3"
@@ -78,7 +81,7 @@ const TableList = ({ handleAddOpen, applyData }: TableListProps) => {
       rowKey={(record) => record.id}
       scroll={{ x: 800 }}
     />
-  )
-}
+  );
+};
 
-export default TableList
+export default TableList;

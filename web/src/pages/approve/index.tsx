@@ -1,8 +1,8 @@
-import { Modal } from "antd"
-import ApprovedModal from "./components/approve-modal"
-import TableList from "./components/table-list"
-import useAction from "./hook"
-import { ApplyDataProps } from "@/services/dtos/approve-management"
+import { Modal } from "antd";
+import ApprovedModal from "./components/approve-modal";
+import TableList from "./components/table-list";
+import useAction from "./hook";
+import { ApplyDataProps } from "@/services/dtos/approve-management";
 
 const ApproveManagement = () => {
   const {
@@ -11,7 +11,7 @@ const ApproveManagement = () => {
     applyData,
     currentListData,
     setCurrentListData,
-  } = useAction()
+  } = useAction();
 
   return (
     <div className="h-full bg-gray-200">
@@ -23,8 +23,8 @@ const ApproveManagement = () => {
         </div>
         <TableList
           handleAddOpen={(record: ApplyDataProps) => {
-            setIsModalOpen(true)
-            setCurrentListData(record)
+            setIsModalOpen(true);
+            setCurrentListData(record);
           }}
           applyData={applyData}
         />
@@ -42,6 +42,6 @@ const ApproveManagement = () => {
         </Modal>
       </div>
     </div>
-  )
-}
-export default ApproveManagement
+  );
+};
+export default ApproveManagement;

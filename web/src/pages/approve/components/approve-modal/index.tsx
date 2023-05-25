@@ -1,71 +1,83 @@
-import useAction from "./hook"
+import useAction from "./hook";
+
+import { Button, Image } from "antd";
 
 import {
   ApplyDataProps,
   ApproveModalListProps,
   Invoice,
-} from "@/services/dtos/approve-management"
+} from "@/services/dtos/approve-management";
 
 const ApprovedModal = (props: { currentListData: ApplyDataProps }) => {
-  let currentListData = props.currentListData
+  const currentListData = props.currentListData;
 
-  const { approveModalList } = useAction(currentListData)
+  const { approveModalList } = useAction(currentListData);
 
   const approveModalTitle = (item: ApproveModalListProps) => {
     switch (item.title) {
       case "申请信息":
         return (
-          <div className="flex flex-col flex-wrap h-32 ml-10">
-            {item.applyMessage?.map((applyItem, index) => {
-              return (
-                <div className="flex h-8 items-center" key={index}>
-                  <div className="text-gray-900 text-sm ">
-                    {applyItem.applicationLabel}
+          <>
+            <div className="flex flex-col flex-wrap h-32 ml-10">
+              {item.applyMessage?.map((applyItem, index) => {
+                return (
+                  <div className="flex h-8 items-center" key={index}>
+                    <div className="text-gray-900 text-sm ">
+                      {applyItem.applicationLabel}
+                    </div>
+                    <div className="text-gray-900 text-sm ">
+                      {applyItem.applicationContent}
+                    </div>
                   </div>
-                  <div className="text-gray-900 text-sm ">
-                    {applyItem.applicationContent}
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        )
+                );
+              })}
+            </div>
+            <div className="h-px bg-gray-200 " />
+          </>
+        );
       case "附件":
         return (
-          <div className="max-h-60 overflow-y-scroll">
-            {item.invoice?.map((item: Invoice, index: number) => {
-              return (
-                <div className="flex w-2/3 items-center m-5" key={index}>
-                  <img
-                    className="w-44 h-20"
-                    src={require("../../../../assets/picture.png")}
-                    alt=""
-                  />
-                  <div className="mx-8">
-                    <div className="flex h-5">
-                      <div className="text-gray-900 text-sm ">类型：</div>
-                      <div className="text-gray-900 text-sm ">
-                        {item.invoiceType}
+          <>
+            <div className="max-h-60 overflow-y-scroll">
+              {item.invoice?.map((item: Invoice, index: number) => {
+                return (
+                  <div
+                    className="flex w-2/3 items-center ml-16 mt-4"
+                    key={index}
+                  >
+                    <Image
+                      height={65}
+                      width={135}
+                      src={require("../../../../assets/picture.png")}
+                      alt=""
+                    />
+                    <div className="mx-8">
+                      <div className="flex h-5">
+                        <div className="text-gray-900 text-sm ">类型：</div>
+                        <div className="text-gray-900 text-sm ">
+                          {item.invoiceType}
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex h-5">
-                      <div className="text-gray-900 text-sm ">金额：</div>
-                      <div className="text-gray-900 text-sm ">
-                        {item.invoiceMoney}
+                      <div className="flex h-5">
+                        <div className="text-gray-900 text-sm ">金额：</div>
+                        <div className="text-gray-900 text-sm ">
+                          {item.invoiceMoney}
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex h-5">
-                      <div className="text-gray-900 text-sm ">日期：</div>
-                      <div className="text-gray-900 text-sm ">
-                        {item.invoiceDate}
+                      <div className="flex h-5">
+                        <div className="text-gray-900 text-sm ">日期：</div>
+                        <div className="text-gray-900 text-sm ">
+                          {item.invoiceDate}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              )
-            })}
-          </div>
-        )
+                );
+              })}
+            </div>
+            <div className="h-px bg-gray-200 " />
+          </>
+        );
       case "AI审批意见":
         return (
           <div>
@@ -80,7 +92,7 @@ const ApprovedModal = (props: { currentListData: ApplyDataProps }) => {
               </div>
             </div>
           </div>
-        )
+        );
       case "人工审批意见":
         return (
           <div className="relative">
@@ -90,9 +102,9 @@ const ApprovedModal = (props: { currentListData: ApplyDataProps }) => {
               </div>
             </div>
           </div>
-        )
+        );
     }
-  }
+  };
 
   return (
     <>
@@ -103,12 +115,11 @@ const ApprovedModal = (props: { currentListData: ApplyDataProps }) => {
               <div className="mb-2 font-semibold">{item.title}</div>
               {approveModalTitle(item)}
             </div>
-            <div className="h-px bg-gray-200 " />
           </>
-        )
+        );
       })}
     </>
-  )
-}
+  );
+};
 
-export default ApprovedModal
+export default ApprovedModal;

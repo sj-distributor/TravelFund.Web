@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom"
-import { RoutesProps } from "@/props"
-import useAction from "./hook"
+import { Link } from "react-router-dom";
+import { RoutesProps } from "@/props";
+import useAction from "./hook";
 
 const Header = () => {
   const {
@@ -10,8 +10,8 @@ const Header = () => {
     clickMenu,
     setIsClickAccount,
     isClickAccount,
-    auth,
-  } = useAction()
+    signout,
+  } = useAction();
 
   const AccountModal = () => {
     return (
@@ -21,13 +21,13 @@ const Header = () => {
         </div>
         <div
           className="h-8 flex items-center cursor-pointer hover:bg-blue-500 hover:text-white hover:font-semibold"
-          onClick={() => auth.signout()}
+          onClick={() => signout()}
         >
           <div className="text-sm ml-5">注销</div>
         </div>
       </div>
-    )
-  }
+    );
+  };
 
   return (
     <div>
@@ -64,7 +64,7 @@ const Header = () => {
                 <div className="font-medium">{item.name}</div>
               </div>
             </Link>
-          )
+          );
         })}
       </div>
       <div className="h-px bg-gray-300" />
@@ -72,6 +72,6 @@ const Header = () => {
         <div className="w-32 bg-gray-500" />
       </div>
     </div>
-  )
-}
-export default Header
+  );
+};
+export default Header;

@@ -1,16 +1,16 @@
-import { useState, useEffect, useContext } from "react"
-import { InitialAppSetting } from "./appsettings"
-import { AuthContext } from "./hooks/providers/auth-provider"
+import { useState, useEffect, useContext } from "react";
+import { InitialAppSetting } from "./appsettings";
+import { AuthContext } from "./hooks/providers/auth-provider";
 
 const useAction = () => {
-  const [isLoaded, setIsLoaded] = useState<boolean>(false)
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
-  useContext(AuthContext)
+  useContext(AuthContext);
 
   useEffect(() => {
-    InitialAppSetting().then(() => setIsLoaded(true))
-  }, [])
-  return { isLoaded }
-}
+    InitialAppSetting().then(() => setIsLoaded(true));
+  }, []);
+  return { isLoaded };
+};
 
-export default useAction
+export default useAction;

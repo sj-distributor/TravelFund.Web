@@ -1,3 +1,4 @@
+import { message } from "antd";
 import { AppSettings } from "../../appsettings";
 
 export async function Post<T>(url: string, data?: object) {
@@ -43,17 +44,18 @@ export async function base<T>(
     .then((res) => {
       if (res.status === 401) {
         localStorage.setItem("token", "");
-
         return;
       }
-
       return res.json();
     })
     .then((res: IResponse<T>) => {
       if (res.code === 200) {
         return res.data;
       } else {
-        throw new Error("request error");
+        message.error(res.msg);
       }
+    })
+    .catch((err) => {
+      throw new Error(err);
     });
 }

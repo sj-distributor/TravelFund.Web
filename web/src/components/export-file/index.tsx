@@ -1,9 +1,9 @@
-import ExportJsonExcel from "js-export-excel"
+import ExportJsonExcel from "js-export-excel";
 
-import { ReportDataProps } from "@/services/dtos/report"
+import { ReportDataProps } from "@/services/dtos/report";
 
 const ExportFile = (dataSource: ReportDataProps[]) => {
-  let option = {
+  const option = {
     fileName: "demo表",
     datas: [
       {
@@ -29,9 +29,9 @@ const ExportFile = (dataSource: ReportDataProps[]) => {
         ],
       },
     ],
-  }
-  let toExcel = new ExportJsonExcel(option)
-  toExcel.saveExcel()
-}
+  };
+  const toExcel = new ExportJsonExcel(option);
+  toExcel.saveExcel();
+};
 
-export default ExportFile
+export default ExportFile;

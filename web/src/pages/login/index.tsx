@@ -1,4 +1,4 @@
-import useAction from "./hook"
+import useAction from "./hook";
 
 const Login = () => {
   const {
@@ -10,7 +10,7 @@ const Login = () => {
     userNameInvalid,
     passWordInvalid,
     blurInput,
-  } = useAction()
+  } = useAction();
 
   return (
     <div className=" bg-white w-full h-full absolute top-0 flex flex-col items-center">
@@ -69,6 +69,6 @@ const Login = () => {
         </div>
       </div>
     </div>
-  )
-}
-export default Login
+  );
+};
+export default Login;

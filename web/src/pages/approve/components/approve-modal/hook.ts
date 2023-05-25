@@ -1,7 +1,7 @@
 import {
   ApplyDataProps,
   ApproveModalListProps,
-} from "@/services/dtos/approve-management"
+} from "@/services/dtos/approve-management";
 
 const useAction = (currentListData: ApplyDataProps) => {
   const approveModalList: ApproveModalListProps[] = [
@@ -55,8 +55,8 @@ const useAction = (currentListData: ApplyDataProps) => {
         contents: currentListData.humanOpinions,
       },
     },
-  ]
+  ];
 
-  return { approveModalList }
-}
-export default useAction
+  return { approveModalList };
+};
+export default useAction;

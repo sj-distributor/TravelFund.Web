@@ -1,18 +1,42 @@
-import Table, { ColumnsType } from "antd/es/table"
-import { Image } from "antd"
-import moment from "moment"
+import Table, { ColumnsType } from "antd/es/table";
+
+import { Image, Popconfirm } from "antd";
+
+import moment from "moment";
+
 import {
-  InvoiceType,
+  TravelInvoiceType,
+  PurchasingType,
   TableListProps,
   TravelInvoices,
-} from "../../../../services/dtos/invoice"
+} from "../../../../services/dtos/invoice";
 
-const TableList = ({ handleDeleteInvoice, invoiceList }: TableListProps) => {
+import StatusTags from "../../../../components/status-tags";
+
+const TableList = ({
+  handleDeleteInvoice,
+  invoiceList,
+  tableLoading,
+}: TableListProps) => {
   const columnsTodoList: ColumnsType<TravelInvoices> = [
+    {
+      title: "发票ID",
+      dataIndex: "id",
+      align: "center",
+      fixed: "left",
+      width: 120,
+    },
+    {
+      title: "用户ID",
+      dataIndex: "userId",
+      align: "center",
+      width: 120,
+    },
     {
       title: "发票",
       dataIndex: "fileUrl",
       align: "center",
+      width: 150,
       render: (record) => {
         return (
           <div className="flex justify-center items-center">
@@ -28,57 +52,100 @@ const TableList = ({ handleDeleteInvoice, invoiceList }: TableListProps) => {
               <Image height={58} width={120} src={record} alt="" />
             )}
           </div>
-        )
+        );
       },
     },
     {
       title: "上传日期",
       dataIndex: "createdDate",
       align: "center",
+      width: 150,
       render: (text) => {
-        return <div>{moment(text).format("YYYY-MM-DD")}</div>
+        return <div>{moment(text).format("YYYY-MM-DD")}</div>;
       },
     },
     {
-      title: "所属类型",
+      title: "报销类型",
       dataIndex: "type",
       align: "center",
+      width: 200,
       render: (text) => {
-        return (
-          <div>
-            {text === InvoiceType.TourismFund && <div>旅游基金</div>}
-            {text === InvoiceType.TravelExpenses && <div>差旅费用</div>}
-            {text === InvoiceType.PhysicalExamination && <div>体检费用</div>}
-          </div>
-        )
+        switch (text) {
+          case TravelInvoiceType.TourismFund:
+            return "旅游基金";
+          case TravelInvoiceType.TravelExpenses:
+            return "差旅费用";
+          case TravelInvoiceType.PhysicalExamination:
+            return "体检费用";
+        }
+      },
+    },
+    {
+      title: "发票类型",
+      dataIndex: "purchasingType",
+      align: "center",
+      width: 150,
+      render: (text) => {
+        switch (text) {
+          case PurchasingType.General:
+            return "通用";
+          case PurchasingType.Traffic:
+            return "交通出行";
+          case PurchasingType.Dining:
+            return "餐饮";
+          case PurchasingType.Ticket:
+            return "门票";
+        }
       },
     },
     {
       title: "发票价税合计",
       dataIndex: "invoicePrice",
       align: "center",
-      width: 200,
+      width: 120,
+    },
+    {
+      title: "AI审核状态",
+      dataIndex: "aiStatus",
+      align: "center",
+      width: 150,
+      render: (statusType) => StatusTags(statusType),
+    },
+    {
+      title: "人工审核状态",
+      dataIndex: "manualStatus",
+      key: "manualStatus",
+      align: "center",
+      width: 150,
+      render: (statusType) => StatusTags(statusType),
     },
     {
       title: "操作",
       dataIndex: "",
       align: "center",
-      render: (action, record) => {
+      fixed: "right",
+      width: 200,
+      render: (record) => {
         return (
           <div className="flex justify-center items-center">
-            <div
-              className="flex justify-center items-center cursor-pointer border border-gray-200 w-20 h-8 bg-red-700 text-white font-medium hover:bg-red-800 hover:font-semibold rounded-[0.5rem]"
-              onClick={() => {
-                handleDeleteInvoice(record)
+            <Popconfirm
+              title="删除发票"
+              description={() => `确定删除发票ID为${record.id}的发票吗?`}
+              onConfirm={() => {
+                handleDeleteInvoice(record);
               }}
+              okText="删除"
+              cancelText="取消"
             >
-              <div>删除</div>
-            </div>
+              <div className="flex justify-center items-center cursor-pointer border border-gray-200 w-20 h-8 bg-red-700 text-white font-medium hover:bg-red-800 hover:font-semibold rounded-[0.5rem]">
+                <div>删除</div>
+              </div>
+            </Popconfirm>
           </div>
-        )
+        );
       },
     },
-  ]
+  ];
 
   return (
     <Table
@@ -87,8 +154,9 @@ const TableList = ({ handleDeleteInvoice, invoiceList }: TableListProps) => {
       dataSource={invoiceList}
       pagination={false}
       rowKey={(record) => record.id}
-      scroll={{ x: 800 }}
+      loading={tableLoading}
+      scroll={{ x: 1300, y: 560 }}
     />
-  )
-}
-export default TableList
+  );
+};
+export default TableList;

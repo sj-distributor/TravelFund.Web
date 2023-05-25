@@ -1,7 +1,7 @@
-import Table, { ColumnsType } from "antd/es/table"
-import { filterArray } from "../../../../utils/table/fliter-table"
+import Table, { ColumnsType } from "antd/es/table";
+import { filterArray } from "../../../../utils/table/fliter-table";
 
-import { ReportDataProps } from "@/services/dtos/report"
+import { ReportDataProps } from "@/services/dtos/report";
 
 const TableList = ({ reportData }: { reportData: ReportDataProps[] }) => {
   const columnsTodoList: ColumnsType<ReportDataProps> = [
@@ -16,7 +16,8 @@ const TableList = ({ reportData }: { reportData: ReportDataProps[] }) => {
             .filter((x: { applyName: string }) => !!x.applyName)
             .map((item: { applyName: string }) => item.applyName)
         ),
-      onFilter: (value: any, record) => record.applyName.indexOf(value) === 0,
+      onFilter: (value: string | number | boolean, record: ReportDataProps) =>
+        record.applyName === value,
       filterMultiple: false,
     },
     {
@@ -30,7 +31,8 @@ const TableList = ({ reportData }: { reportData: ReportDataProps[] }) => {
             .filter((x: { applyType: string }) => !!x.applyType)
             .map((item: { applyType: string }) => item.applyType)
         ),
-      onFilter: (value: any, record) => record.applyType.indexOf(value) === 0,
+      onFilter: (value: string | number | boolean, record: ReportDataProps) =>
+        record.applyType === value,
       filterMultiple: false,
     },
     {
@@ -44,7 +46,8 @@ const TableList = ({ reportData }: { reportData: ReportDataProps[] }) => {
             .filter((x: { applyDate: string }) => !!x.applyDate)
             .map((item: { applyDate: string }) => item.applyDate)
         ),
-      onFilter: (value: any, record) => record.applyDate.indexOf(value) === 0,
+      onFilter: (value: string | number | boolean, record: ReportDataProps) =>
+        record.applyDate === value,
       filterMultiple: false,
     },
     {
@@ -58,7 +61,8 @@ const TableList = ({ reportData }: { reportData: ReportDataProps[] }) => {
             .filter((x: { approveDate: string }) => !!x.approveDate)
             .map((item: { approveDate: string }) => item.approveDate)
         ),
-      onFilter: (value: any, record) => record.approveDate.indexOf(value) === 0,
+      onFilter: (value: string | number | boolean, record: ReportDataProps) =>
+        record.approveDate === value,
       filterMultiple: false,
     },
     {
@@ -72,8 +76,8 @@ const TableList = ({ reportData }: { reportData: ReportDataProps[] }) => {
             .filter((x: { invoiceMoney: string }) => !!x.invoiceMoney)
             .map((item: { invoiceMoney: string }) => item.invoiceMoney)
         ),
-      onFilter: (value: any, record) =>
-        record.invoiceMoney.indexOf(value) === 0,
+      onFilter: (value: string | number | boolean, record: ReportDataProps) =>
+        record.invoiceMoney === value,
       filterMultiple: false,
     },
     {
@@ -87,8 +91,8 @@ const TableList = ({ reportData }: { reportData: ReportDataProps[] }) => {
             .filter((x: { realityMoney: string }) => !!x.realityMoney)
             .map((item: { realityMoney: string }) => item.realityMoney)
         ),
-      onFilter: (value: any, record) =>
-        record.realityMoney.indexOf(value) === 0,
+      onFilter: (value: string | number | boolean, record: ReportDataProps) =>
+        record.realityMoney === value,
       filterMultiple: false,
     },
     {
@@ -102,10 +106,11 @@ const TableList = ({ reportData }: { reportData: ReportDataProps[] }) => {
             .filter((x: { approver: string }) => !!x.approver)
             .map((item: { approver: string }) => item.approver)
         ),
-      onFilter: (value: any, record) => record.approver.indexOf(value) === 0,
+      onFilter: (value: string | number | boolean, record: ReportDataProps) =>
+        record.applyName === value,
       filterMultiple: false,
     },
-  ]
+  ];
 
   return (
     <Table
@@ -115,6 +120,6 @@ const TableList = ({ reportData }: { reportData: ReportDataProps[] }) => {
       rowKey={(record) => record.id}
       scroll={{ x: 800 }}
     />
-  )
-}
-export default TableList
+  );
+};
+export default TableList;

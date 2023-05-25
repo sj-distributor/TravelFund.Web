@@ -1,15 +1,15 @@
-import { RoutesProps } from "../props"
-import { Route, Routes, Navigate } from "react-router-dom"
+import { RoutesProps } from "../props";
+import { Route, Routes, Navigate } from "react-router-dom";
 
-import { AuthStatus } from "../hooks/auth-status"
+import { AuthStatus } from "../hooks/auth-status";
 
-import Login from "../pages/login"
-import Home from "../pages/home"
-import Invoice from "../pages/invoice"
-import TravelApplication from "../pages/travel-application"
-import Reimbursement from "../pages/reimbursement"
-import Approve from "../pages/approve"
-import Report from "../pages/report"
+import Login from "../pages/login";
+import Home from "../pages/home";
+import Invoice from "../pages/invoice";
+import TravelApplication from "../pages/travel-application";
+import Reimbursement from "../pages/reimbursement";
+import Approve from "../pages/approve";
+import Report from "../pages/report";
 
 export const routerArray: RoutesProps[] = [
   {
@@ -42,14 +42,14 @@ export const routerArray: RoutesProps[] = [
     name: "报表中心",
     leftSideChildren: "查看报表",
   },
-]
+];
 
 export const Router = () => {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route element={<Home />}>
-        <Route path="/home" element={<Navigate to={"/home/invoice"} />} />
+        <Route path="" element={<Navigate to={"/home/invoice"} />} />
         {routerArray.map((item: RoutesProps, index: number) => {
           return (
             <Route
@@ -57,10 +57,9 @@ export const Router = () => {
               path={item.path}
               element={<AuthStatus>{item.element}</AuthStatus>}
             />
-          )
+          );
         })}
       </Route>
-      <Route path="*" element={<Login />} />
     </Routes>
-  )
-}
+  );
+};
