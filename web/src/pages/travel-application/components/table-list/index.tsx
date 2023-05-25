@@ -78,9 +78,7 @@ const TableList = ({
       dataIndex: "status",
       align: "center",
       width: 200,
-      render: (text) => {
-        return StatusTags(text);
-      },
+      render: (statusType) => StatusTags(statusType),
     },
   ];
   return (

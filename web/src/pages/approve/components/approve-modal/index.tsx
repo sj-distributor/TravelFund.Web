@@ -9,7 +9,7 @@ import {
 } from "@/services/dtos/approve-management";
 
 const ApprovedModal = (props: { currentListData: ApplyDataProps }) => {
-  let currentListData = props.currentListData;
+  const currentListData = props.currentListData;
 
   const { approveModalList } = useAction(currentListData);
 

@@ -8,7 +8,7 @@ const Side = () => {
   const [leftSideChildren, setLeftSideChildren] = useState<string>("");
 
   useEffect(() => {
-    let locationIndex =
+    const locationIndex =
       routerArray.findIndex((e) => pathName.search(e.path) > -1) ?? 0;
     setLeftSideChildren(routerArray[locationIndex]?.leftSideChildren);
   }, [pathName]);

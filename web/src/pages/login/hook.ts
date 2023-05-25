@@ -22,7 +22,7 @@ const useAction = () => {
   const location = useLocation();
 
   const historyCallback = () => {
-    let p = location.state as any;
+    const p = location.state as any;
     p?.from?.pathname
       ? navigate(p.from.pathname, { replace: true })
       : navigate("/home/invoice");
@@ -42,7 +42,7 @@ const useAction = () => {
   };
 
   useEffect(() => {
-    let token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
     if (token) {
       signin(token, historyCallback);
     }

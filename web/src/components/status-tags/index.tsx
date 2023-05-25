@@ -8,16 +8,16 @@ import {
   SyncOutlined,
 } from "@ant-design/icons";
 
-const propsData = { icon: <></>, color: "", content: "" };
+const StatusTags = (statusType: number) => {
+  const propsData = { icon: <></>, color: "", content: "" };
 
-const setPropsData = (icon: JSX.Element, color: string, content: string) => {
-  propsData.icon = icon;
-  propsData.color = color;
-  propsData.content = content;
-};
+  const setPropsData = (icon: JSX.Element, color: string, content: string) => {
+    propsData.icon = icon;
+    propsData.color = color;
+    propsData.content = content;
+  };
 
-const StatusTags = (text: number) => {
-  switch (text) {
+  switch (statusType) {
     case AuditStatusType.Pending:
       setPropsData(<ClockCircleOutlined />, "default", "待审核中");
       break;

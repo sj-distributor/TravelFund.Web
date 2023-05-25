@@ -21,7 +21,7 @@ const useAction = () => {
 
     setUserName(storageUserName);
 
-    let locationIndex =
+    const locationIndex =
       routerArray.findIndex((e) => pathName.search(e.path) > -1) ?? 0;
     setClickIndex(locationIndex);
   }, [pathName]);

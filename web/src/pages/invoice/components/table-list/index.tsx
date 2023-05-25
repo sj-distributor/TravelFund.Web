@@ -109,9 +109,7 @@ const TableList = ({
       dataIndex: "aiStatus",
       align: "center",
       width: 150,
-      render: (text) => {
-        return StatusTags(text);
-      },
+      render: (statusType) => StatusTags(statusType),
     },
     {
       title: "人工审核状态",
@@ -119,9 +117,7 @@ const TableList = ({
       key: "manualStatus",
       align: "center",
       width: 150,
-      render: (text) => {
-        return StatusTags(text);
-      },
+      render: (statusType) => StatusTags(statusType),
     },
     {
       title: "操作",

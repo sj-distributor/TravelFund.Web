@@ -24,7 +24,7 @@ interface AuthContextType {
 export const AuthContext = createContext<AuthContextType>(null!);
 
 export default function AuthProvider(props: { children: React.ReactNode }) {
-  let [token, setToken] = useState<string>("");
+  const [token, setToken] = useState<string>("");
   const [username, setUserName] = useState<string>("");
 
   const signin = (token: string, callback?: VoidFunction) => {

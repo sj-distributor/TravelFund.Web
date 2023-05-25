@@ -37,9 +37,7 @@ const TableList = ({
       key: "aiStatus",
       align: "center",
       filterMultiple: false,
-      render: (text) => {
-        return StatusTags(text);
-      },
+      render: (statusType) => StatusTags(statusType),
     },
     {
       title: "人工审核状态",
@@ -47,9 +45,7 @@ const TableList = ({
       key: "manualStatus",
       align: "center",
       filterMultiple: false,
-      render: (text) => {
-        return StatusTags(text);
-      },
+      render: (statusType) => StatusTags(statusType),
     },
     {
       title: "报销类型",
