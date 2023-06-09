@@ -18,10 +18,10 @@ export const GetTravelApplicationData = async (params: {
 };
 
 export const GetInvoiceListData = async (params: {
-  TravelInvoiceIds: number[];
+  TravelInvoiceIds: string;
 }) => {
   return await Get<InvoiceList>(
-    `/api/TravelFund/invoice/list?TravelInvoiceIds=${params.TravelInvoiceIds}`
+    `/api/TravelFund/invoice/list?${params.TravelInvoiceIds}`
   );
 };
 

@@ -90,27 +90,41 @@ const useAction = () => {
       }
     });
 
-    record.travelInvoiceIds.map((item) => {
-      return GetInvoiceListData({
-        TravelInvoiceIds: [item],
-      }).then(async (res) => {
-        if (res) {
-          const newInvoiceData = res.travelInvoices[0];
+    const travelInvoiceIds = record.travelInvoiceIds.map((item) => {
+      return "TravelInvoiceIds=" + item;
+    });
+    GetInvoiceListData({
+      TravelInvoiceIds: travelInvoiceIds.join("&"),
+    }).then(async (res) => {
+      if (res) {
+        const travelInvoices = res.travelInvoices;
 
-          await PostAttachment({
-            attachmentIds: newInvoiceData.attachmentIds,
-          }).then((res) => {
-            if (res) {
-              newInvoiceData.fileUrl = res[0].fileUrl;
+        const list =
+          travelInvoices.map((item) => ({
+            id: item.id,
+            attachmentId: item.attachmentIds[0],
+          })) ?? [];
 
-              setCurrentInvoiceData((prevData) => [
-                ...prevData,
-                newInvoiceData,
-              ]);
-            }
-          });
-        }
-      });
+        const attachmentIdsArr = list.filter(
+          (obj, index, self) =>
+            index === self.findIndex((o) => o.attachmentId === obj.attachmentId)
+        );
+
+        await PostAttachment({
+          attachmentIds: attachmentIdsArr.map((item) => item.attachmentId),
+        }).then((res) => {
+          if (res) {
+            setCurrentInvoiceData(
+              travelInvoices.map((item) => ({
+                ...item,
+                fileUrl:
+                  res[res.findIndex((el) => el.id === item.attachmentIds[0])]
+                    ?.fileUrl ?? "",
+              }))
+            );
+          }
+        });
+      }
     });
   };
 
