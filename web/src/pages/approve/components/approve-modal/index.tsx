@@ -1,73 +1,158 @@
+import dayjs from "dayjs";
+
+import { Button, Popconfirm, Image } from "antd";
+
 import useAction from "./hook";
 
-import { Button, Image } from "antd";
+import { TravelApplicationResponses } from "../../../../services/dtos/travel-application";
 
 import {
-  ApplyDataProps,
-  ApproveModalListProps,
-  Invoice,
-} from "@/services/dtos/approve-management";
+  IApproveModalListProps,
+  IApplyMessageProps,
+  IInvoiceListProps,
+} from "../../../../services/dtos/approve-management";
 
-const ApprovedModal = (props: { currentListData: ApplyDataProps }) => {
-  const currentListData = props.currentListData;
+import {
+  TravelInvoices,
+  TravelInvoiceType,
+  PurchasingType,
+} from "../../../../services/dtos/invoice";
 
-  const { approveModalList } = useAction(currentListData);
+import {
+  AuditStatusType,
+  TravelExpenseFormDto,
+} from "../../../../services/dtos/apply-reimbursement";
 
-  const approveModalTitle = (item: ApproveModalListProps) => {
+export const ApprovedModal = (props: {
+  currentTravelRequestData: TravelApplicationResponses[];
+  currentInvoiceData: TravelInvoices[];
+  currentExpenseData: TravelExpenseFormDto;
+  setIsModalOpen: (boolean: boolean) => void;
+  getApproveList: () => void;
+}) => {
+  const { approveModalList, handleApproveExpense } = useAction(props);
+
+  const ExpenseTypeContent = (type: number) => {
+    switch (type) {
+      case TravelInvoiceType.TourismFund:
+        return <>旅游基金</>;
+
+      case TravelInvoiceType.TravelExpenses:
+        return <>差旅费用</>;
+
+      case TravelInvoiceType.PhysicalExamination:
+        return <>体检费用</>;
+    }
+  };
+
+  const PurchasingTypeContent = (purchasingType: number) => {
+    switch (purchasingType) {
+      case PurchasingType.General:
+        return <>通用</>;
+
+      case PurchasingType.Traffic:
+        return <>出行</>;
+
+      case PurchasingType.Dining:
+        return <>餐饮</>;
+
+      case PurchasingType.Ticket:
+        return <>门票</>;
+    }
+  };
+
+  const AiOpinionsContent = (expenseAiStatus: number) => {
+    const ReturnAiOpinions = (content: string, status: string) => {
+      return (
+        <div>
+          <div className="flex justify-center items-center h-10 ml-4">
+            <div className="text-gray-900 text-sm w-full">{content}</div>
+          </div>
+          <div className="flex">
+            <div className="text-gray-900 text-sm ml-auto mr-4">
+              状态：{status}
+            </div>
+          </div>
+          <div className="h-px bg-gray-200 mt-4" />
+        </div>
+      );
+    };
+
+    switch (expenseAiStatus) {
+      case AuditStatusType.Pending:
+        return ReturnAiOpinions("等待审核中...", "待审核中");
+
+      case AuditStatusType.Inprogress:
+        return ReturnAiOpinions("正在审核中...", "审核中");
+
+      case AuditStatusType.Rejected:
+        return ReturnAiOpinions(
+          "根据人工智能/大数据风控系统检查，该申请不通过",
+          "已拒绝"
+        );
+
+      case AuditStatusType.Approved:
+        return ReturnAiOpinions(
+          "根据人工智能/大数据风控系统检查，发票并无存在问题，相关资料符合申请规定",
+          "已通过"
+        );
+    }
+  };
+
+  const approveModalTitle = (item: IApproveModalListProps) => {
     switch (item.title) {
       case "申请信息":
         return (
           <>
             <div className="flex flex-col flex-wrap h-32 ml-10">
-              {item.applyMessage?.map((applyItem, index) => {
-                return (
-                  <div className="flex h-8 items-center" key={index}>
-                    <div className="text-gray-900 text-sm ">
-                      {applyItem.applicationLabel}
+              {item.applyMessage?.map(
+                (applyItem: IApplyMessageProps, index: number) => {
+                  return (
+                    <div className="flex h-8 items-center" key={index}>
+                      <div className="text-gray-900 text-sm ">
+                        {applyItem.applicationLabel}
+                      </div>
+                      <div className="text-gray-900 text-sm ">
+                        {applyItem.applicationContent}
+                      </div>
                     </div>
-                    <div className="text-gray-900 text-sm ">
-                      {applyItem.applicationContent}
-                    </div>
-                  </div>
-                );
-              })}
+                  );
+                }
+              )}
             </div>
             <div className="h-px bg-gray-200 " />
           </>
         );
+
       case "附件":
         return (
           <>
-            <div className="max-h-60 overflow-y-scroll">
-              {item.invoice?.map((item: Invoice, index: number) => {
+            <div className="max-h-44 overflow-y-scroll">
+              {item.invoice?.map((item: IInvoiceListProps, index: number) => {
                 return (
                   <div
                     className="flex w-2/3 items-center ml-16 mt-4"
                     key={index}
                   >
-                    <Image
-                      height={65}
-                      width={135}
-                      src={require("../../../../assets/picture.png")}
-                      alt=""
-                    />
+                    <Image height={65} width={135} src={item.fileUrl} />
                     <div className="mx-8">
                       <div className="flex h-5">
                         <div className="text-gray-900 text-sm ">类型：</div>
                         <div className="text-gray-900 text-sm ">
-                          {item.invoiceType}
+                          {ExpenseTypeContent(item.type)}-
+                          {PurchasingTypeContent(item.purchasingType)}
                         </div>
                       </div>
                       <div className="flex h-5">
                         <div className="text-gray-900 text-sm ">金额：</div>
                         <div className="text-gray-900 text-sm ">
-                          {item.invoiceMoney}
+                          ¥{item.invoicePrice ?? 0}
                         </div>
                       </div>
                       <div className="flex h-5">
                         <div className="text-gray-900 text-sm ">日期：</div>
                         <div className="text-gray-900 text-sm ">
-                          {item.invoiceDate}
+                          {dayjs(item.createdDate).format("YYYY-MM-DD")}
                         </div>
                       </div>
                     </div>
@@ -75,31 +160,58 @@ const ApprovedModal = (props: { currentListData: ApplyDataProps }) => {
                 );
               })}
             </div>
-            <div className="h-px bg-gray-200 " />
+
+            <div className="h-px bg-gray-200 mt-4" />
           </>
         );
+
       case "AI审批意见":
-        return (
-          <div>
-            <div className="flex justify-center items-center h-10 ml-4">
-              <div className="text-gray-900 text-sm w-full">
-                {item.opinions?.contents}
-              </div>
-            </div>
-            <div className="flex">
-              <div className="text-gray-900 text-sm ml-auto mr-4">
-                状态：{item.opinions?.status}
-              </div>
-            </div>
-          </div>
-        );
+        return AiOpinionsContent(item.expenseAiStatus!);
+
       case "人工审批意见":
         return (
-          <div className="relative">
+          <div className="relative flex flex-col">
             <div className="flex justify-center items-center h-10 ml-4">
               <div className="text-gray-900 text-sm w-full">
-                {item.opinions?.contents}
+                {item.manualOpinionContent}
               </div>
+            </div>
+            <div className="flex ml-auto mr-4">
+              <Popconfirm
+                title="审批出行"
+                description="确定拒绝该报销申请单吗？"
+                onConfirm={() => {
+                  handleApproveExpense(AuditStatusType.Rejected);
+                }}
+                okText="确定"
+                cancelText="取消"
+                cancelButtonProps={{
+                  style: { color: "black", borderColor: "rgb(229 231 235)" },
+                }}
+              >
+                <Button className="border-gray-200 bg-red-700 text-white hover:bg-red-800 hover:font-semibold hover:text-white font-medium">
+                  拒绝
+                </Button>
+              </Popconfirm>
+              <Popconfirm
+                title="审批出行"
+                description="确定通过该报销申请单吗？"
+                onConfirm={() => {
+                  handleApproveExpense(AuditStatusType.Approved);
+                }}
+                okText="确定"
+                cancelText="取消"
+                cancelButtonProps={{
+                  style: { color: "black", borderColor: "rgb(229 231 235)" },
+                }}
+              >
+                <Button
+                  type="primary"
+                  className="bg-gray-700 text-white font-medium ml-4"
+                >
+                  通过
+                </Button>
+              </Popconfirm>
             </div>
           </div>
         );
@@ -108,14 +220,12 @@ const ApprovedModal = (props: { currentListData: ApplyDataProps }) => {
 
   return (
     <>
-      {approveModalList.map((item, index) => {
+      {approveModalList.map((item: IApproveModalListProps, index: number) => {
         return (
-          <>
-            <div className="m-3 w-[42rem]" key={index}>
-              <div className="mb-2 font-semibold">{item.title}</div>
-              {approveModalTitle(item)}
-            </div>
-          </>
+          <div className="mt-5 ml-5 w-[42rem]" key={index}>
+            <div className="mb-2 font-semibold">{item.title}</div>
+            {approveModalTitle(item)}
+          </div>
         );
       })}
     </>

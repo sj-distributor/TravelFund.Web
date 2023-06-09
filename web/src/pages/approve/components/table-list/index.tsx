@@ -1,64 +1,62 @@
 import Table, { ColumnsType } from "antd/es/table";
 
-import { filterArray } from "../../../../utils/table/fliter-table";
-import {
-  ApplyDataProps,
-  TableListProps,
-} from "@/services/dtos/approve-management";
+import dayjs from "dayjs";
 
-const TableList = ({ handleAddOpen, applyData }: TableListProps) => {
-  const columnsTodoList: ColumnsType<ApplyDataProps> = [
+import {
+  TravelExpenseFormDto,
+  TravelExpenseFormType,
+} from "../../../../services/dtos/apply-reimbursement";
+
+const TableList = ({
+  applyDataList,
+  tableLoading,
+  handleAddOpen,
+}: {
+  applyDataList: TravelExpenseFormDto[];
+  tableLoading: boolean;
+  handleAddOpen: (record: TravelExpenseFormDto) => void;
+}) => {
+  const columnsTodoList: ColumnsType<TravelExpenseFormDto> = [
+    {
+      title: "申请标题",
+      dataIndex: "title",
+      align: "center",
+      filterMultiple: false,
+    },
     {
       title: "申请名称",
-      dataIndex: "applyHuman",
+      dataIndex: "userName",
       align: "center",
-      filters:
-        applyData &&
-        filterArray(
-          applyData
-            .filter((x: { applyHuman: string }) => !!x.applyHuman)
-            .map((item: { applyHuman: string }) => item.applyHuman)
-        ),
-      onFilter: (value: string | number | boolean, record: ApplyDataProps) =>
-        record.applyHuman === value,
       filterMultiple: false,
     },
     {
       title: "申请类型",
-      dataIndex: "applyType",
+      dataIndex: "type",
       align: "center",
-      filters:
-        applyData &&
-        filterArray(
-          applyData
-            .filter((x: { applyType: string }) => !!x.applyType)
-            .map((item: { applyType: string }) => item.applyType)
-        ),
-      onFilter: (value: string | number | boolean, record: ApplyDataProps) =>
-        record.applyType === value,
       filterMultiple: false,
+      render: (text) => {
+        return (
+          <div>
+            {text === TravelExpenseFormType.TourismFund ? "旅游基金" : text}
+          </div>
+        );
+      },
     },
     {
       title: "申请日期",
-      dataIndex: "applyDate",
+      dataIndex: "createdDate",
       align: "center",
-      filters:
-        applyData &&
-        filterArray(
-          applyData
-            .filter((x: { applyDate: string }) => !!x.applyDate)
-            .map((item: { applyDate: string }) => item.applyDate)
-        ),
-      onFilter: (value: string | number | boolean, record: ApplyDataProps) =>
-        record.applyDate === value,
       filterMultiple: false,
+      render: (text) => {
+        return <div>{dayjs(text).format("YYYY-MM-DD")}</div>;
+      },
     },
     {
       title: "操作",
-      dataIndex: "action",
+      dataIndex: "",
       align: "center",
       width: 220,
-      render: (action, record) => {
+      render: (record) => {
         return (
           <div
             className="flex justify-center items-center cursor-pointer border border-gray-200 w-24 h-8 ml-12 bg-gray-100 hover:bg-gray-200 hover:border-gray-300 rounded-[0.5rem]"
@@ -66,7 +64,7 @@ const TableList = ({ handleAddOpen, applyData }: TableListProps) => {
               handleAddOpen(record);
             }}
           >
-            <div>{action}</div>
+            <div>进行审批</div>
           </div>
         );
       },
@@ -74,12 +72,13 @@ const TableList = ({ handleAddOpen, applyData }: TableListProps) => {
   ];
   return (
     <Table
-      className="mt-3 mx-3"
+      className="mt-10 mx-3"
       columns={columnsTodoList}
-      dataSource={applyData}
-      pagination={{ position: ["bottomRight"], defaultPageSize: 10 }}
+      dataSource={applyDataList}
       rowKey={(record) => record.id}
-      scroll={{ x: 800 }}
+      loading={tableLoading}
+      scroll={{ x: 800, y: 560 }}
+      pagination={false}
     />
   );
 };

@@ -1,62 +1,111 @@
-import {
-  ApplyDataProps,
-  ApproveModalListProps,
-} from "@/services/dtos/approve-management";
+import dayjs from "dayjs";
 
-const useAction = (currentListData: ApplyDataProps) => {
-  const approveModalList: ApproveModalListProps[] = [
+import { PostApproveExpense } from "../../../../services/api/approve";
+
+import { TravelInvoices } from "../../../../services/dtos/invoice";
+
+import { IApproveModalListProps } from "../../../../services/dtos/approve-management";
+
+import { TravelApplicationResponses } from "../../../../services/dtos/travel-application";
+
+import {
+  TravelExpenseFormType,
+  TravelExpenseFormDto,
+  AuditStatusType,
+} from "../../../../services/dtos/apply-reimbursement";
+import { message } from "antd";
+
+const useAction = (props: {
+  currentTravelRequestData: TravelApplicationResponses[];
+  currentInvoiceData: TravelInvoices[];
+  currentExpenseData: TravelExpenseFormDto;
+  setIsModalOpen: (boolean: boolean) => void;
+  getApproveList: () => void;
+}) => {
+  const travelRequest = props.currentTravelRequestData[0];
+
+  const invoiceDataList = props.currentInvoiceData;
+
+  const expenseAiStatus = props.currentExpenseData.aiStatus;
+
+  const travelExpenseFormId = props.currentExpenseData.id;
+
+  const approveModalList: IApproveModalListProps[] = [
     {
       title: "申请信息",
       applyMessage: [
         {
           applicationLabel: "申请人：",
-          applicationContent: currentListData.applyHuman,
+          applicationContent: travelRequest?.userName,
         },
         {
           applicationLabel: "申请类型：",
-          applicationContent: currentListData.applyType,
+          applicationContent: `${
+            travelRequest?.type === TravelExpenseFormType.TourismFund
+              ? "旅游基金"
+              : travelRequest?.type
+          }`,
         },
         {
           applicationLabel: "出游日期：",
-          applicationContent: currentListData.travelDate,
+          applicationContent: dayjs(travelRequest?.travelDate).format(
+            "YYYY-MM-DD"
+          ),
         },
         {
           applicationLabel: "回程日期：",
-          applicationContent: currentListData.returnDate,
+          applicationContent: dayjs(travelRequest?.returnDate).format(
+            "YYYY-MM-DD"
+          ),
         },
         {
           applicationLabel: "报销额度：",
-          applicationContent: currentListData.claimLimit,
+          applicationContent: `¥${travelRequest?.customPrice}`,
         },
         {
           applicationLabel: "发票额度：",
-          applicationContent: currentListData.invoiceLimit,
+          applicationContent: `¥${travelRequest?.invoicePrice}`,
         },
         {
           applicationLabel: "实际额度：",
-          applicationContent: currentListData.realityLimit,
+          applicationContent: `¥${travelRequest?.actualPrice}`,
         },
       ],
     },
     {
       title: "附件",
-      invoice: currentListData.invoice,
+      invoice: invoiceDataList,
     },
     {
       title: "AI审批意见",
-      opinions: {
-        contents: currentListData.aiOpinions,
-        status: currentListData.aiStatus,
-      },
+      expenseAiStatus: expenseAiStatus,
     },
     {
       title: "人工审批意见",
-      opinions: {
-        contents: currentListData.humanOpinions,
-      },
+      manualOpinionContent:
+        "根据公司福利政策，你享有旅游基金报销资格。资料审核通过，允许进行报销。",
     },
   ];
 
-  return { approveModalList };
+  const handleApproveExpense = (manualStatus: number) => {
+    PostApproveExpense({
+      travelExpenseFormId: travelExpenseFormId,
+      manualStatus: manualStatus,
+    })
+      .then((res) => {
+        if (res) {
+          props.setIsModalOpen(false);
+          manualStatus === AuditStatusType.Rejected
+            ? message.success("Successfully rejected")
+            : message.success("Successfully approved");
+          props.getApproveList();
+        }
+      })
+      .catch((err) => {
+        message.error("Unsuccessful");
+      });
+  };
+
+  return { approveModalList, handleApproveExpense };
 };
 export default useAction;
