@@ -73,8 +73,6 @@ const useAction = () => {
   const getCurrentTravelRequestData = (record: TravelExpenseFormDto) => {
     setIsModalOpen(true);
 
-    setCurrentInvoiceData([]);
-
     setCurrentExpenseData(record);
 
     GetTravelApplicationData({
@@ -105,13 +103,8 @@ const useAction = () => {
             attachmentId: item.attachmentIds[0],
           })) ?? [];
 
-        const attachmentIdsArr = list.filter(
-          (obj, index, self) =>
-            index === self.findIndex((o) => o.attachmentId === obj.attachmentId)
-        );
-
         await PostAttachment({
-          attachmentIds: attachmentIdsArr.map((item) => item.attachmentId),
+          attachmentIds: list.map((item) => item.attachmentId),
         }).then((res) => {
           if (res) {
             setCurrentInvoiceData(
