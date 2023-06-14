@@ -1,51 +1,50 @@
-export interface ApplyDataProps {
-  id: number;
-  applyHuman: string;
-  applyType: string;
-  applyDate: string;
-  action: string;
-  travelDate: string;
-  returnDate: string;
-  claimLimit: string;
-  invoiceLimit: string;
-  realityLimit: string;
-  aiOpinions: string;
-  aiStatus: string;
-  humanOpinions: string;
-  humanStatus: string;
-  invoice: Invoice[];
-}
-
-export interface Invoice {
-  pic: string;
-  invoiceType: string;
-  invoiceMoney: string;
-  invoiceDate: string;
-}
-
 export interface ModalBoxRef {
   open: () => void;
   close: () => void;
 }
 
-export interface ApproveModalListProps {
+export interface IApproveModalListProps {
   title: string;
-  applyMessage?: ApplyMessageProps[];
-  invoice?: Invoice[];
-  opinions?: Opinions;
+  applyMessage?: IApplyMessageProps[];
+  invoice?: IInvoiceListProps[];
+  expenseAiStatus?: number;
+  manualOpinionContent?: string;
 }
 
-export interface Opinions {
-  contents: string;
-  status?: string;
-}
-
-export interface ApplyMessageProps {
+export interface IApplyMessageProps {
   applicationLabel: string;
-  applicationContent: string;
+  applicationContent?: string | number;
 }
 
-export interface TableListProps {
-  handleAddOpen: (record: ApplyDataProps) => void;
-  applyData: ApplyDataProps[];
+export interface IInvoiceListProps {
+  id: number;
+  userId: number;
+  type: number;
+  purchasingType: number;
+  aiStatus: number;
+  manualStatus: number;
+  invoicePrice: number;
+  createdDate: string;
+  isDeleted: boolean;
+  attachmentIds: number[];
+  fileUrl?: string;
+}
+
+export interface IApproveExpenseProps {
+  travelExpenseFormId: number;
+  manualStatus: number;
+}
+
+export interface IApproveExpenseResponse {
+  id: number;
+  userId: number;
+  travelRequestFormId: number;
+  travelInvoiceIds: number[];
+  aiStatus: number;
+  manualStatus: number;
+  type: number;
+  title: string;
+  userName: string;
+  createdDate: string;
+  approvedDate: string;
 }

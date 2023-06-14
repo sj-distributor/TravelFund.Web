@@ -23,10 +23,13 @@ export interface PostAddExpenseDto {
 export interface TravelExpenseFormDto {
   id: number;
   userId: number;
+  travelRequestFormId: number;
+  travelInvoiceIds: number[];
   aiStatus: AuditStatusType;
   manualStatus: AuditStatusType;
   type: TravelExpenseFormType; //Enum:[10]
   title: string;
+  userName: string;
   createdDate: string;
   approvedDate: string;
 }

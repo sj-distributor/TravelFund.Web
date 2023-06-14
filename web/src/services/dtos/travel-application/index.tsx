@@ -23,6 +23,8 @@ export interface TravelApplicationResponses {
   travelDate: string;
   returnDate: string;
   isGroup: boolean;
+  userName?: string;
+  type?: number;
 }
 
 export interface GetMediaType {

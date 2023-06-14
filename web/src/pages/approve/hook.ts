@@ -1,150 +1,139 @@
-import { useState } from "react";
-import { ApplyDataProps } from "@/services/dtos/approve-management";
+import { useEffect, useState } from "react";
+
+import {
+  TravelExpenseFormDto,
+  AuditStatusType,
+} from "../../services/dtos/apply-reimbursement";
+
+import { GetExpenseList } from "../../services/api/reimbursement";
+
+import {
+  GetTravelApplicationData,
+  GetInvoiceListData,
+} from "../../services/api/approve";
+
+import { TravelApplicationResponses } from "../../services/dtos/travel-application";
+
+import { TravelInvoices } from "../../services/dtos/invoice";
+
+import { PostAttachment } from "../../services/api/invoice";
 
 const useAction = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const applyData: ApplyDataProps[] = [
-    {
-      id: 1,
-      applyHuman: "SARAH.1",
-      applyType: "旅游基金",
-      applyDate: "2023/04/30",
-      action: "进行审批",
-      travelDate: "2023/04/01",
-      returnDate: "2023/04/20",
-      claimLimit: "¥3500",
-      invoiceLimit: "¥3000",
-      realityLimit: "¥3000",
-      aiOpinions:
-        "根据人工智能/大数据风控系统检查，发票并无存在问题，相关资料符合申请规定。",
-      aiStatus: "已通过",
-      humanOpinions:
-        "根据公司福利政策，SARAH.1享有旅游基金报销资格。资料审核通过，允许进行报销。",
-      humanStatus: "未通过",
-      invoice: [
-        {
-          pic: "../../../../assets/picture.png",
-          invoiceType: "旅游基金-出行",
-          invoiceMoney: "¥1000.00",
-          invoiceDate: "2023/04/20",
-        },
-        {
-          pic: "../../../../assets/picture.png",
-          invoiceType: "旅游基金-出行",
-          invoiceMoney: "¥1000.00",
-          invoiceDate: "2023/04/20",
-        },
-        {
-          pic: "../../../../assets/picture.png",
-          invoiceType: "旅游基金-出行",
-          invoiceMoney: "¥1000.00",
-          invoiceDate: "2023/04/20",
-        },
-        {
-          pic: "../../../../assets/picture.png",
-          invoiceType: "旅游基金-出行",
-          invoiceMoney: "¥1000.00",
-          invoiceDate: "2023/04/20",
-        },
-      ],
-    },
-    {
-      id: 2,
-      applyHuman: "SARAH.2",
-      applyType: "旅游基金",
-      applyDate: "2023/04/30",
-      action: "进行审批",
-      travelDate: "2023/04/01",
-      returnDate: "2023/04/20",
-      claimLimit: "¥3500",
-      invoiceLimit: "¥3000",
-      realityLimit: "¥3000",
-      aiOpinions:
-        "根据人工智能/大数据风控系统检查，发票并无存在问题，相关资料符合申请规定。",
-      aiStatus: "已通过",
-      humanOpinions:
-        "根据公司福利政策，SARAH.2享有旅游基金报销资格。资料审核通过，允许进行报销。",
-      humanStatus: "未通过",
-      invoice: [
-        {
-          pic: "../../../../assets/picture.png",
-          invoiceType: "旅游基金-出行",
-          invoiceMoney: "¥1000.00",
-          invoiceDate: "2023/04/20",
-        },
-        {
-          pic: "../../../../assets/picture.png",
-          invoiceType: "旅游基金-出行",
-          invoiceMoney: "¥1000.00",
-          invoiceDate: "2023/04/20",
-        },
-      ],
-    },
-    {
-      id: 3,
-      applyHuman: "SARAH.3",
-      applyType: "旅游基金",
-      applyDate: "2023/04/30",
-      action: "进行审批",
-      travelDate: "2023/04/01",
-      returnDate: "2023/04/20",
-      claimLimit: "¥3500",
-      invoiceLimit: "¥3000",
-      realityLimit: "¥3000",
-      aiOpinions:
-        "根据人工智能/大数据风控系统检查，发票并无存在问题，相关资料符合申请规定。",
-      aiStatus: "已通过",
-      humanOpinions:
-        "根据公司福利政策，SARAH.3享有旅游基金报销资格。资料审核通过，允许进行报销。",
-      humanStatus: "未通过",
-      invoice: [
-        {
-          pic: "../../../../assets/picture.png",
-          invoiceType: "旅游基金-出行",
-          invoiceMoney: "¥1000.00",
-          invoiceDate: "2023/04/20",
-        },
-      ],
-    },
-    {
-      id: 4,
-      applyHuman: "SARAH.4",
-      applyType: "旅游基金",
-      applyDate: "2023/04/30",
-      action: "进行审批",
-      travelDate: "2023/04/01",
-      returnDate: "2023/04/20",
-      claimLimit: "¥3500",
-      invoiceLimit: "¥3000",
-      realityLimit: "¥3000",
-      aiOpinions:
-        "根据人工智能/大数据风控系统检查，发票并无存在问题，相关资料符合申请规定。",
-      aiStatus: "已通过",
-      humanOpinions:
-        "根据公司福利政策，SARAH.4享有旅游基金报销资格。资料审核通过，允许进行报销。",
-      humanStatus: "未通过",
-      invoice: [
-        {
-          pic: "../../../../assets/picture.png",
-          invoiceType: "旅游基金-出行",
-          invoiceMoney: "¥1000.00",
-          invoiceDate: "2023/04/20",
-        },
-      ],
-    },
-  ];
+  const [tableLoading, setTableLoading] = useState<boolean>(false);
 
-  const [currentListData, setCurrentListData] = useState<ApplyDataProps>(
-    applyData[0]
+  const [pageDto, setPageDto] = useState({
+    pageIndex: 1,
+    pageSize: 10,
+  });
+
+  const [totalNum, setTotalNum] = useState<number>(1);
+
+  const [applyDataList, setApplyDataList] = useState<TravelExpenseFormDto[]>(
+    []
   );
+
+  const [currentTravelRequestData, setCurrentTravelRequestData] = useState<
+    TravelApplicationResponses[]
+  >([]);
+
+  const [currentInvoiceData, setCurrentInvoiceData] = useState<
+    TravelInvoices[]
+  >([]);
+
+  const [currentExpenseData, setCurrentExpenseData] =
+    useState<TravelExpenseFormDto>();
+
+  const getApproveList = () => {
+    setTableLoading(true);
+
+    GetExpenseList({ PageIndex: pageDto.pageIndex, PageSize: pageDto.pageSize })
+      .then((res) => {
+        if (res) {
+          const applyDataListResponse = res.travelExpenseForms.filter(
+            (o) => o.manualStatus === AuditStatusType.Inprogress
+          );
+
+          setTotalNum(applyDataListResponse.length);
+
+          setApplyDataList(applyDataListResponse);
+        }
+        setTableLoading(false);
+      })
+      .catch((err) => {
+        setTableLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    getApproveList();
+  }, [pageDto.pageIndex]);
+
+  const getCurrentTravelRequestData = (record: TravelExpenseFormDto) => {
+    setIsModalOpen(true);
+
+    setCurrentExpenseData(record);
+
+    GetTravelApplicationData({
+      TravelRequestFormId: record.travelRequestFormId,
+    }).then((res) => {
+      if (res) {
+        const travelRequestForms = res.travelRequestForms.map((item) => ({
+          ...item,
+          userName: record.userName,
+          type: record.type,
+        }));
+        setCurrentTravelRequestData(travelRequestForms);
+      }
+    });
+
+    const travelInvoiceIds = record.travelInvoiceIds.map((item) => {
+      return "TravelInvoiceIds=" + item;
+    });
+    GetInvoiceListData({
+      TravelInvoiceIds: travelInvoiceIds.join("&"),
+    }).then(async (res) => {
+      if (res) {
+        const travelInvoices = res.travelInvoices;
+
+        const list =
+          travelInvoices.map((item) => ({
+            id: item.id,
+            attachmentId: item.attachmentIds[0],
+          })) ?? [];
+
+        await PostAttachment({
+          attachmentIds: list.map((item) => item.attachmentId),
+        }).then((res) => {
+          if (res) {
+            setCurrentInvoiceData(
+              travelInvoices.map((item) => ({
+                ...item,
+                fileUrl:
+                  res[res.findIndex((el) => el.id === item.attachmentIds[0])]
+                    ?.fileUrl ?? "",
+              }))
+            );
+          }
+        });
+      }
+    });
+  };
 
   return {
     isModalOpen,
     setIsModalOpen,
-    applyData,
-    currentListData,
-    setCurrentListData,
+    applyDataList,
+    tableLoading,
+    pageDto,
+    setPageDto,
+    totalNum,
+    getCurrentTravelRequestData,
+    currentTravelRequestData,
+    currentInvoiceData,
+    currentExpenseData,
+    getApproveList,
   };
 };
 export default useAction;

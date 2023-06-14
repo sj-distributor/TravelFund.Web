@@ -1,33 +1,44 @@
-import { Modal } from "antd";
-import ApprovedModal from "./components/approve-modal";
+import { Modal, Pagination } from "antd";
+import { ApprovedModal } from "./components/approve-modal";
 import TableList from "./components/table-list";
 import useAction from "./hook";
-import { ApplyDataProps } from "@/services/dtos/approve-management";
+
+import { TravelExpenseFormDto } from "../../services/dtos/apply-reimbursement";
 
 const ApproveManagement = () => {
   const {
     isModalOpen,
     setIsModalOpen,
-    applyData,
-    currentListData,
-    setCurrentListData,
+    applyDataList,
+    tableLoading,
+    pageDto,
+    setPageDto,
+    totalNum,
+    getCurrentTravelRequestData,
+    currentTravelRequestData,
+    currentInvoiceData,
+    currentExpenseData,
+    getApproveList,
   } = useAction();
 
   return (
     <div className="h-full bg-gray-200">
-      <div className="w-full   h-[735px] flex flex-1 flex-col  ">
-        <div className="flex items-center mx-3 mt-3">
-          <div className="flex justify-center items-center rounded-[0.5rem] w-24 h-10 bg-gray-600 cursor-pointer hover:bg-gray-700 ml-auto mr-5">
-            <div className="text-white font-medium">新建申请</div>
+      <div className="w-full h-[735px] flex flex-1 flex-col">
+        <TableList
+          handleAddOpen={(record: TravelExpenseFormDto) => {
+            getCurrentTravelRequestData(record);
+          }}
+          applyDataList={applyDataList}
+          tableLoading={tableLoading}
+        />
+        <div className="my-4 w-full flex">
+          <div className="ml-auto mr-3">
+            <Pagination
+              total={totalNum}
+              onChange={(page) => setPageDto({ ...pageDto, pageIndex: page })}
+            />
           </div>
         </div>
-        <TableList
-          handleAddOpen={(record: ApplyDataProps) => {
-            setIsModalOpen(true);
-            setCurrentListData(record);
-          }}
-          applyData={applyData}
-        />
         <Modal
           className="-mt-10"
           width={750}
@@ -38,7 +49,13 @@ const ApproveManagement = () => {
           onOk={() => setIsModalOpen(false)}
           onCancel={() => setIsModalOpen(false)}
         >
-          <ApprovedModal currentListData={currentListData} />
+          <ApprovedModal
+            currentTravelRequestData={currentTravelRequestData}
+            currentInvoiceData={currentInvoiceData}
+            currentExpenseData={currentExpenseData!}
+            setIsModalOpen={setIsModalOpen}
+            getApproveList={getApproveList}
+          />
         </Modal>
       </div>
     </div>
