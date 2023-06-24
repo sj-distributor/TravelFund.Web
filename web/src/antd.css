@@ -58,3 +58,7 @@
 .anticon-clock-circle {
   height: 0.75rem;
 }
+
+.ant-popover-content {
+  max-width: 20rem;
+}

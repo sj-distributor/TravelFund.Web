@@ -1,14 +1,19 @@
 import Table, { ColumnsType } from "antd/es/table";
-import { Tag } from "antd";
-import { ClockCircleOutlined } from "@ant-design/icons";
+import { Popover, Tag } from "antd";
+import { ClockCircleOutlined, MenuOutlined } from "@ant-design/icons";
 
 import dayjs from "dayjs";
 import {
   TravelExpenseFormDto,
   TravelExpenseFormType,
+  AuditStatusType,
 } from "../../../../services/dtos/apply-reimbursement";
 
 import StatusTags from "../../../../components/status-tags";
+
+const RejectedReason = (rejectedReason: string) => {
+  return <div>{rejectedReason}</div>;
+};
 
 const TableList = ({
   applyReimbursement,
@@ -25,13 +30,6 @@ const TableList = ({
       filterMultiple: false,
     },
     {
-      title: "用户ID",
-      dataIndex: "userId",
-      align: "center",
-      key: "userId",
-      filterMultiple: false,
-    },
-    {
       title: "AI审核状态",
       dataIndex: "aiStatus",
       key: "aiStatus",
@@ -45,7 +43,30 @@ const TableList = ({
       key: "manualStatus",
       align: "center",
       filterMultiple: false,
-      render: (statusType) => StatusTags(statusType),
+      render: (statusType, row) => {
+        return (
+          <div className="flex items-center justify-center ml-5">
+            {StatusTags(statusType)}
+            <Popover
+              className="cursor-pointer"
+              placement="right"
+              title="不通过原因："
+              trigger="click"
+              content={RejectedReason(row.rejectedReason)}
+            >
+              <MenuOutlined
+                style={{
+                  visibility: `${
+                    statusType === AuditStatusType.Rejected
+                      ? "visible"
+                      : "hidden"
+                  }`,
+                }}
+              />
+            </Popover>
+          </div>
+        );
+      },
     },
     {
       title: "报销类型",

@@ -5,7 +5,7 @@ import {
   AuditStatusType,
 } from "../../services/dtos/apply-reimbursement";
 
-import { GetExpenseList } from "../../services/api/reimbursement";
+import { GetApproveList } from "../../services/api/approve";
 
 import {
   GetTravelApplicationData,
@@ -48,7 +48,11 @@ const useAction = () => {
   const getApproveList = () => {
     setTableLoading(true);
 
-    GetExpenseList({ PageIndex: pageDto.pageIndex, PageSize: pageDto.pageSize })
+    GetApproveList({
+      PageIndex: pageDto.pageIndex,
+      PageSize: pageDto.pageSize,
+      ManualStatus: AuditStatusType.Inprogress,
+    })
       .then((res) => {
         if (res) {
           const applyDataListResponse = res.travelExpenseForms.filter(

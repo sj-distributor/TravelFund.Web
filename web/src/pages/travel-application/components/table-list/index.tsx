@@ -22,12 +22,6 @@ const TableList = ({
       fixed: "left",
     },
     {
-      title: "用户ID",
-      dataIndex: "userId",
-      align: "center",
-      width: 120,
-    },
-    {
       title: "报销额度",
       dataIndex: "customPrice",
       align: "center",

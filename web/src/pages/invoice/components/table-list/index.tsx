@@ -27,12 +27,6 @@ const TableList = ({
       width: 120,
     },
     {
-      title: "用户ID",
-      dataIndex: "userId",
-      align: "center",
-      width: 120,
-    },
-    {
       title: "发票",
       dataIndex: "fileUrl",
       align: "center",
@@ -107,14 +101,6 @@ const TableList = ({
     {
       title: "AI审核状态",
       dataIndex: "aiStatus",
-      align: "center",
-      width: 150,
-      render: (statusType) => StatusTags(statusType),
-    },
-    {
-      title: "人工审核状态",
-      dataIndex: "manualStatus",
-      key: "manualStatus",
       align: "center",
       width: 150,
       render: (statusType) => StatusTags(statusType),

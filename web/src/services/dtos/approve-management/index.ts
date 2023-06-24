@@ -33,6 +33,7 @@ export interface IInvoiceListProps {
 export interface IApproveExpenseProps {
   travelExpenseFormId: number;
   manualStatus: number;
+  rejectedReason: string;
 }
 
 export interface IApproveExpenseResponse {
