@@ -206,7 +206,9 @@ export const ApprovedModal = (props: {
                 title="审批"
                 description={() =>
                   `确定${
-                    manualStatus === AuditStatusType.Approved ? "通过" : "拒绝"
+                    manualStatus === AuditStatusType.Approved
+                      ? "通过"
+                      : "拒绝通过"
                   }该申请单吗？`
                 }
                 onConfirm={() => handleApproveExpense()}

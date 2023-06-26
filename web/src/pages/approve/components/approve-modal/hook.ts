@@ -23,7 +23,7 @@ const useAction = (props: {
   setIsModalOpen: (boolean: boolean) => void;
   getApproveList: () => void;
 }) => {
-  const [manualStatus, setManualStatus] = useState<number>(
+  const [manualStatus, setManualStatus] = useState<AuditStatusType>(
     AuditStatusType.Approved
   );
 

@@ -70,10 +70,10 @@ const useAction = () => {
     });
   };
 
-  const submitBtn = async (file: Record<string, any>) => {
+  const submitBtn = async (records: Record<string, any>) => {
     const formData = new FormData();
 
-    formData.append("file", file.file);
+    formData.append("file", records.file);
 
     const attachmentData = await PostUrlImg(formData);
 

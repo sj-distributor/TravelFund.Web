@@ -5,7 +5,7 @@ import { TravelInvoiceType } from "../../../../services/dtos/invoice";
 const useAction = () => {
   const [invoiceType, setInvoiceType] = useState<number>(0);
 
-  const [file, setFile] = useState<Record<string, any>>();
+  const [uploadRecord, setUploadRecord] = useState<Record<string, any>>();
 
   const selectType: { value: number; label: string }[] = [
     {
@@ -26,8 +26,8 @@ const useAction = () => {
     selectType,
     invoiceType,
     setInvoiceType,
-    file,
-    setFile,
+    uploadRecord,
+    setUploadRecord,
   };
 };
 export default useAction;

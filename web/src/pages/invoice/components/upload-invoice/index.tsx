@@ -4,18 +4,23 @@ import { UploadOutlined } from "@ant-design/icons";
 import { Button, Select, Upload, Form } from "antd";
 
 const UploadInvoice = forwardRef(
-  (props: { submitBtn: (file: Record<string, any>) => void }, ref) => {
+  (props: { submitBtn: (records: Record<string, any>) => void }, ref) => {
     const submitBtn = props.submitBtn;
 
-    const { selectType, invoiceType, setInvoiceType, file, setFile } =
-      useAction();
+    const {
+      selectType,
+      invoiceType,
+      setInvoiceType,
+      uploadRecord,
+      setUploadRecord,
+    } = useAction();
 
     useImperativeHandle(ref, () => ({ invoiceType }));
     return (
       <div className="mt-7 w-[30rem]">
         <Form
           className="mx-10 my-7"
-          onFinish={() => submitBtn(file!)}
+          onFinish={() => submitBtn(uploadRecord!)}
           preserve={false}
         >
           <Form.Item
@@ -51,7 +56,7 @@ const UploadInvoice = forwardRef(
                 beforeUpload={() => {
                   return false;
                 }}
-                onChange={(file) => setFile(file)}
+                onChange={(records) => setUploadRecord(records)}
                 maxCount={1}
                 accept="image/*"
               >

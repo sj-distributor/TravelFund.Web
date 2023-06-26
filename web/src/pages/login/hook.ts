@@ -5,6 +5,7 @@ import { Post } from "../../services/api/http-client";
 import { useLocation } from "react-router-dom";
 
 import { useAuth } from "../../hooks/use-auth";
+import { message } from "antd";
 
 const useAction = () => {
   const { signin } = useAuth();
@@ -37,6 +38,9 @@ const useAction = () => {
         localStorage.setItem("token", token);
         localStorage.setItem("userName", userName);
         signin(token, historyCallback);
+      } else {
+        message.destroy();
+        message.error("Incorrect username or password.");
       }
     });
   };
