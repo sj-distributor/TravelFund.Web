@@ -11,10 +11,6 @@ import {
 
 import StatusTags from "../../../../components/status-tags";
 
-const RejectedReason = (rejectedReason: string) => {
-  return <div>{rejectedReason}</div>;
-};
-
 const TableList = ({
   applyReimbursement,
   tableLoading,
@@ -52,7 +48,7 @@ const TableList = ({
               placement="right"
               title="不通过原因："
               trigger="click"
-              content={RejectedReason(row.rejectedReason)}
+              content={<div>{row.rejectedReason}</div>}
             >
               <MenuOutlined
                 style={{

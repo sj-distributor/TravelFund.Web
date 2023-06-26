@@ -9,6 +9,8 @@ import {
 } from "../../services/api/invoice";
 import { TravelInvoices } from "../../services/dtos/invoice";
 
+import { PostUrlImg } from "../../services/api/invoice";
+
 const useAction = () => {
   const [pageDto, setPageDto] = useState({ pageIndex: 1, pageSize: 10 });
 
@@ -22,7 +24,6 @@ const useAction = () => {
 
   const uploadIdRef = useRef({
     invoiceType: 0,
-    uploadId: 0,
   });
 
   const getInvoiceList = () => {
@@ -69,18 +70,26 @@ const useAction = () => {
     });
   };
 
-  const submitBtn = () => {
-    PostAddInvoice({
-      travelFundInvoiceData: {
-        attachmentIds: [uploadIdRef.current.uploadId],
-        invoiceType: uploadIdRef.current.invoiceType,
-      },
-    }).then((res) => {
-      message.success("Successfully upload");
-      setTableLoading(true);
-      setIsModalOpen(false);
-      getInvoiceList();
-    });
+  const submitBtn = async (file: Record<string, any>) => {
+    const formData = new FormData();
+
+    formData.append("file", file.file);
+
+    const attachmentData = await PostUrlImg(formData);
+
+    if (attachmentData) {
+      PostAddInvoice({
+        travelFundInvoiceData: {
+          attachmentIds: [attachmentData.id],
+          invoiceType: uploadIdRef.current.invoiceType,
+        },
+      }).then((res) => {
+        message.success("Successfully upload");
+        setTableLoading(true);
+        setIsModalOpen(false);
+        getInvoiceList();
+      });
+    }
   };
 
   const deleteInvoice = (id: number) => {

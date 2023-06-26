@@ -1,12 +1,11 @@
 import { useState } from "react";
 
-import { PostUrlImg } from "../../../../services/api/invoice";
 import { TravelInvoiceType } from "../../../../services/dtos/invoice";
 
 const useAction = () => {
   const [invoiceType, setInvoiceType] = useState<number>(0);
 
-  const [uploadId, setUploadId] = useState<number>(0);
+  const [file, setFile] = useState<Record<string, any>>();
 
   const selectType: { value: number; label: string }[] = [
     {
@@ -23,22 +22,12 @@ const useAction = () => {
     },
   ];
 
-  const upLoadFile = async (file: Record<string, any>) => {
-    const formData = new FormData();
-    formData.append("file", file.file!);
-
-    const attachmentId = await PostUrlImg(formData);
-    if (attachmentId) {
-      setUploadId(attachmentId.id);
-    }
-  };
-
   return {
     selectType,
     invoiceType,
     setInvoiceType,
-    upLoadFile,
-    uploadId,
+    file,
+    setFile,
   };
 };
 export default useAction;
