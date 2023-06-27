@@ -2,9 +2,13 @@ import React, { useImperativeHandle, forwardRef } from "react";
 import useAction from "./hook";
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Select, Upload, Form } from "antd";
+import { UploadChangeParam, UploadFile } from "antd/es/upload";
 
 const UploadInvoice = forwardRef(
-  (props: { submitBtn: (records: Record<string, any>) => void }, ref) => {
+  (
+    props: { submitBtn: (records: UploadChangeParam<UploadFile>) => void },
+    ref
+  ) => {
     const submitBtn = props.submitBtn;
 
     const {

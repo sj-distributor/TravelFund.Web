@@ -96,10 +96,7 @@ const useAction = (props: {
 
   const handleApproveExpense = () => {
     if (manualStatus === AuditStatusType.Rejected && !rejectedReason) {
-      message.open({
-        type: "error",
-        content: "请输入拒绝理由！",
-      });
+      message.error("请输入拒绝理由");
     } else {
       PostApproveExpense({
         travelExpenseFormId: travelExpenseFormId,
