@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import { TravelInvoiceType } from "../../../../services/dtos/invoice";
 import { UploadChangeParam, UploadFile } from "antd/es/upload";
 
+import { InvoiceContext } from "../..";
+
 const useAction = () => {
+  const { submitBtn } = useContext(InvoiceContext);
+
   const [invoiceType, setInvoiceType] = useState<TravelInvoiceType>(
     TravelInvoiceType.TourismFund
   );
@@ -32,6 +36,7 @@ const useAction = () => {
     setInvoiceType,
     uploadRecord,
     setUploadRecord,
+    submitBtn,
   };
 };
 export default useAction;

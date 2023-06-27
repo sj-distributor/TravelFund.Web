@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { message } from "antd";
 
 import {
@@ -8,6 +8,8 @@ import {
   PostDeleteInvoice,
 } from "../../services/api/invoice";
 import { TravelInvoices } from "../../services/dtos/invoice";
+
+import { TravelInvoiceType } from "../../services/dtos/invoice";
 
 import { PostUrlImg } from "../../services/api/invoice";
 
@@ -21,10 +23,6 @@ const useAction = () => {
   const [totalNum, setTotalNum] = useState<number>(1);
 
   const [tableLoading, setTableLoading] = useState<boolean>(true);
-
-  const uploadIdRef = useRef({
-    invoiceType: 0,
-  });
 
   const getInvoiceList = () => {
     setTableLoading(true);
@@ -70,7 +68,10 @@ const useAction = () => {
     });
   };
 
-  const submitBtn = async (records: Record<string, any>) => {
+  const submitBtn = async (
+    records: Record<string, any>,
+    invoiceType: TravelInvoiceType
+  ) => {
     const formData = new FormData();
 
     formData.append("file", records.file);
@@ -81,7 +82,7 @@ const useAction = () => {
       PostAddInvoice({
         travelFundInvoiceData: {
           attachmentIds: [attachmentData.id],
-          invoiceType: uploadIdRef.current.invoiceType,
+          invoiceType: invoiceType,
         },
       }).then((res) => {
         message.success("Successfully upload");
@@ -114,7 +115,6 @@ const useAction = () => {
     invoiceList,
     isModalOpen,
     setIsModalOpen,
-    uploadIdRef,
     submitBtn,
     totalNum,
     pageDto,
