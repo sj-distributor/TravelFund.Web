@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 
-import { Button, Popconfirm, Image } from "antd";
+import { Button, Popconfirm, Image, Input, Radio } from "antd";
 
 import useAction from "./hook";
 
@@ -30,7 +30,13 @@ export const ApprovedModal = (props: {
   setIsModalOpen: (boolean: boolean) => void;
   getApproveList: () => void;
 }) => {
-  const { approveModalList, handleApproveExpense } = useAction(props);
+  const {
+    approveModalList,
+    handleApproveExpense,
+    setRejectedReason,
+    manualStatus,
+    setManualStatus,
+  } = useAction(props);
 
   const ExpenseTypeContent = (type: number) => {
     switch (type) {
@@ -127,11 +133,11 @@ export const ApprovedModal = (props: {
       case "附件":
         return (
           <>
-            <div className="max-h-44 overflow-y-scroll">
+            <div className="max-h-36 overflow-y-scroll">
               {item.invoice?.map((item: IInvoiceListProps, index: number) => {
                 return (
                   <div
-                    className="flex w-2/3 items-center ml-16 mt-4"
+                    className="flex w-2/3 items-center ml-16 mb-4"
                     key={index}
                   >
                     <Image height={65} width={135} src={item.fileUrl} />
@@ -170,46 +176,50 @@ export const ApprovedModal = (props: {
 
       case "人工审批意见":
         return (
-          <div className="relative flex flex-col">
-            <div className="flex justify-center items-center h-10 ml-4">
-              <div className="text-gray-900 text-sm w-full">
-                {item.manualOpinionContent}
-              </div>
+          <div className="relative flex flex-col px-4">
+            <Radio.Group
+              defaultValue={AuditStatusType.Approved}
+              buttonStyle="solid"
+              className="mt-3"
+              onChange={(e) => setManualStatus(e.target.value)}
+            >
+              <Radio value={AuditStatusType.Approved}>通过</Radio>
+              <Radio value={AuditStatusType.Rejected}>拒绝</Radio>
+            </Radio.Group>
+
+            <div className="mt-3">
+              {manualStatus === AuditStatusType.Approved ? (
+                <div className="border rounded-md p-3">
+                  {item.manualOpinionContent}
+                </div>
+              ) : (
+                <Input.TextArea
+                  rows={3}
+                  placeholder="请输入拒绝理由..."
+                  onChange={(e) => setRejectedReason(e.target.value)}
+                />
+              )}
             </div>
-            <div className="flex ml-auto mr-4">
+
+            <div className="mt-5 flex ml-auto">
               <Popconfirm
-                title="审批出行"
-                description="确定拒绝该报销申请单吗？"
-                onConfirm={() => {
-                  handleApproveExpense(AuditStatusType.Rejected);
-                }}
+                title="审批"
+                description={() =>
+                  `确定${
+                    manualStatus === AuditStatusType.Approved
+                      ? "通过"
+                      : "拒绝通过"
+                  }该申请单吗？`
+                }
+                onConfirm={() => handleApproveExpense()}
                 okText="确定"
                 cancelText="取消"
                 cancelButtonProps={{
                   style: { color: "black", borderColor: "rgb(229 231 235)" },
                 }}
               >
-                <Button className="border-gray-200 bg-red-700 text-white hover:bg-red-800 hover:font-semibold hover:text-white font-medium">
-                  拒绝
-                </Button>
-              </Popconfirm>
-              <Popconfirm
-                title="审批出行"
-                description="确定通过该报销申请单吗？"
-                onConfirm={() => {
-                  handleApproveExpense(AuditStatusType.Approved);
-                }}
-                okText="确定"
-                cancelText="取消"
-                cancelButtonProps={{
-                  style: { color: "black", borderColor: "rgb(229 231 235)" },
-                }}
-              >
-                <Button
-                  type="primary"
-                  className="bg-gray-700 text-white font-medium ml-4"
-                >
-                  通过
+                <Button className="bg-gray-700 text-white font-medium ml-4">
+                  提交
                 </Button>
               </Popconfirm>
             </div>

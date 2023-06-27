@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { RoutesProps } from "@/props";
 import useAction from "./hook";
 
@@ -13,6 +13,8 @@ const Header = () => {
     signout,
   } = useAction();
 
+  const navigate = useNavigate();
+
   const AccountModal = () => {
     return (
       <div className="bg-white w-36 absolute top-12 right-12 rounded-b-md border border-gray-300 shadow-xl">
@@ -21,7 +23,7 @@ const Header = () => {
         </div>
         <div
           className="h-8 flex items-center cursor-pointer hover:bg-blue-500 hover:text-white hover:font-semibold"
-          onClick={() => signout()}
+          onClick={() => signout(() => navigate("/login"))}
         >
           <div className="text-sm ml-5">注销</div>
         </div>

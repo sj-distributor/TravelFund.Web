@@ -9,6 +9,7 @@ export interface ApplyReimbursementProps {
 export interface GetExpenseListDto {
   PageIndex: number;
   PageSize: number;
+  ManualStatus?: number;
 }
 
 export interface PostAddExpenseDto {
@@ -29,6 +30,7 @@ export interface TravelExpenseFormDto {
   manualStatus: AuditStatusType;
   type: TravelExpenseFormType; //Enum:[10]
   title: string;
+  rejectedReason: string;
   userName: string;
   createdDate: string;
   approvedDate: string;

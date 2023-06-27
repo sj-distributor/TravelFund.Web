@@ -1,12 +1,19 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 
-import { PostUrlImg } from "../../../../services/api/invoice";
 import { TravelInvoiceType } from "../../../../services/dtos/invoice";
+import { UploadChangeParam, UploadFile } from "antd/es/upload";
+
+import { InvoiceContext } from "../..";
 
 const useAction = () => {
-  const [invoiceType, setInvoiceType] = useState<number>(0);
+  const { submitBtn } = useContext(InvoiceContext);
 
-  const [uploadId, setUploadId] = useState<number>(0);
+  const [invoiceType, setInvoiceType] = useState<TravelInvoiceType>(
+    TravelInvoiceType.TourismFund
+  );
+
+  const [uploadRecord, setUploadRecord] =
+    useState<UploadChangeParam<UploadFile>>();
 
   const selectType: { value: number; label: string }[] = [
     {
@@ -23,22 +30,13 @@ const useAction = () => {
     },
   ];
 
-  const upLoadFile = async (file: Record<string, any>) => {
-    const formData = new FormData();
-    formData.append("file", file.file!);
-
-    const attachmentId = await PostUrlImg(formData);
-    if (attachmentId) {
-      setUploadId(attachmentId.id);
-    }
-  };
-
   return {
     selectType,
     invoiceType,
     setInvoiceType,
-    upLoadFile,
-    uploadId,
+    uploadRecord,
+    setUploadRecord,
+    submitBtn,
   };
 };
 export default useAction;

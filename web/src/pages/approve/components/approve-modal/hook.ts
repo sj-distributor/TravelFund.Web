@@ -14,6 +14,7 @@ import {
   AuditStatusType,
 } from "../../../../services/dtos/apply-reimbursement";
 import { message } from "antd";
+import { useState } from "react";
 
 const useAction = (props: {
   currentTravelRequestData: TravelApplicationResponses[];
@@ -22,6 +23,12 @@ const useAction = (props: {
   setIsModalOpen: (boolean: boolean) => void;
   getApproveList: () => void;
 }) => {
+  const [manualStatus, setManualStatus] = useState<AuditStatusType>(
+    AuditStatusType.Approved
+  );
+
+  const [rejectedReason, setRejectedReason] = useState<string>("");
+
   const travelRequest = props.currentTravelRequestData[0];
 
   const invoiceDataList = props.currentInvoiceData;
@@ -87,25 +94,36 @@ const useAction = (props: {
     },
   ];
 
-  const handleApproveExpense = (manualStatus: number) => {
-    PostApproveExpense({
-      travelExpenseFormId: travelExpenseFormId,
-      manualStatus: manualStatus,
-    })
-      .then((res) => {
-        if (res) {
-          props.setIsModalOpen(false);
-          manualStatus === AuditStatusType.Rejected
-            ? message.success("Successfully rejected")
-            : message.success("Successfully approved");
-          props.getApproveList();
-        }
+  const handleApproveExpense = () => {
+    if (manualStatus === AuditStatusType.Rejected && !rejectedReason) {
+      message.error("请输入拒绝理由");
+    } else {
+      PostApproveExpense({
+        travelExpenseFormId: travelExpenseFormId,
+        manualStatus: manualStatus,
+        rejectedReason: rejectedReason,
       })
-      .catch((err) => {
-        message.error("Unsuccessful");
-      });
+        .then((res) => {
+          if (res) {
+            props.setIsModalOpen(false);
+            manualStatus === AuditStatusType.Rejected
+              ? message.success("Successfully rejected")
+              : message.success("Successfully approved");
+            props.getApproveList();
+          }
+        })
+        .catch((err) => {
+          message.error("Unsuccessful");
+        });
+    }
   };
 
-  return { approveModalList, handleApproveExpense };
+  return {
+    approveModalList,
+    handleApproveExpense,
+    setRejectedReason,
+    manualStatus,
+    setManualStatus,
+  };
 };
 export default useAction;

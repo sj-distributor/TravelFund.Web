@@ -4,13 +4,24 @@ import UploadInvoice from "./components/upload-invoice";
 import { Modal, Pagination } from "antd";
 
 import { TravelInvoices } from "@/services/dtos/invoice";
+import { TravelInvoiceType } from "../../services/dtos/invoice";
+
+import { createContext } from "react";
+
+export const InvoiceContext = createContext<{
+  submitBtn: (
+    record: Record<string, any>,
+    invoiceType: TravelInvoiceType
+  ) => void;
+}>({
+  submitBtn: () => {},
+});
 
 const Invoice = () => {
   const {
     invoiceList,
     isModalOpen,
     setIsModalOpen,
-    uploadIdRef,
     submitBtn,
     totalNum,
     pageDto,
@@ -53,7 +64,9 @@ const Invoice = () => {
         onCancel={() => setIsModalOpen(false)}
         destroyOnClose
       >
-        <UploadInvoice ref={uploadIdRef} submitBtn={submitBtn} />
+        <InvoiceContext.Provider value={{ submitBtn }}>
+          <UploadInvoice />
+        </InvoiceContext.Provider>
       </Modal>
     </div>
   );

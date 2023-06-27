@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { message } from "antd";
 
 import {
@@ -8,6 +8,10 @@ import {
   PostDeleteInvoice,
 } from "../../services/api/invoice";
 import { TravelInvoices } from "../../services/dtos/invoice";
+
+import { TravelInvoiceType } from "../../services/dtos/invoice";
+
+import { PostUrlImg } from "../../services/api/invoice";
 
 const useAction = () => {
   const [pageDto, setPageDto] = useState({ pageIndex: 1, pageSize: 10 });
@@ -19,11 +23,6 @@ const useAction = () => {
   const [totalNum, setTotalNum] = useState<number>(1);
 
   const [tableLoading, setTableLoading] = useState<boolean>(true);
-
-  const uploadIdRef = useRef({
-    invoiceType: 0,
-    uploadId: 0,
-  });
 
   const getInvoiceList = () => {
     setTableLoading(true);
@@ -69,18 +68,29 @@ const useAction = () => {
     });
   };
 
-  const submitBtn = () => {
-    PostAddInvoice({
-      travelFundInvoiceData: {
-        attachmentIds: [uploadIdRef.current.uploadId],
-        invoiceType: uploadIdRef.current.invoiceType,
-      },
-    }).then((res) => {
-      message.success("Successfully upload");
-      setTableLoading(true);
-      setIsModalOpen(false);
-      getInvoiceList();
-    });
+  const submitBtn = async (
+    records: Record<string, any>,
+    invoiceType: TravelInvoiceType
+  ) => {
+    const formData = new FormData();
+
+    formData.append("file", records.file);
+
+    const attachmentData = await PostUrlImg(formData);
+
+    if (attachmentData) {
+      PostAddInvoice({
+        travelFundInvoiceData: {
+          attachmentIds: [attachmentData.id],
+          invoiceType: invoiceType,
+        },
+      }).then((res) => {
+        message.success("Successfully upload");
+        setTableLoading(true);
+        setIsModalOpen(false);
+        getInvoiceList();
+      });
+    }
   };
 
   const deleteInvoice = (id: number) => {
@@ -105,7 +115,6 @@ const useAction = () => {
     invoiceList,
     isModalOpen,
     setIsModalOpen,
-    uploadIdRef,
     submitBtn,
     totalNum,
     pageDto,

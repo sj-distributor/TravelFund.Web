@@ -40,7 +40,7 @@ const ApproveManagement = () => {
           </div>
         </div>
         <Modal
-          className="-mt-10"
+          className="-mt-16"
           width={750}
           title="出行申请"
           open={isModalOpen}
@@ -48,6 +48,7 @@ const ApproveManagement = () => {
           cancelText="取消"
           onOk={() => setIsModalOpen(false)}
           onCancel={() => setIsModalOpen(false)}
+          destroyOnClose={true}
         >
           <ApprovedModal
             currentTravelRequestData={currentTravelRequestData}
