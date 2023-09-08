@@ -167,7 +167,6 @@ export const ApprovedModal = (props: {
                 );
               })}
             </div>
-
             <div className="h-px bg-gray-200 mt-4" />
           </>
         );
