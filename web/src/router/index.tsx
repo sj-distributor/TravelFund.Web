@@ -47,7 +47,7 @@ export const Router = () => {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route element={<Home />}>
-        <Route path="" element={<Navigate to={"/home/reimbursement"} />} />
+        <Route path="*" element={<Navigate to={"/home/reimbursement"} />} />
         {routerArray.map((item: RoutesProps, index: number) => {
           return (
             <Route
