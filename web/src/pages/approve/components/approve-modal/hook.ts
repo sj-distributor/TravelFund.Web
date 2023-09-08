@@ -37,6 +37,13 @@ const useAction = (props: {
 
   const travelExpenseFormId = props.currentExpenseData.id;
 
+  const approvalTitleList: string[] = [
+    "人资中心审批",
+    "人资中心员工福利组负责人审批",
+    "人资中心员工服务组负责人审批",
+    "人资中心部门负责人审批",
+  ];
+
   const approveModalList: IApproveModalListProps[] = [
     {
       title: "申请信息",
@@ -66,8 +73,12 @@ const useAction = (props: {
           ),
         },
         {
-          applicationLabel: "报销额度：",
-          applicationContent: `¥${travelRequest?.customPrice}`,
+          applicationLabel: "出游地点：",
+          applicationContent: `广东省中山市`,
+        },
+        {
+          applicationLabel: "是否申请组团额度：",
+          applicationContent: `是`,
         },
         {
           applicationLabel: "发票额度：",
@@ -76,6 +87,10 @@ const useAction = (props: {
         {
           applicationLabel: "实际额度：",
           applicationContent: `¥${travelRequest?.actualPrice}`,
+        },
+        {
+          applicationLabel: "家人信息：",
+          applicationContent: `xxxx`,
         },
       ],
     },
@@ -124,6 +139,7 @@ const useAction = (props: {
     setRejectedReason,
     manualStatus,
     setManualStatus,
+    approvalTitleList,
   };
 };
 export default useAction;

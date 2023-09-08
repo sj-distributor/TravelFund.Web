@@ -20,8 +20,11 @@ const Report = () => {
             }
           />
         </div>
+        <div className="flex justify-center items-center rounded-[0.5rem] w-24 h-10 bg-gray-600 cursor-pointer hover:bg-gray-700 ml-auto mr-5 text-white font-medium">
+          额度管理
+        </div>
         <div
-          className="flex justify-center items-center rounded-[0.5rem] w-24 h-10 bg-gray-600 cursor-pointer hover:bg-gray-700 ml-auto mr-5"
+          className="flex justify-center items-center rounded-[0.5rem] w-24 h-10 bg-gray-600 cursor-pointer hover:bg-gray-700 mr-5"
           onClick={() => ExportFile(reportData)}
         >
           <div className="text-white font-medium">导出报表</div>

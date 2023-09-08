@@ -1,20 +1,30 @@
-import { Button, Input, Select, Form } from "antd";
-import DebounceSelect from "../debounce-select";
+import {
+  Button,
+  Select,
+  Form,
+  DatePicker,
+  Cascader,
+  Upload,
+  Radio,
+  Input,
+} from "antd";
+
 import useAction from "./hook";
-import { SelectValue } from "@/services/dtos/apply-reimbursement";
+
 import { ApplyModalProps } from "./props";
+import { UploadOutlined } from "@ant-design/icons";
 
 const ApplyModal = (props: ApplyModalProps) => {
   const { setIsModalOpen, getExpenseList } = props;
   const {
     reimburseTypeSelect,
     addExpenseData,
-    travelRequestList,
+    loading,
     handleAddExpense,
     setAddExpenseData,
     invoiceList,
+    travelRequestList,
     handleSelectScroll,
-    loading,
   } = useAction({ setIsModalOpen, getExpenseList });
 
   return (
@@ -26,47 +36,28 @@ const ApplyModal = (props: ApplyModalProps) => {
           preserve={false}
         >
           <Form.Item
-            label="申请标题"
-            name="申请标题"
-            rules={[{ required: true, message: "请填写申请标题！" }]}
+            label="出游日期"
+            name="出游日期"
+            rules={[{ required: true, message: "请填写出游日期！" }]}
             className="my-7"
           >
-            <Input
-              value={addExpenseData.title}
-              placeholder="输入申请标题"
-              onChange={(e) =>
-                setAddExpenseData((prve) => ({
-                  ...prve,
-                  title: e.target.value,
-                }))
-              }
-            />
+            <DatePicker />
           </Form.Item>
           <Form.Item
-            label="申请表单"
-            name="申请表单"
-            rules={[{ required: true, message: "请填写申请表单！" }]}
+            label="回程日期"
+            name="回程日期"
+            rules={[{ required: true, message: "请填写回程日期！" }]}
             className="my-7"
           >
-            <Select
-              value={
-                addExpenseData.travelRequestFormId
-                  ? addExpenseData.travelRequestFormId
-                  : undefined
-              }
-              placeholder="选择申请表单"
-              showSearch
-              options={travelRequestList}
-              filterOption
-              style={{ width: "100%" }}
-              onChange={(newValue) => {
-                setAddExpenseData((prve) => ({
-                  ...prve,
-                  travelRequestFormId: newValue,
-                }));
-              }}
-              onPopupScroll={(e) => handleSelectScroll(e, "requestFrom")}
-            />
+            <DatePicker />
+          </Form.Item>
+          <Form.Item
+            label="出游地点"
+            name="出游地点"
+            rules={[{ required: true, message: "请填写出游地点！" }]}
+            className="my-7"
+          >
+            <Cascader placeholder="请选择出游城市" />
           </Form.Item>
           <Form.Item
             label="申请发票"
@@ -74,22 +65,9 @@ const ApplyModal = (props: ApplyModalProps) => {
             rules={[{ required: true, message: "请填写申请发票！" }]}
             className="my-7"
           >
-            <Select
-              mode="multiple"
-              value={addExpenseData.travelInvoiceIds}
-              placeholder="选择申请发票"
-              options={invoiceList}
-              filterOption
-              allowClear
-              onChange={(newValue) => {
-                setAddExpenseData((prve) => ({
-                  ...prve,
-                  travelInvoiceIds: newValue as number[],
-                }));
-              }}
-              onPopupScroll={(e) => handleSelectScroll(e, "travelInvoice")}
-              className="w-full max-h-12 overflow-y-auto"
-            />
+            <Upload {...props}>
+              <Button icon={<UploadOutlined />}>上传发票图片</Button>
+            </Upload>
           </Form.Item>
           <Form.Item
             label="申请类型"
@@ -105,6 +83,39 @@ const ApplyModal = (props: ApplyModalProps) => {
               optionFilterProp="children"
               options={reimburseTypeSelect}
             />
+          </Form.Item>
+          <Form.Item
+            label="是否申请家人报销"
+            name="申请家人报销"
+            rules={[{ required: true, message: "请填写是否申请家人报销！" }]}
+            className="my-7"
+          >
+            <Radio.Group>
+              <Radio value={1}>是</Radio>
+              <Radio value={2}>否</Radio>
+            </Radio.Group>
+          </Form.Item>
+          <Form.Item
+            label="家人姓名"
+            name="家人姓名"
+            rules={[{ required: true, message: "请填写家人姓名！" }]}
+            className="my-7"
+          >
+            <Input placeholder="填写家人姓名" />
+          </Form.Item>
+          <Form.Item
+            label="是否申请组团额度"
+            name="申请组团额度"
+            rules={[{ required: true, message: "请填写是否申请组团额度！" }]}
+            className="my-7"
+          >
+            <Radio.Group>
+              <Radio value={1}>是</Radio>
+              <Radio value={2}>否</Radio>
+            </Radio.Group>
+          </Form.Item>
+          <Form.Item label="可报销额度" name="可报销额度" className="my-7">
+            <span>1000</span>
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 19, span: 16 }}>
             <Button
