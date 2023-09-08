@@ -191,7 +191,6 @@ export const ApprovedModal = (props: {
                     <Radio value={AuditStatusType.Approved}>通过</Radio>
                     <Radio value={AuditStatusType.Rejected}>拒绝</Radio>
                   </Radio.Group>
-
                   <div className="mt-3">
                     {manualStatus === AuditStatusType.Approved ? (
                       <div className="border rounded-md p-3">
@@ -205,7 +204,6 @@ export const ApprovedModal = (props: {
                       />
                     )}
                   </div>
-
                   <div className="mt-5 flex ml-auto">
                     <Popconfirm
                       title="审批"
