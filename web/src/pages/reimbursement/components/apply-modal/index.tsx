@@ -1,21 +1,29 @@
-import { Button, Input, Select, Form } from "antd";
-import DebounceSelect from "../debounce-select";
+import {
+  Button,
+  Select,
+  Form,
+  DatePicker,
+  Cascader,
+  Upload,
+  Input,
+  Radio,
+} from "antd";
 import useAction from "./hook";
-import { SelectValue } from "@/services/dtos/apply-reimbursement";
 import { ApplyModalProps } from "./props";
+import { UploadOutlined } from "@ant-design/icons";
+import cascaderOptions from "@pansy/china-division";
+import { useState } from "react";
 
 const ApplyModal = (props: ApplyModalProps) => {
   const { setIsModalOpen, getExpenseList } = props;
-  const {
-    reimburseTypeSelect,
-    addExpenseData,
-    travelRequestList,
-    handleAddExpense,
-    setAddExpenseData,
-    invoiceList,
-    handleSelectScroll,
-    loading,
-  } = useAction({ setIsModalOpen, getExpenseList });
+  const { reimburseTypeSelect, addExpenseData, handleAddExpense, loading } =
+    useAction({ setIsModalOpen, getExpenseList });
+
+  const [values, setValues] = useState(false);
+
+  const handleChange = (Value: string) => {
+    setValues(Value === "是");
+  };
 
   return (
     <>
@@ -26,70 +34,59 @@ const ApplyModal = (props: ApplyModalProps) => {
           preserve={false}
         >
           <Form.Item
-            label="申请标题"
-            name="申请标题"
-            rules={[{ required: true, message: "请填写申请标题！" }]}
+            label="出游日期"
+            name="出游日期"
+            rules={[{ required: true, message: "请填写出游日期！" }]}
             className="my-7"
           >
-            <Input
-              value={addExpenseData.title}
-              placeholder="输入申请标题"
-              onChange={(e) =>
-                setAddExpenseData((prve) => ({
-                  ...prve,
-                  title: e.target.value,
-                }))
-              }
+            <DatePicker
+              style={{
+                width: "100%",
+              }}
+              placeholder="选择出游日期"
             />
           </Form.Item>
           <Form.Item
-            label="申请表单"
-            name="申请表单"
-            rules={[{ required: true, message: "请填写申请表单！" }]}
+            label="回程日期"
+            name="回程日期"
+            rules={[{ required: true, message: "请填写回程日期！" }]}
             className="my-7"
           >
-            <Select
-              value={
-                addExpenseData.travelRequestFormId
-                  ? addExpenseData.travelRequestFormId
-                  : undefined
-              }
-              placeholder="选择申请表单"
-              showSearch
-              options={travelRequestList}
-              filterOption
-              style={{ width: "100%" }}
-              onChange={(newValue) => {
-                setAddExpenseData((prve) => ({
-                  ...prve,
-                  travelRequestFormId: newValue,
-                }));
+            <DatePicker style={{ width: "100%" }} placeholder="选择回程日期" />
+          </Form.Item>
+
+          <Form.Item
+            label="出游地点"
+            name="出游地点"
+            rules={[{ required: true, message: "请填写出游地点！" }]}
+            className="my-7"
+          >
+            <Cascader
+              style={{
+                width: "100%",
               }}
-              onPopupScroll={(e) => handleSelectScroll(e, "requestFrom")}
+              options={cascaderOptions}
+              multiple
+              maxTagCount="responsive"
+              placeholder="选择出游地点"
             />
           </Form.Item>
           <Form.Item
             label="申请发票"
             name="申请发票"
-            rules={[{ required: true, message: "请填写申请发票！" }]}
+            rules={[{ required: true, message: "请上传发票！" }]}
             className="my-7"
           >
-            <Select
-              mode="multiple"
-              value={addExpenseData.travelInvoiceIds}
-              placeholder="选择申请发票"
-              options={invoiceList}
-              filterOption
-              allowClear
-              onChange={(newValue) => {
-                setAddExpenseData((prve) => ({
-                  ...prve,
-                  travelInvoiceIds: newValue as number[],
-                }));
+            <Upload
+              beforeUpload={() => {
+                return false;
               }}
-              onPopupScroll={(e) => handleSelectScroll(e, "travelInvoice")}
-              className="w-full max-h-12 overflow-y-auto"
-            />
+              accept="image/*"
+            >
+              <Button className="flex items-center" icon={<UploadOutlined />}>
+                选择图片
+              </Button>
+            </Upload>
           </Form.Item>
           <Form.Item
             label="申请类型"
@@ -106,12 +103,62 @@ const ApplyModal = (props: ApplyModalProps) => {
               options={reimburseTypeSelect}
             />
           </Form.Item>
+          <Form.Item
+            label="是否申请家人报销"
+            name="是否申请家人报销"
+            rules={[{ required: true, message: "请选择！" }]}
+            className="my-7"
+          >
+            <Select
+              onChange={handleChange}
+              options={[
+                {
+                  value: "是",
+                  label: "是",
+                },
+                {
+                  value: "否",
+                  label: "否",
+                },
+              ]}
+            />
+          </Form.Item>
+          {values && (
+            <Form.Item
+              label="家人姓名"
+              name="家人姓名"
+              rules={[{ required: true, message: "请填写家人姓名！" }]}
+              className="my-7"
+            >
+              <Input placeholder="家人姓名" />
+            </Form.Item>
+          )}
+          <Form.Item
+            label="是否申请组团额度"
+            name="是否申请组团额度"
+            rules={[{ required: true, message: "请选择！" }]}
+            className="my-7"
+          >
+            <Radio.Group>
+              <Radio value={1}>是</Radio>
+              <Radio value={2}>否</Radio>
+            </Radio.Group>
+          </Form.Item>
+          <Form.Item
+            label="可报销额度"
+            name="可报销额度"
+            rules={[{ required: true, message: "请选择！" }]}
+            className="my-7"
+          >
+            <span>{values ? "¥1000.00" : "¥0.00"}</span>
+          </Form.Item>
           <Form.Item wrapperCol={{ offset: 19, span: 16 }}>
             <Button
               type="primary"
               className="bg-gray-700 text-white h-9"
               htmlType="submit"
               loading={loading}
+              disabled={!values}
             >
               提交申请
             </Button>
