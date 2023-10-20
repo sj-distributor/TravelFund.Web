@@ -3,16 +3,17 @@ import {
   Select,
   Form,
   DatePicker,
-  Cascader,
   Upload,
   Input,
   Radio,
+  Space,
 } from "antd";
 import useAction from "./hook";
 import { ApplyModalProps } from "./props";
 import { UploadOutlined } from "@ant-design/icons";
-import cascaderOptions from "@pansy/china-division";
+import cascaderOptions, { DivisionUtil } from "@pansy/china-division";
 import { useState } from "react";
+import { PlusCircleOutlined } from "@ant-design/icons";
 
 const ApplyModal = (props: ApplyModalProps) => {
   const { setIsModalOpen, getExpenseList } = props;
@@ -23,6 +24,14 @@ const ApplyModal = (props: ApplyModalProps) => {
 
   const handleChange = (Value: string) => {
     setValues(Value === "是");
+  };
+
+  const [code, setCode] = useState<string>("");
+  const divisionUtil = new DivisionUtil(cascaderOptions);
+  const cityOptions = divisionUtil.getChildrenByCode(code);
+
+  const handleProvinceChange = (value: string) => {
+    setCode(value);
   };
 
   return (
@@ -54,22 +63,34 @@ const ApplyModal = (props: ApplyModalProps) => {
           >
             <DatePicker style={{ width: "100%" }} placeholder="选择回程日期" />
           </Form.Item>
-
           <Form.Item
             label="出游地点"
             name="出游地点"
             rules={[{ required: true, message: "请填写出游地点！" }]}
             className="my-7"
           >
-            <Cascader
-              style={{
-                width: "100%",
-              }}
-              options={cascaderOptions}
-              multiple
-              maxTagCount="responsive"
-              placeholder="选择出游地点"
-            />
+            <Space wrap>
+              <Select
+                style={{
+                  width: 120,
+                }}
+                onChange={(value) => handleProvinceChange(value)}
+                options={divisionUtil.getProvinces()}
+                maxTagCount="responsive"
+                placeholder="选择省份"
+              />
+              <Select
+                style={{
+                  width: 120,
+                }}
+                options={cityOptions}
+                maxTagCount="responsive"
+                placeholder="城市"
+              />
+              <Space>
+                <PlusCircleOutlined />
+              </Space>
+            </Space>
           </Form.Item>
           <Form.Item
             label="申请发票"
