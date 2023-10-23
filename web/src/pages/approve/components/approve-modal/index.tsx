@@ -222,11 +222,10 @@ export const ApprovedModal = (props: {
                           borderColor: "rgb(229 231 235)",
                         },
                       }}
-                    >
-                      <Button className="bg-gray-700 text-white font-medium ml-4">
-                        提交
-                      </Button>
-                    </Popconfirm>
+                    ></Popconfirm>
+                    <Button className="bg-gray-700 text-white font-medium ml-4">
+                      提交
+                    </Button>
                   </div>
                 </div>
               </div>

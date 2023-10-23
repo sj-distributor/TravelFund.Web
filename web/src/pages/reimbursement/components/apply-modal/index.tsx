@@ -8,9 +8,7 @@ import {
   Radio,
   Input,
 } from "antd";
-
 import useAction from "./hook";
-
 import { ApplyModalProps } from "./props";
 import { UploadOutlined } from "@ant-design/icons";
 
@@ -25,6 +23,8 @@ const ApplyModal = (props: ApplyModalProps) => {
     invoiceList,
     travelRequestList,
     handleSelectScroll,
+    handleUploadFile,
+    normFile,
   } = useAction({ setIsModalOpen, getExpenseList });
 
   return (
@@ -64,8 +64,16 @@ const ApplyModal = (props: ApplyModalProps) => {
             name="申请发票"
             rules={[{ required: true, message: "请填写申请发票！" }]}
             className="my-7"
+            valuePropName="fileList"
+            getValueFromEvent={normFile}
           >
-            <Upload {...props}>
+            <Upload
+              customRequest={handleUploadFile}
+              name="file"
+              beforeUpload={() => {
+                return false;
+              }}
+            >
               <Button icon={<UploadOutlined />}>上传发票图片</Button>
             </Upload>
           </Form.Item>

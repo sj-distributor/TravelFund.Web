@@ -148,6 +148,18 @@ const useAction = (props: ApplyModalProps) => {
     }
   };
 
+  const handleUploadFile = () => {
+    console.log("上传文件");
+  };
+
+  const normFile = (e: { fileList: File }) => {
+    console.log("Upload event:", e);
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e?.fileList;
+  };
+
   useEffect(() => {
     getInvoiceList();
   }, [invoiceListDto.PageIndex, invoiceListDto.PageSize]);
@@ -165,6 +177,8 @@ const useAction = (props: ApplyModalProps) => {
     invoiceList,
     travelRequestList,
     handleSelectScroll,
+    handleUploadFile,
+    normFile,
   };
 };
 
