@@ -11,35 +11,60 @@ import {
   TravelExpenseFormType,
   SelectValue,
 } from "../../../../services/dtos/apply-reimbursement";
-import { message } from "antd";
+import { Form, UploadFile, message } from "antd";
+import cascaderOptions, { DivisionUtil } from "@pansy/china-division";
 
 const useAction = (props: ApplyModalProps) => {
+  const [form] = Form.useForm();
+
   const { setIsModalOpen, getExpenseList } = props;
-  const [loading, setLoading] = useState(false);
+
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const [familyReimbursement, setFamilyReimbursement] = useState<boolean>();
+
   const [addExpenseData, setAddExpenseData] = useState<addExpenseDataType>({
     title: "",
     type: TravelExpenseFormType.TourismFund,
     travelRequestFormId: 0,
     travelInvoiceIds: [],
   });
+
   const reimburseTypeSelect: reimburseTypeOptions[] = [
     {
       value: TravelExpenseFormType.TourismFund + "",
       label: "旅游基金",
     },
   ];
+
   const [invoiceListDto, setInvoiceListDto] = useState({
     PageIndex: 1,
     PageSize: 10,
     Count: 1,
   });
+
   const [travelRequestListDto, setTravelRequestListDto] = useState({
     PageIndex: 1,
     PageSize: 10,
     Count: 1,
   });
+
   const [invoiceList, setInvoiceList] = useState<SelectValue[]>([]);
+
   const [travelRequestList, setTravelRequestList] = useState<SelectValue[]>([]);
+
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
+
+  const divisionUtil = new DivisionUtil(cascaderOptions);
+
+  const locationOptions = divisionUtil.getProvinces().map((item) => {
+    const cities = divisionUtil.getChildrenByCode(item.value);
+
+    return {
+      ...item,
+      children: cities,
+    };
+  });
 
   const getInvoiceList = () => {
     GetInvoiceList({
@@ -165,6 +190,12 @@ const useAction = (props: ApplyModalProps) => {
     invoiceList,
     travelRequestList,
     handleSelectScroll,
+    locationOptions,
+    form,
+    familyReimbursement,
+    setFamilyReimbursement,
+    fileList,
+    setFileList,
   };
 };
 

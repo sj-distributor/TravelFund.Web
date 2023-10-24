@@ -5,25 +5,23 @@ import { AuthStatus } from "../hooks/auth-status";
 
 import Login from "../pages/login";
 import Home from "../pages/home";
-import Invoice from "../pages/invoice";
-import TravelApplication from "../pages/travel-application";
 import Reimbursement from "../pages/reimbursement";
 import Approve from "../pages/approve";
 import Report from "../pages/report";
 
 export const routerArray: RoutesProps[] = [
-  {
-    path: "/home/invoice",
-    element: <Invoice />,
-    name: "发票管理",
-    leftSideChildren: "发票列表",
-  },
-  {
-    path: "/home/travelApplication",
-    element: <TravelApplication />,
-    name: "申请管理",
-    leftSideChildren: "我的申请",
-  },
+  // {
+  //     path: "/home/invoice",
+  //     element: <Invoice />,
+  //     name: "发票管理",
+  //     leftSideChildren: "发票列表",
+  // },
+  // {
+  //     path: "/home/travelApplication",
+  //     element: <TravelApplication />,
+  //     name: "申请管理",
+  //     leftSideChildren: "我的申请",
+  // },
   {
     path: "/home/reimbursement",
     element: <Reimbursement />,
@@ -49,7 +47,7 @@ export const Router = () => {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route element={<Home />}>
-        <Route path="" element={<Navigate to={"/home/invoice"} />} />
+        <Route path="*" element={<Navigate to={"/home/reimbursement"} />} />
         {routerArray.map((item: RoutesProps, index: number) => {
           return (
             <Route

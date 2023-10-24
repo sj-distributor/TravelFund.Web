@@ -40,12 +40,12 @@ const ApproveManagement = () => {
         </div>
       </div>
       <Modal
-        className="mt-20"
         title="新建申请"
         open={isModalOpen}
         cancelText="取消"
         onCancel={() => setIsModalOpen(false)}
         destroyOnClose
+        footer={null}
       >
         <ApplyModal
           setIsModalOpen={setIsModalOpen}

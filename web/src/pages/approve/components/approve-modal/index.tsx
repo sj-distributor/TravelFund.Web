@@ -36,6 +36,7 @@ export const ApprovedModal = (props: {
     setRejectedReason,
     manualStatus,
     setManualStatus,
+    approvalTitleList,
   } = useAction(props);
 
   const ExpenseTypeContent = (type: number) => {
@@ -110,7 +111,7 @@ export const ApprovedModal = (props: {
       case "申请信息":
         return (
           <>
-            <div className="flex flex-col flex-wrap h-32 ml-10">
+            <div className="flex flex-col flex-wrap h-40 ml-10">
               {item.applyMessage?.map(
                 (applyItem: IApplyMessageProps, index: number) => {
                   return (
@@ -166,7 +167,6 @@ export const ApprovedModal = (props: {
                 );
               })}
             </div>
-
             <div className="h-px bg-gray-200 mt-4" />
           </>
         );
@@ -176,52 +176,61 @@ export const ApprovedModal = (props: {
 
       case "人工审批意见":
         return (
-          <div className="relative flex flex-col px-4">
-            <Radio.Group
-              defaultValue={AuditStatusType.Approved}
-              buttonStyle="solid"
-              className="mt-3"
-              onChange={(e) => setManualStatus(e.target.value)}
-            >
-              <Radio value={AuditStatusType.Approved}>通过</Radio>
-              <Radio value={AuditStatusType.Rejected}>拒绝</Radio>
-            </Radio.Group>
-
-            <div className="mt-3">
-              {manualStatus === AuditStatusType.Approved ? (
-                <div className="border rounded-md p-3">
-                  {item.manualOpinionContent}
+          <div>
+            {approvalTitleList.map((title, index) => (
+              <div key={index}>
+                <div className="mb-2 font-semibold">{title}</div>
+                <div className="relative flex flex-col px-4">
+                  <Radio.Group
+                    defaultValue={AuditStatusType.Approved}
+                    buttonStyle="solid"
+                    className="mt-3"
+                    onChange={(e) => setManualStatus(e.target.value)}
+                  >
+                    <Radio value={AuditStatusType.Approved}>通过</Radio>
+                    <Radio value={AuditStatusType.Rejected}>拒绝</Radio>
+                  </Radio.Group>
+                  <div className="mt-3">
+                    {manualStatus === AuditStatusType.Approved ? (
+                      <div className="border rounded-md p-3">
+                        {item.manualOpinionContent}
+                      </div>
+                    ) : (
+                      <Input.TextArea
+                        rows={3}
+                        placeholder="请输入拒绝理由..."
+                        onChange={(e) => setRejectedReason(e.target.value)}
+                      />
+                    )}
+                  </div>
+                  <div className="mt-5 flex ml-auto">
+                    <Popconfirm
+                      title="审批"
+                      description={() =>
+                        `确定${
+                          manualStatus === AuditStatusType.Approved
+                            ? "通过"
+                            : "拒绝通过"
+                        }该申请单吗？`
+                      }
+                      onConfirm={() => handleApproveExpense()}
+                      okText="确定"
+                      cancelText="取消"
+                      cancelButtonProps={{
+                        style: {
+                          color: "black",
+                          borderColor: "rgb(229 231 235)",
+                        },
+                      }}
+                    />
+                  </div>
                 </div>
-              ) : (
-                <Input.TextArea
-                  rows={3}
-                  placeholder="请输入拒绝理由..."
-                  onChange={(e) => setRejectedReason(e.target.value)}
-                />
-              )}
-            </div>
-
-            <div className="mt-5 flex ml-auto">
-              <Popconfirm
-                title="审批"
-                description={() =>
-                  `确定${
-                    manualStatus === AuditStatusType.Approved
-                      ? "通过"
-                      : "拒绝通过"
-                  }该申请单吗？`
-                }
-                onConfirm={() => handleApproveExpense()}
-                okText="确定"
-                cancelText="取消"
-                cancelButtonProps={{
-                  style: { color: "black", borderColor: "rgb(229 231 235)" },
-                }}
-              >
-                <Button className="bg-gray-700 text-white font-medium ml-4">
-                  提交
-                </Button>
-              </Popconfirm>
+              </div>
+            ))}
+            <div className="flex justify-end">
+              <Button className="bg-gray-700 text-white font-medium mt-[0.5rem] mr-[1rem]">
+                提交
+              </Button>
             </div>
           </div>
         );
@@ -233,7 +242,9 @@ export const ApprovedModal = (props: {
       {approveModalList.map((item: IApproveModalListProps, index: number) => {
         return (
           <div className="mt-5 ml-5 w-[42rem]" key={index}>
-            <div className="mb-2 font-semibold">{item.title}</div>
+            {item.title !== "人工审批意见" && (
+              <div className="mb-2 font-semibold">{item.title}</div>
+            )}
             {approveModalTitle(item)}
           </div>
         );
