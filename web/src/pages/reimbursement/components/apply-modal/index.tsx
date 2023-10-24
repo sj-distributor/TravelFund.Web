@@ -9,7 +9,7 @@ import {
   Input,
 } from "antd";
 import useAction from "./hook";
-import { ApplyModalProps, ChoiceTypeEnum } from "./props";
+import { ApplyModalProps } from "./props";
 import { UploadOutlined } from "@ant-design/icons";
 
 const ApplyModal = (props: ApplyModalProps) => {
@@ -113,11 +113,11 @@ const ApplyModal = (props: ApplyModalProps) => {
               onChange={(e) => setFamilyReimbursement(e.target.value)}
               value={familyReimbursement}
             >
-              <Radio value={ChoiceTypeEnum.Yes}>是</Radio>
-              <Radio value={ChoiceTypeEnum.No}>否</Radio>
+              <Radio value={true}>是</Radio>
+              <Radio value={false}>否</Radio>
             </Radio.Group>
           </Form.Item>
-          {form.getFieldValue("申请家人报销") === ChoiceTypeEnum.Yes && (
+          {form.getFieldValue("申请家人报销") === true && (
             <Form.Item
               label="家人姓名"
               name="家人姓名"
@@ -135,8 +135,8 @@ const ApplyModal = (props: ApplyModalProps) => {
             className="my-7"
           >
             <Radio.Group>
-              <Radio value={ChoiceTypeEnum.Yes}>是</Radio>
-              <Radio value={ChoiceTypeEnum.No}>否</Radio>
+              <Radio value={true}>是</Radio>
+              <Radio value={false}>否</Radio>
             </Radio.Group>
           </Form.Item>
           <Form.Item label="可报销额度" name="可报销额度" className="my-7">

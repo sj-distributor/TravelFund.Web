@@ -222,7 +222,7 @@ export const ApprovedModal = (props: {
                           borderColor: "rgb(229 231 235)",
                         },
                       }}
-                    ></Popconfirm>
+                    />
                   </div>
                 </div>
               </div>

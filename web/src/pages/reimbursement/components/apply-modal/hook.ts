@@ -1,5 +1,5 @@
-import { SetStateAction, useEffect, useState } from "react";
-import { ApplyModalProps, ChoiceTypeEnum, reimburseTypeOptions } from "./props";
+import { useEffect, useState } from "react";
+import { ApplyModalProps, reimburseTypeOptions } from "./props";
 import { PostAddExpense } from "../../../../services/api/reimbursement";
 import { GetTravelApplicationList } from "../../../../services/api/travel-application";
 import { GetInvoiceList } from "../../../../services/api/invoice";
@@ -21,7 +21,7 @@ const useAction = (props: ApplyModalProps) => {
 
   const [loading, setLoading] = useState<boolean>(false);
 
-  const [familyReimbursement, setFamilyReimbursement] = useState<string>("");
+  const [familyReimbursement, setFamilyReimbursement] = useState<boolean>();
 
   const [addExpenseData, setAddExpenseData] = useState<addExpenseDataType>({
     title: "",
@@ -57,13 +57,11 @@ const useAction = (props: ApplyModalProps) => {
 
   const divisionUtil = new DivisionUtil(cascaderOptions);
 
-  let locationOptions = divisionUtil.getProvinces();
-
-  locationOptions = locationOptions.map((n) => {
-    const cities = divisionUtil.getChildrenByCode(n.value);
+  const locationOptions = divisionUtil.getProvinces().map((item) => {
+    const cities = divisionUtil.getChildrenByCode(item.value);
 
     return {
-      ...n,
+      ...item,
       children: cities,
     };
   });
