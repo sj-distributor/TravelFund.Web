@@ -223,13 +223,15 @@ export const ApprovedModal = (props: {
                         },
                       }}
                     ></Popconfirm>
-                    <Button className="bg-gray-700 text-white font-medium ml-4">
-                      提交
-                    </Button>
                   </div>
                 </div>
               </div>
             ))}
+            <div className="flex justify-end">
+              <Button className="bg-gray-700 text-white font-medium mt-[0.5rem] mr-[1rem]">
+                提交
+              </Button>
+            </div>
           </div>
         );
     }
