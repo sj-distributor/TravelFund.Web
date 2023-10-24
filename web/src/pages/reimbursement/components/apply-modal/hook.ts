@@ -55,7 +55,16 @@ const useAction = (props: ApplyModalProps) => {
 
   const divisionUtil = new DivisionUtil(cascaderOptions);
 
-  const locationOptions = divisionUtil.getSourceData();
+  let locationOptions = divisionUtil.getProvinces();
+
+  locationOptions = locationOptions.map((n) => {
+    const cities = divisionUtil.getChildrenByCode(n.value);
+
+    return {
+      ...n,
+      children: cities,
+    };
+  });
 
   const getInvoiceList = () => {
     GetInvoiceList({
