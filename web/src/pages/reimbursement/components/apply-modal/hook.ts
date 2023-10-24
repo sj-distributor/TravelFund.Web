@@ -11,7 +11,7 @@ import {
   TravelExpenseFormType,
   SelectValue,
 } from "../../../../services/dtos/apply-reimbursement";
-import { Form, message } from "antd";
+import { Form, UploadFile, message } from "antd";
 import cascaderOptions, { DivisionUtil } from "@pansy/china-division";
 
 const useAction = (props: ApplyModalProps) => {
@@ -19,9 +19,9 @@ const useAction = (props: ApplyModalProps) => {
 
   const { setIsModalOpen, getExpenseList } = props;
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const [familyReimbursement, setFamilyReimbursement] = useState("");
+  const [familyReimbursement, setFamilyReimbursement] = useState<string>("");
 
   const [addExpenseData, setAddExpenseData] = useState<addExpenseDataType>({
     title: "",
@@ -52,6 +52,8 @@ const useAction = (props: ApplyModalProps) => {
   const [invoiceList, setInvoiceList] = useState<SelectValue[]>([]);
 
   const [travelRequestList, setTravelRequestList] = useState<SelectValue[]>([]);
+
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   const divisionUtil = new DivisionUtil(cascaderOptions);
 
@@ -194,6 +196,8 @@ const useAction = (props: ApplyModalProps) => {
     form,
     familyReimbursement,
     setFamilyReimbursement,
+    fileList,
+    setFileList,
   };
 };
 

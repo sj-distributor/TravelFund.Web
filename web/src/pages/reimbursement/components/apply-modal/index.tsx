@@ -27,6 +27,8 @@ const ApplyModal = (props: ApplyModalProps) => {
     setFamilyReimbursement,
     familyReimbursement,
     form,
+    fileList,
+    setFileList,
   } = useAction({ setIsModalOpen, getExpenseList });
 
   return (
@@ -80,9 +82,12 @@ const ApplyModal = (props: ApplyModalProps) => {
           >
             <Upload
               name="file"
-              beforeUpload={() => {
+              fileList={fileList}
+              beforeUpload={(file) => {
+                setFileList([file]);
                 return false;
               }}
+              onRemove={() => setFileList([])}
               accept="image/*"
             >
               <Button icon={<UploadOutlined />}>上传发票图片</Button>
