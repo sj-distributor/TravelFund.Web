@@ -117,7 +117,7 @@ const ApplyModal = (props: ApplyModalProps) => {
               <Radio value={false}>否</Radio>
             </Radio.Group>
           </Form.Item>
-          {form.getFieldValue("申请家人报销") === true && (
+          {form.getFieldValue("申请家人报销") && (
             <Form.Item
               label="家人姓名"
               name="家人姓名"
