@@ -52,20 +52,23 @@ const Header = () => {
       >
         {routerArray.map((item: RoutesProps, index: number) => {
           return (
-            <Link
-              key={index}
-              to={item.path}
-              style={{ textDecoration: "none" }}
-              onClick={() => clickMenu(index)}
-            >
-              <div
-                className={`flex justify-center items-center w-24 h-12 border-2 rounded-[0.8rem] border-gray-600 hover:bg-gray-600 hover:text-white ${
-                  clickIndex === index && "bg-gray-600 text-white"
-                } cursor-pointer`}
+            <div className="border-solid border-2 rounded-[0.95rem] border-gray-600">
+              <Link
+                key={index}
+                to={item.path}
+                style={{ textDecoration: "none" }}
+                onClick={() => clickMenu(index)}
+                className="text-gray-600"
               >
-                <div className="font-medium">{item.name}</div>
-              </div>
-            </Link>
+                <div
+                  className={`flex justify-center items-center w-24 h-12 rounded-[0.8rem] border-gray-600 hover:bg-gray-600 hover:text-white ${
+                    clickIndex === index && "bg-gray-600 text-white"
+                  } cursor-pointer`}
+                >
+                  <div className="font-medium">{item.name}</div>
+                </div>
+              </Link>
+            </div>
           );
         })}
       </div>
