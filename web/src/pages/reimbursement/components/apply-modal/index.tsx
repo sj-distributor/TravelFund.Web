@@ -9,7 +9,7 @@ import {
   Input,
 } from "antd";
 import useAction from "./hook";
-import { ApplyModalProps } from "./props";
+import { ApplyModalProps, ChoiceTypeEnum } from "./props";
 import { UploadOutlined } from "@ant-design/icons";
 
 const ApplyModal = (props: ApplyModalProps) => {
@@ -18,13 +18,15 @@ const ApplyModal = (props: ApplyModalProps) => {
     reimburseTypeSelect,
     addExpenseData,
     loading,
+    locationOptions,
     handleAddExpense,
     setAddExpenseData,
     invoiceList,
     travelRequestList,
     handleSelectScroll,
-    handleUploadFile,
-    normFile,
+    setFamilyReimbursement,
+    familyReimbursement,
+    form,
   } = useAction({ setIsModalOpen, getExpenseList });
 
   return (
@@ -34,6 +36,7 @@ const ApplyModal = (props: ApplyModalProps) => {
           className="mx-10 relative"
           onFinish={() => handleAddExpense()}
           preserve={false}
+          form={form}
         >
           <Form.Item
             label="出游日期"
@@ -57,7 +60,12 @@ const ApplyModal = (props: ApplyModalProps) => {
             rules={[{ required: true, message: "请填写出游地点！" }]}
             className="my-7"
           >
-            <Cascader placeholder="请选择出游城市" />
+            <Cascader
+              style={{ width: "100%" }}
+              options={locationOptions}
+              multiple
+              maxTagCount="responsive"
+            />
           </Form.Item>
           <Form.Item
             label="申请发票"
@@ -65,14 +73,17 @@ const ApplyModal = (props: ApplyModalProps) => {
             rules={[{ required: true, message: "请填写申请发票！" }]}
             className="my-7"
             valuePropName="fileList"
-            getValueFromEvent={normFile}
+            getValueFromEvent={(e) => {
+              if (Array.isArray(e)) return e;
+              return e?.fileList;
+            }}
           >
             <Upload
-              customRequest={handleUploadFile}
               name="file"
               beforeUpload={() => {
                 return false;
               }}
+              accept="image/*"
             >
               <Button icon={<UploadOutlined />}>上传发票图片</Button>
             </Upload>
@@ -98,19 +109,25 @@ const ApplyModal = (props: ApplyModalProps) => {
             rules={[{ required: true, message: "请填写是否申请家人报销！" }]}
             className="my-7"
           >
-            <Radio.Group>
-              <Radio value={1}>是</Radio>
-              <Radio value={2}>否</Radio>
+            <Radio.Group
+              onChange={(e) => setFamilyReimbursement(e.target.value)}
+              value={familyReimbursement}
+            >
+              <Radio value={ChoiceTypeEnum.Yes}>是</Radio>
+              <Radio value={ChoiceTypeEnum.No}>否</Radio>
             </Radio.Group>
           </Form.Item>
-          <Form.Item
-            label="家人姓名"
-            name="家人姓名"
-            rules={[{ required: true, message: "请填写家人姓名！" }]}
-            className="my-7"
-          >
-            <Input placeholder="填写家人姓名" />
-          </Form.Item>
+          {form.getFieldValue("申请家人报销") === ChoiceTypeEnum.Yes && (
+            <Form.Item
+              label="家人姓名"
+              name="家人姓名"
+              rules={[{ required: true, message: "请填写家人姓名！" }]}
+              className="my-7"
+            >
+              <Input placeholder="填写家人姓名" />
+            </Form.Item>
+          )}
+
           <Form.Item
             label="是否申请组团额度"
             name="申请组团额度"
@@ -118,8 +135,8 @@ const ApplyModal = (props: ApplyModalProps) => {
             className="my-7"
           >
             <Radio.Group>
-              <Radio value={1}>是</Radio>
-              <Radio value={2}>否</Radio>
+              <Radio value={ChoiceTypeEnum.Yes}>是</Radio>
+              <Radio value={ChoiceTypeEnum.No}>否</Radio>
             </Radio.Group>
           </Form.Item>
           <Form.Item label="可报销额度" name="可报销额度" className="my-7">

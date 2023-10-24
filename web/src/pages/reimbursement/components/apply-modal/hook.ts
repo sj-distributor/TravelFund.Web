@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { ApplyModalProps, reimburseTypeOptions } from "./props";
+import { SetStateAction, useEffect, useState } from "react";
+import { ApplyModalProps, ChoiceTypeEnum, reimburseTypeOptions } from "./props";
 import { PostAddExpense } from "../../../../services/api/reimbursement";
 import { GetTravelApplicationList } from "../../../../services/api/travel-application";
 import { GetInvoiceList } from "../../../../services/api/invoice";
@@ -11,35 +11,51 @@ import {
   TravelExpenseFormType,
   SelectValue,
 } from "../../../../services/dtos/apply-reimbursement";
-import { message } from "antd";
+import { Form, message } from "antd";
+import cascaderOptions, { DivisionUtil } from "@pansy/china-division";
 
 const useAction = (props: ApplyModalProps) => {
+  const [form] = Form.useForm();
+
   const { setIsModalOpen, getExpenseList } = props;
+
   const [loading, setLoading] = useState(false);
+
+  const [familyReimbursement, setFamilyReimbursement] = useState("");
+
   const [addExpenseData, setAddExpenseData] = useState<addExpenseDataType>({
     title: "",
     type: TravelExpenseFormType.TourismFund,
     travelRequestFormId: 0,
     travelInvoiceIds: [],
   });
+
   const reimburseTypeSelect: reimburseTypeOptions[] = [
     {
       value: TravelExpenseFormType.TourismFund + "",
       label: "旅游基金",
     },
   ];
+
   const [invoiceListDto, setInvoiceListDto] = useState({
     PageIndex: 1,
     PageSize: 10,
     Count: 1,
   });
+
   const [travelRequestListDto, setTravelRequestListDto] = useState({
     PageIndex: 1,
     PageSize: 10,
     Count: 1,
   });
+
   const [invoiceList, setInvoiceList] = useState<SelectValue[]>([]);
+
   const [travelRequestList, setTravelRequestList] = useState<SelectValue[]>([]);
+
+  const divisionUtil = new DivisionUtil(cascaderOptions);
+
+  const locationOptions = divisionUtil.getSourceData();
 
   const getInvoiceList = () => {
     GetInvoiceList({
@@ -148,18 +164,6 @@ const useAction = (props: ApplyModalProps) => {
     }
   };
 
-  const handleUploadFile = () => {
-    console.log("上传文件");
-  };
-
-  const normFile = (e: { fileList: File }) => {
-    console.log("Upload event:", e);
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e?.fileList;
-  };
-
   useEffect(() => {
     getInvoiceList();
   }, [invoiceListDto.PageIndex, invoiceListDto.PageSize]);
@@ -177,8 +181,10 @@ const useAction = (props: ApplyModalProps) => {
     invoiceList,
     travelRequestList,
     handleSelectScroll,
-    handleUploadFile,
-    normFile,
+    locationOptions,
+    form,
+    familyReimbursement,
+    setFamilyReimbursement,
   };
 };
 
